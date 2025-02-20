@@ -1,6 +1,8 @@
 # 02 Solutions  
 *Innovación en Tecnologías de la Información para Soluciones Empresariales Avanzadas*
 
+<img src="./Contenido%2002%20Solutions/logo.jpeg" alt="Logo de 02 Solutions" width="300" height="300"/>
+
 ---
 
 ## Introducción  
