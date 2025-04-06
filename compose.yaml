@@ -1,7 +1,7 @@
 
 services:
   db: 
-    image: ditta-v1
+    image: monarca-v1
     # restart: always
     expose:
       - "5432"
@@ -9,9 +9,9 @@ services:
       - "25000:5432"
     environment:
       POSTGRES_PASSWORD: test123
-      POSTGRES_DB: Ditta
+      POSTGRES_DB: Monarca
       POSTGRES_USER: postgres
       #POSTGRES_HOST_AUTH_METHOD: trust
-    container_name: ditta_database
+    container_name: monarca_database
     volumes:
       - ./DB/postgres:/var/lib/postgresql/data
