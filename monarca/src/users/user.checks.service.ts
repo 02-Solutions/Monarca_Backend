@@ -1,27 +1,31 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-
 import { LogInDTO } from 'src/auth/dto/login.dto';
-import { User } from './entity/user.entity';
+import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 @Injectable()
 export class UserChecks {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    private readonly Userepository: Repository<User>,
   ) {}
 
-  async logIn({username, password}) 
-  {
-    const user = await this.userRepository.findOne({
+  async logIn(data: LogInDTO): Promise<User | null> {
+    console.log('Login data in user.checks.service:', data);
+
+    const users = await this.Userepository.find();
+    console.log('Users in user.checks.service:', users);
+
+    const user = await this.Userepository.findOne({
       where: {
-        username,
-        password,
+        email: data.email,
+        password: data.password,
       },
     });
+
+    console.log('User encontrado:', user);
+
     return user;
   }
-
- 
 }

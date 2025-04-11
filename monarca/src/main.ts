@@ -6,10 +6,9 @@ import * as cookieParser from 'cookie-parser';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
-  console.log(process.env.JWT_SECRET)
+  console.log(process.env.JWT_SECRET);
 
   const app = await NestFactory.create(AppModule);
-  
 
   app.use(cookieParser());
   app.useGlobalPipes(
