@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-import { VouchersModule } from './vouchers/vouchers.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DepartmentsModule } from './departments/departments.module';
 import { User } from './users/entity/user.entity';
@@ -10,7 +9,7 @@ import { Department } from './departments/entity/department.entity';
 import { TravelAgenciesModule } from './travel-agencies/travel-agencies.module';
 
 @Module({
-  imports: [AuthModule, UsersModule, VouchersModule, TravelAgenciesModule,
+  imports: [AuthModule, UsersModule, TravelAgenciesModule,
      TypeOrmModule.forRoot({
         type: 'postgres', 
         host: process.env.POSTGRES_HOST,
