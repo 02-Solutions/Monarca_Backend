@@ -8,6 +8,7 @@ import { User } from './users/entity/user.entity';
 import { Department } from './departments/entity/department.entity';
 import { TravelAgenciesModule } from './travel-agencies/travel-agencies.module';
 
+
 @Module({
   imports: [AuthModule, UsersModule, TravelAgenciesModule,
      TypeOrmModule.forRoot({
@@ -22,7 +23,8 @@ import { TravelAgenciesModule } from './travel-agencies/travel-agencies.module';
         entities: [User, Department], 
         synchronize: true, 
     }),
-     DepartmentsModule,],
+     DepartmentsModule,
+     ],
   controllers: [],
   providers: [],
 })
