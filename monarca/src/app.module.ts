@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DepartmentsModule } from './departments/departments.module';
 import { User } from './users/entity/user.entity';
 import { Department } from './departments/entity/department.entity';
+import { Role } from './roles/entity/role.entity';
 
 @Module({
   imports: [AuthModule, UsersModule,
@@ -18,8 +19,8 @@ import { Department } from './departments/entity/department.entity';
         username: process.env.POSTGRES_USER,
         password: process.env.POSTGRES_PASSWORD,
         database: process.env.POSTGRES_DATABASE,
-        entities: [User, Department], 
-        synchronize: true, 
+        entities: [User, Role, Department], 
+        synchronize: false, 
     }),
      DepartmentsModule,],
   controllers: [],

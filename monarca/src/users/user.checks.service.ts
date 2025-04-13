@@ -1,10 +1,9 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-
-
-import { LogInDTO } from 'src/auth/dto/login.dto';
 import { User } from './entity/user.entity';
 import { Repository } from 'typeorm';
+import { LogInDTO } from 'src/auth/dto/login.dto';
+
 @Injectable()
 export class UserChecks {
   constructor(
@@ -12,16 +11,12 @@ export class UserChecks {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async logIn({username, password}) 
-  {
+  async logIn(data: LogInDTO) {
     const user = await this.userRepository.findOne({
-      where: {
-        username,
-        password,
-      },
+      where: { email: data.email },
     });
+
+    console.log('DEBUG → Found user:', user);
     return user;
   }
-
- 
 }
