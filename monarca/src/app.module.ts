@@ -20,7 +20,7 @@ import { Role } from './roles/entity/role.entity';
         password: process.env.POSTGRES_PASSWORD,
         database: process.env.POSTGRES_DATABASE,
         entities: [User, Role, Department], 
-        synchronize: false, 
+        synchronize: true, 
     }),
      DepartmentsModule,],
   controllers: [],
