@@ -23,7 +23,4 @@ export class Flight {
   @Column({type: 'varchar', length: 10, nullable: false})
   flight_number: string;
 
-  @Column()
-  duration: number;
-  
 }
