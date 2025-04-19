@@ -7,6 +7,7 @@ import { DepartmentsModule } from './departments/departments.module';
 import { User } from './users/entity/user.entity';
 import { Department } from './departments/entity/department.entity';
 import { TravelAgenciesModule } from './travel-agencies/travel-agencies.module';
+import { HotelReservationsModule } from './hotel-reservations/hotel-reservations.module';
 
 @Module({
   imports: [AuthModule, UsersModule, TravelAgenciesModule,
@@ -22,7 +23,8 @@ import { TravelAgenciesModule } from './travel-agencies/travel-agencies.module';
         entities: [User, Department], 
         synchronize: true, 
     }),
-     DepartmentsModule,],
+     DepartmentsModule,
+     HotelReservationsModule,],
   controllers: [],
   providers: [],
 })
