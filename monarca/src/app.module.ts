@@ -7,6 +7,8 @@ import { DepartmentsModule } from './departments/departments.module';
 import { User } from './users/entities/user.entity';
 import { Department } from './departments/entity/department.entity';
 import { TravelAgenciesModule } from './travel-agencies/travel-agencies.module';
+import { HotelReservationsModule } from './hotel-reservations/hotel-reservations.module';
+import { HotelReservation } from './hotel-reservations/entity/hotel-reservation.entity';
 
 @Module({
 
@@ -23,12 +25,12 @@ import { TravelAgenciesModule } from './travel-agencies/travel-agencies.module';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
-      entities: [User, Department],
+      entities: [User, Department,HotelReservation],
       synchronize: true,
 
     }),
-    DepartmentsModule,
-  ],
+     DepartmentsModule,
+     HotelReservationsModule,],
   controllers: [],
   providers: [],
 })
