@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Flight } from './entity/flights.entity.js';
+import { CreateFlightDto } from './dto/create-flight.dto';
+import { UpdateFlightDto } from './dto/update-flight.dto';
+
 
 @Injectable()
 export class FlightsService {
@@ -12,7 +15,7 @@ export class FlightsService {
     ) {}
 
     
-    create(flight: any) {
+    create(flight: CreateFlightDto) {
         return flight;
     }
 
@@ -25,7 +28,7 @@ export class FlightsService {
         return this.flightsRepository.findOne({ where: { id } });
     }
 
-    async update(id: number, Body: any) {
+    async update(id: number, Body: UpdateFlightDto) {
         const flightToUpdate = await this.flightsRepository.findOne({ where: { id } });
         return flightToUpdate;
     }

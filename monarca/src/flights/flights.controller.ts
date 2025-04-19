@@ -1,5 +1,7 @@
 import { Controller, Get, Post, Param, Patch, Delete, Body } from '@nestjs/common';
 import { FlightsService } from './flights.service'; 
+import { CreateFlightDto } from './dto/create-flight.dto';
+import { UpdateFlightDto } from './dto/update-flight.dto';
 
 
 @Controller('flights')
@@ -8,9 +10,8 @@ export class FlightsController {
     constructor(private readonly flightsService: FlightsService) {}
 
     @Post()
-    create(){
-        return this.flightsService.create({}) ;
-
+    create(@Body() createFlightDto: CreateFlightDto) {
+        return this.flightsService.create(createFlightDto);
     }
     
     @Get()
@@ -24,7 +25,7 @@ export class FlightsController {
     }
     
     @Patch(':id')
-    update(@Param('id') id: number, @Body() body: any) {
+    update(@Param('id') id: number, @Body() updateFlightDto: UpdateFlightDto) {
         return this.flightsService.update(id, {}); ;
     }
 
