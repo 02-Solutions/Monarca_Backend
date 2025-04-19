@@ -23,4 +23,7 @@ export class Flight {
   @Column({type: 'varchar', length: 10, nullable: false})
   flight_number: string;
 
+  // @ManyToOne(() => RequestDestination, (requestDestination) => requestDestination.flights, { eager: true })
+  // requestDestination: RequestDestination;
+
 }
