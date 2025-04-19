@@ -14,16 +14,16 @@ export class HotelReservationsController {
     create(@Body() createHotelReservationDto: CreateHotelReservationDto) {
         return this.hotelReservationsService.create(createHotelReservationDto);
     }
+
+    @Get()
+    findAll() {
+        return this.hotelReservationsService.findAll();
+    }
     
     @Get(':id')
     findOne(@Param('id') id: string) {
         
         return this.hotelReservationsService.findOne(+id);
-    }
-
-    @Get()
-    findAll() {
-        return this.hotelReservationsService.findAll();
     }
 
     @Patch(':id')

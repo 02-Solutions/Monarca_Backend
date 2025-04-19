@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { HotelReservations } from './entity/hotel-reservations.entity';
+import { HotelReservation } from './entity/hotel-reservation.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateHotelReservationDto } from './dto/create-hotel-reservation.dto';
@@ -9,8 +9,8 @@ import { UpdateHotelReservationDto } from './dto/update-hotel-reservation.dto';
 export class HotelReservationsService {
 
     constructor(
-        @InjectRepository(HotelReservations)
-        private readonly hotelReservationsRepository: Repository<HotelReservations>,
+        @InjectRepository(HotelReservation)
+        private readonly hotelReservationsRepository: Repository<HotelReservation>,
     ) {}
 
     findAll() {
