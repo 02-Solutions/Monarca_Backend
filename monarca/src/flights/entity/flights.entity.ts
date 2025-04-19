@@ -25,4 +25,5 @@ export class Flight {
 
   @Column()
   duration: number;
+  
 }
