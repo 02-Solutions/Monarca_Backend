@@ -7,10 +7,11 @@ import { DepartmentsModule } from './departments/departments.module';
 import { User } from './users/entity/user.entity';
 import { Department } from './departments/entity/department.entity';
 import { TravelAgenciesModule } from './travel-agencies/travel-agencies.module';
+import { FlightsModule } from './flights/flights.module';
 
 
 @Module({
-  imports: [AuthModule, UsersModule, TravelAgenciesModule,
+  imports: [AuthModule, UsersModule, TravelAgenciesModule,FlightsModule,
      TypeOrmModule.forRoot({
         type: 'postgres', 
         host: process.env.POSTGRES_HOST,
