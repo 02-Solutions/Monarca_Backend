@@ -15,6 +15,7 @@ import { RequestsDestinationsModule } from './requests-destinations/requests-des
 import { RequestLogsModule } from './request-logs/request-logs.module';
 import { HotelReservationsModule } from './hotel-reservations/hotel-reservations.module';
 import { HotelReservation } from './hotel-reservations/entity/hotel-reservation.entity';
+import { FlightsModule } from './flights/flights.module';
 
 @Module({
   imports: [
@@ -30,14 +31,15 @@ import { HotelReservation } from './hotel-reservations/entity/hotel-reservation.
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
-      entities: [User, Department, HotelReservation, Request, RequestsDestination, RequestLog],
+      autoLoadEntities: true,
       synchronize: true,
     }),
     DepartmentsModule,
     RequestsModule,
     RequestsDestinationsModule,
     RequestLogsModule,
-    HotelReservationsModule
+    HotelReservationsModule,
+    FlightsModule
   ],
   controllers: [],
   providers: [],
