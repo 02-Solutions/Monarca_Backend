@@ -23,7 +23,7 @@ export class HotelReservationsController {
     @Get(':id')
     findOne(@Param('id') id: string) {
         
-        return this.hotelReservationsService.findOne(+id);
+        return this.hotelReservationsService.findOne(id);
     }
 
     @Patch(':id')

@@ -18,7 +18,7 @@ export class HotelReservationsService {
  
     }
 
-    findOne(id: number) {
+    findOne(id: string) {
         return this.hotelReservationsRepository.findOne({ where: { id } });
     }
 

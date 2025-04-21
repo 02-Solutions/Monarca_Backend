@@ -4,8 +4,10 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { Request } from 'src/requests/entities/request.entity';
+import { HotelReservation } from 'src/hotel-reservations/entity/hotel-reservation.entity';
 
 @Entity({ name: 'requests_destinations' })
 export class RequestsDestination {
@@ -46,4 +48,7 @@ export class RequestsDestination {
   })
   @JoinColumn({ name: 'request_id' })
   request: Request;
+
+  @OneToMany(() => HotelReservation, (hotelReservation) => hotelReservation.requestDestination)
+  hotelReservations: HotelReservation[];
 }
