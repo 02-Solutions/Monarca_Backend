@@ -34,6 +34,7 @@ import { FlightsModule } from './flights/flights.module';
       database: process.env.POSTGRES_DATABASE,
       autoLoadEntities: true,
       synchronize: true,
+      // dropSchema: true,
       
     }),
     DepartmentsModule,

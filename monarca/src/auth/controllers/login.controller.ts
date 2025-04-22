@@ -29,12 +29,13 @@ import {
     }
 
     // Prueba de envio de cookies y el usuario que ingreso
-    @UseGuards(AuthGuard)
     @Get('profile')
-    getProfile(@Req() req) {
+    @UseGuards(AuthGuard)
+    getProfile(@Req() req: any, @Res({ passthrough: true }) res: Response) {
       return {
         message: 'Prueba de envio de cookies y el usuario que ingreso',
-        user: req.sessionInfo,
+        user: req.sessionInfo, // ✅ user from session
+        cookie: req.headers.cookie || 'No cookie sent' // ✅ raw cookie header
       };
     }
 

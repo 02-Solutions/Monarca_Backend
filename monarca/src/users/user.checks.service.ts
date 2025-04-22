@@ -3,6 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { LogInDTO } from 'src/auth/dto/login.dto';
+import * as bcrypt from 'bcrypt';
+
+
 
 @Injectable()
 export class UserChecks {
@@ -13,19 +16,24 @@ export class UserChecks {
 
   async logIn(data: LogInDTO): Promise<User | null> {
     console.log('Login data in user.checks.service:', data);
-
-    const users = await this.Userepository.find();
-    console.log('Users in user.checks.service:', users);
-
+  
     const user = await this.Userepository.findOne({
-      where: {
-        email: data.email,
-        password: data.password,
-      },
+      where: { email: data.email },
+      relations: ['department', 'role'],
     });
-
+  
+    if (!user) {
+      console.log('No user found with this email');
+      return null;
+    }
+  
+    const passwordMatch = await bcrypt.compare(data.password, user.password);
+    if (!passwordMatch) {
+      console.log('Password does not match');
+      return null;
+    }
+  
     console.log('User encontrado:', user);
-
     return user;
   }
 }
