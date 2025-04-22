@@ -24,17 +24,17 @@ export class FlightsService {
 
     }
 
-    findOne(id: number) {
+    findOne(id: string) {
         return this.flightsRepository.findOne({ where: { id } });
     }
 
-    async update(id: number, Body: UpdateFlightDto) {
+    async update(id: string, Body: UpdateFlightDto) {
         const flightToUpdate = await this.flightsRepository.findOne({ where: { id } });
         return flightToUpdate;
     }
 
-    remove(id: number) {
-        return {};
+    remove(id: string) {
+        return this.flightsRepository.delete(id);
     }
 
 }
