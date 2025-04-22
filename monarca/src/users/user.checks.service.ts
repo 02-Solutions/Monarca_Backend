@@ -23,7 +23,7 @@ export class UserChecks {
     });
   
     if (!user) {
-      console.log('No user found with this email');
+      console.log('Email or password incorrect');
       return null;
     }
   
