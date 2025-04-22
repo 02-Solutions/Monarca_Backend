@@ -9,7 +9,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 
-@Entity('users')
+@Entity({ name: 'users' })
 export class User {
   @ApiProperty({ example: 1 })
   @PrimaryGeneratedColumn()
@@ -37,7 +37,7 @@ export class User {
 
   @ApiProperty({ example: 1 })
   @Column()
-  id_department: number;
+  id_department?: number;
 
   @ApiProperty({ example: 2 })
   @Column()
@@ -45,7 +45,7 @@ export class User {
 
   @ManyToOne(() => Department, (department) => department.users)
   @JoinColumn({ name: 'id_department' })
-  department: Department;
+  department?: Department;
 
   @ManyToOne(() => Role, (role) => role.users)
   @JoinColumn({ name: 'id_role' })
