@@ -16,7 +16,7 @@ export class FlightsService {
 
     
     create(flight: CreateFlightDto) {
-        return flight;
+        return this.flightsRepository.save(flight);
     }
 
     findAll() {
@@ -35,6 +35,7 @@ export class FlightsService {
 
     remove(id: string) {
         return this.flightsRepository.delete(id);
+
     }
 
 }
