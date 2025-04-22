@@ -8,20 +8,23 @@ import { User } from './users/entity/user.entity';
 import { Department } from './departments/entity/department.entity';
 
 @Module({
-  imports: [AuthModule, UsersModule,
-     TypeOrmModule.forRoot({
-        type: 'postgres', 
-        host: process.env.POSTGRES_HOST,
-        port: process.env.POSTGRES_PORT
-             ? parseInt(process.env.POSTGRES_PORT, 10)
-             : 5433,
-        username: process.env.POSTGRES_USER,
-        password: process.env.POSTGRES_PASSWORD,
-        database: process.env.POSTGRES_DATABASE,
-        entities: [User, Department], 
-        synchronize: true, 
+  imports: [
+    AuthModule,
+    UsersModule,
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.POSTGRES_HOST,
+      port: process.env.POSTGRES_PORT
+        ? parseInt(process.env.POSTGRES_PORT, 10)
+        : 5433,
+      username: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DATABASE,
+      entities: [User, Department],
+      synchronize: true,
     }),
-     DepartmentsModule,],
+    DepartmentsModule,
+  ],
   controllers: [],
   providers: [],
 })
