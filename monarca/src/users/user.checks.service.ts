@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-
-import { LogInDTO } from 'src/auth/dto/login.dto';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { LogInDTO } from 'src/auth/dto/login.dto';
+
 @Injectable()
 export class UserChecks {
   constructor(
