@@ -16,18 +16,6 @@ export class RegisterController {
     "email": ""
   }
 
-  Antes de registrar un usuario, se debe verificar si en la base de datos ya existe el rol y el departamento
-  por default lo pueden registrar como:
-
-  INSERT INTO roles (id, name) VALUES 
-  (1, 'admin'),
-  (2, 'user');
-
-  INSERT INTO departments (id, name) VALUES 
-  (1, 'IT'),
-  (2, 'HR'),
-  (3, 'Finance');
-
   Para realizar el cambio del rol y departamento por ahora se debe de hacer el cambio en el codigo "register.service.ts"
   */
 

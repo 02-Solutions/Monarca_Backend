@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Department } from 'src/departments/entity/department.entity';
-import { Role } from 'src/roles/entity/role.entity';
+import { RolesPermissions } from 'src/roles/entity/role.entity';
+
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -47,7 +48,9 @@ export class User {
   @JoinColumn({ name: 'id_department' })
   department?: Department;
 
-  @ManyToOne(() => Role, (role) => role.users)
+  @ManyToOne(() => RolesPermissions)
   @JoinColumn({ name: 'id_role' })
-  role: Role;
+  role: RolesPermissions;
+
 }
+

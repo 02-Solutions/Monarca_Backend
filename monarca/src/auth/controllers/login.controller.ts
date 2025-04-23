@@ -12,8 +12,8 @@ import {
   import { LoginService } from '../services/login.service';
   import { RegisterDTO } from '../dto/register.dto';
   import { AuthGuard } from 'src/guards/auth.guard';
-  import { RolesGuard } from 'src/guards/role.guard';
-  import { Roles } from 'src/guards/decorators/role.decorator';
+  import { PermissionsGuard } from 'src/guards/permissions.guard';
+  import { Permissions } from 'src/guards/decorators/permission.decorator';
 
   
   @Controller('login')
@@ -39,12 +39,19 @@ import {
       };
     }
 
-    // Prueba de roles para las rutas con Guard
-    @UseGuards(AuthGuard, RolesGuard)
-    @Roles('admin')
-    @Get('admin')
-    getAdminData() {
-      return 'Only Admin can see this';
+    // Prueba de permiso de roles para las rutas con Guard
+    @Get('roles2')
+    @UseGuards(AuthGuard, PermissionsGuard)
+    @Permissions(2)
+    roleAcess2() {
+      return 'Only users with permission ID 2 can access this';
+    }
+
+    @Get('roles3')
+    @UseGuards(AuthGuard, PermissionsGuard)
+    @Permissions(3)
+    roleAcess3() {
+      return 'Only users with permission ID 3 can access this';
     }
   }
 

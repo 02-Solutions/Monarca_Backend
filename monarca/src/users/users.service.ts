@@ -13,15 +13,15 @@ export class UsersService {
   async findById(id: number): Promise<User> {
     const user = await this.userRepository.findOne({
       where: { id },
-      relations: ['role'],
+      relations: ['role', 'role.permissions'],
     });
-
+  
     if (!user) {
       throw new ForbiddenException('User not found');
     }
   
     return user;
-  }
+  }  
 
   async createUser(userData: any): Promise<User> {
     return await this.userRepository.save(userData);

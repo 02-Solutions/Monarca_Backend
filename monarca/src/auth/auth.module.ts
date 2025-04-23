@@ -6,7 +6,7 @@ import { UsersModule } from 'src/users/users.module';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { RegisterController } from './controllers/register.controller';
 import { RegisterService } from './services/register.service';
-import { RolesGuard } from 'src/guards/role.guard';
+import { PermissionsGuard } from 'src/guards/permissions.guard';
 
 @Module({
   imports: [
@@ -14,7 +14,7 @@ import { RolesGuard } from 'src/guards/role.guard';
     forwardRef(() => UsersModule),
   ],
   controllers: [LoginController, RegisterController],
-  providers: [LoginService, RegisterService, AuthGuard, RolesGuard],
+  providers: [LoginService, RegisterService, AuthGuard, PermissionsGuard],
   exports: [LoginService, RegisterService, AuthGuard, JwtConfigModule],
 })
 export class AuthModule {}

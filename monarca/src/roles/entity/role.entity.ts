@@ -1,13 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { User } from 'src/users/entities/user.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from 'typeorm';
+import { Permission } from './permissions.entity';
+
 @Entity('roles')
-export class Role {
+export class RolesPermissions {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   name: string;
 
-  @OneToMany(() => User, user => user.role)
-  users: User[];
+  @ManyToMany(() => Permission)
+  @JoinTable({
+    name: 'roles_permissions',
+    joinColumn: { name: 'id_role', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'id_permission', referencedColumnName: 'id' },
+  })
+  permissions: Permission[];
 }

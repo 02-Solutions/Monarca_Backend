@@ -13,7 +13,7 @@ import { HotelReservation } from 'src/hotel-reservations/entity/hotel-reservatio
 export class RequestsDestination {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
+  
   @Column({ name: 'destination_id' })
   destinationId: string;
 
