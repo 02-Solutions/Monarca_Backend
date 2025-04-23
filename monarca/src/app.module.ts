@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DepartmentsModule } from './departments/departments.module';
 import { User } from './users/entities/user.entity';
 import { Department } from './departments/entity/department.entity';
+import { RolesPermissions } from './roles/entity/role.entity';
 import { Request } from './requests/entities/request.entity';
 import { RequestsDestination } from './requests-destinations/entities/requests-destination.entity';
 import { RequestLog } from './request-logs/entities/request-log.entity';
@@ -22,6 +23,7 @@ import { FlightsModule } from './flights/flights.module';
     AuthModule,
     UsersModule,
     TravelAgenciesModule,
+    RolesPermissions,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRES_HOST,
@@ -32,7 +34,8 @@ import { FlightsModule } from './flights/flights.module';
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: false,
+      
     }),
     DepartmentsModule,
     RequestsModule,
