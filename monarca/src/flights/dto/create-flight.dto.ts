@@ -3,12 +3,12 @@ import { IsNotEmpty, IsString, IsNumber, Length, IsDateString } from 'class-vali
 
 export class CreateFlightDto {
   @ApiProperty({
-    example: 1,
+    example: "1",
     description: 'ID of the request destination associated with the flight',
     required: true,
   })
   @IsNotEmpty()
-  @IsNumber()
+  @IsString()
   id_request_destination: number;
 
   @ApiProperty({

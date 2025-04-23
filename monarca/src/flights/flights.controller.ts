@@ -5,8 +5,11 @@ import { Controller,
     Patch, 
     Delete, 
     Body, 
-    ParseUUIDPipe} from '@nestjs/common';
-import { FlightsService } from './flights.service'; 
+    ParseUUIDPipe,
+    Res
+} from '@nestjs/common';
+import { FlightsService } from './flights.service';
+import { Response } from 'express'; 
 import { CreateFlightDto } from './dto/create-flight.dto';
 import { UpdateFlightDto } from './dto/update-flight.dto';
 
@@ -17,27 +20,35 @@ export class FlightsController {
     constructor(private readonly flightsService: FlightsService) {}
 
     @Post()
-    create(@Body() createFlightDto: CreateFlightDto) {
-        return this.flightsService.create(createFlightDto);
+    async create(
+        @Body() createFlightDto: CreateFlightDto,
+        @Res({passthrough : true}) res: Response)
+        {
+        console.log('createFlightDto :', createFlightDto);
+        const result = this.flightsService.create(createFlightDto);
+        res.status(201).send(result);
+        return result;
     }
     
     @Get()
-    findAll() {
+    async findAll() {
         return this.flightsService.findAll(); ;
     }
 
     @Get(':id')
-    findOne(@Param('id', new ParseUUIDPipe()) id: string) {
+    async findOne(@Param('id', new ParseUUIDPipe()) id: string) {
         return this.flightsService.findOne(id); ;
     }
     
     @Patch(':id')
-    async update(@Param('id', new ParseUUIDPipe()) id: string, @Body() updateFlightDto: UpdateFlightDto) {
+    async update(
+        @Param('id', new ParseUUIDPipe()) id: string, 
+        @Body() updateFlightDto: UpdateFlightDto) {
         return this.flightsService.update(id, updateFlightDto); ;
     }
 
     @Delete(':id')
-    remove(@Param('id', new ParseUUIDPipe()) id: string) {
+    async remove(@Param('id', new ParseUUIDPipe()) id: string) {
         return this.flightsService.remove(id); ;
     }
 
