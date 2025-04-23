@@ -1,4 +1,11 @@
-import { Controller, Get, Post, Param, Patch, Delete, Body } from '@nestjs/common';
+import { Controller, 
+    Get, 
+    Post, 
+    Param, 
+    Patch, 
+    Delete, 
+    Body, 
+    ParseUUIDPipe} from '@nestjs/common';
 import { FlightsService } from './flights.service'; 
 import { CreateFlightDto } from './dto/create-flight.dto';
 import { UpdateFlightDto } from './dto/update-flight.dto';
@@ -20,17 +27,17 @@ export class FlightsController {
     }
 
     @Get(':id')
-    findOne(@Param('id') id: number) {
+    findOne(@Param('id', new ParseUUIDPipe()) id: string) {
         return this.flightsService.findOne(id); ;
     }
     
     @Patch(':id')
-    update(@Param('id') id: number, @Body() updateFlightDto: UpdateFlightDto) {
-        return this.flightsService.update(id, {}); ;
+    async update(@Param('id', new ParseUUIDPipe()) id: string, @Body() updateFlightDto: UpdateFlightDto) {
+        return this.flightsService.update(id, updateFlightDto); ;
     }
 
     @Delete(':id')
-    remove(@Param('id') id: number) {
+    remove(@Param('id', new ParseUUIDPipe()) id: string) {
         return this.flightsService.remove(id); ;
     }
 

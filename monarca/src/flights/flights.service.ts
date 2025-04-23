@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, 
+    NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Flight } from './entity/flights.entity.js';
@@ -15,26 +16,35 @@ export class FlightsService {
     ) {}
 
     
-    create(flight: CreateFlightDto) {
-        return this.flightsRepository.save(flight);
+    async create(flight: CreateFlightDto) {
+        const newFlight = this.flightsRepository.create(flight);
+        return this.flightsRepository.save(newFlight);
     }
 
-    findAll() {
+    async findAll() : Promise<Flight[]> {
         return this.flightsRepository.find();
 
     }
 
-    findOne(id: string) {
-        return this.flightsRepository.findOne({ where: { id } });
+    async findOne(id: string): Promise<Flight> {
+         const flight = await this.flightsRepository.findOneBy({ id });
+         if (!flight) {
+             throw new NotFoundException(`Flight ${id} not found`);
+            }
+        return flight
     }
 
     async update(id: string, Body: UpdateFlightDto) {
-        const flightToUpdate = await this.flightsRepository.findOne({ where: { id } });
+        const flightToUpdate = await this.flightsRepository.update(id, Body);
+        if (!flightToUpdate) {  
+            throw new NotFoundException(`Flight ${id} not found`);
+        }
         return flightToUpdate;
     }
 
-    remove(id: string) {
-        return this.flightsRepository.delete(id);
+    async remove(id: string) : | Promise<{ message: string, status: boolean }> {
+        await this.flightsRepository.delete(id);
+        return { message: `Flight ${id} deleted,`, status: true };
 
     }
 
