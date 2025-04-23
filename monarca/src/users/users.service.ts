@@ -19,7 +19,9 @@ export class UsersService {
     if (!user) {
       throw new ForbiddenException('User not found');
     }
-  
+    
+    console.log('User permissions:', user.role?.permissions);
+
     return user;
   }  
 

@@ -10,7 +10,6 @@ import {
   import { Response } from 'express';
   import { LogInDTO } from '../dto/login.dto';
   import { LoginService } from '../services/login.service';
-  import { RegisterDTO } from '../dto/register.dto';
   import { AuthGuard } from 'src/guards/auth.guard';
   import { PermissionsGuard } from 'src/guards/permissions.guard';
   import { Permissions } from 'src/guards/decorators/permission.decorator';

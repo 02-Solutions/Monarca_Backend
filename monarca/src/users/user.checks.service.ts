@@ -19,7 +19,7 @@ export class UserChecks {
   
     const user = await this.Userepository.findOne({
       where: { email: data.email },
-      relations: ['department', 'role'],
+      relations: ['department', 'role', 'role.permissions'],
     });
   
     if (!user) {
@@ -34,6 +34,7 @@ export class UserChecks {
     }
   
     console.log('User encontrado:', user);
+    console.log("User permissions:", user.role?.permissions);
     return user;
   }
 }
