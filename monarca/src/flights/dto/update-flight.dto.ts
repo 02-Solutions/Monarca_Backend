@@ -1,5 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString, IsNumber, Length, IsDateString } from 'class-validator';
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateFlightDto } from './create-flight.dto';
 

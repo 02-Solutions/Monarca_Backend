@@ -5,11 +5,9 @@ import { Controller,
     Patch, 
     Delete, 
     Body, 
-    ParseUUIDPipe,
-    Res
+    ParseUUIDPipe
 } from '@nestjs/common';
-import { FlightsService } from './flights.service';
-import { Response } from 'express'; 
+import { FlightsService } from './flights.service'; 
 import { CreateFlightDto } from './dto/create-flight.dto';
 import { UpdateFlightDto } from './dto/update-flight.dto';
 
@@ -21,13 +19,11 @@ export class FlightsController {
 
     @Post()
     async create(
-        @Body() createFlightDto: CreateFlightDto,
-        @Res({passthrough : true}) res: Response)
+        @Body() createFlightDto: CreateFlightDto)
         {
         console.log('createFlightDto :', createFlightDto);
-        const result = this.flightsService.create(createFlightDto);
-        res.status(201).send(result);
-        return result;
+        return this.flightsService.create(createFlightDto);
+         
     }
     
     @Get()
@@ -44,7 +40,7 @@ export class FlightsController {
     async update(
         @Param('id', new ParseUUIDPipe()) id: string, 
         @Body() updateFlightDto: UpdateFlightDto) {
-        return this.flightsService.update(id, updateFlightDto); ;
+            return this.flightsService.update(id, updateFlightDto);
     }
 
     @Delete(':id')

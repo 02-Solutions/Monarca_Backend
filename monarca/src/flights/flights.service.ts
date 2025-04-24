@@ -35,16 +35,13 @@ export class FlightsService {
     }
 
     async update(id: string, Body: UpdateFlightDto) {
-        const flightToUpdate = await this.flightsRepository.update(id, Body);
-        if (!flightToUpdate) {  
-            throw new NotFoundException(`Flight ${id} not found`);
-        }
-        return flightToUpdate;
+        return this.flightsRepository.update(id, Body);
     }
 
-    async remove(id: string) : | Promise<{ message: string, status: boolean }> {
+    async remove(id: string ) : | Promise<{ message: string, status: boolean }> {
+        const flight = await this.flightsRepository.findOneBy({ id });
         await this.flightsRepository.delete(id);
-        return { message: `Flight ${id} deleted,`, status: true };
+        return { message: `Flight ${flight?.flight_number} deleted,`, status: true };
 
     }
 

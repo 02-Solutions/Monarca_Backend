@@ -5,13 +5,10 @@ export class Flight {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({nullable: false})
-  id_request_destination: number 
-    
-  @Column({type : 'time with time zone', nullable: false})
+  @Column({type : 'timestamp with time zone', nullable: false})
   departure_time: Date;
 
-  @Column({type : 'time with time zone', nullable: false})
+  @Column({type : 'timestamp with time zone', nullable: false})
   arrival_time: Date;
 
   @Column({type: 'varchar', length: 10, nullable: false})
