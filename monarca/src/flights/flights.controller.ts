@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Param, Patch, Delete, Body } from '@nestjs/common';
+import { Controller, 
+    Get, 
+    Post, 
+    Param, 
+    Patch, 
+    Delete, 
+    Body, 
+    ParseUUIDPipe
+} from '@nestjs/common';
 import { FlightsService } from './flights.service'; 
 import { CreateFlightDto } from './dto/create-flight.dto';
 import { UpdateFlightDto } from './dto/update-flight.dto';
@@ -10,27 +18,33 @@ export class FlightsController {
     constructor(private readonly flightsService: FlightsService) {}
 
     @Post()
-    create(@Body() createFlightDto: CreateFlightDto) {
+    async create(
+        @Body() createFlightDto: CreateFlightDto)
+        {
+        console.log('createFlightDto :', createFlightDto);
         return this.flightsService.create(createFlightDto);
+         
     }
     
     @Get()
-    findAll() {
+    async findAll() {
         return this.flightsService.findAll(); ;
     }
 
     @Get(':id')
-    findOne(@Param('id') id: number) {
+    async findOne(@Param('id', new ParseUUIDPipe()) id: string) {
         return this.flightsService.findOne(id); ;
     }
     
     @Patch(':id')
-    update(@Param('id') id: number, @Body() updateFlightDto: UpdateFlightDto) {
-        return this.flightsService.update(id, {}); ;
+    async update(
+        @Param('id', new ParseUUIDPipe()) id: string, 
+        @Body() updateFlightDto: UpdateFlightDto) {
+            return this.flightsService.update(id, updateFlightDto);
     }
 
     @Delete(':id')
-    remove(@Param('id') id: number) {
+    async remove(@Param('id', new ParseUUIDPipe()) id: string) {
         return this.flightsService.remove(id); ;
     }
 

@@ -1,17 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, 
+  PrimaryGeneratedColumn, 
+  Column, 
+  ManyToOne } from "typeorm";
+  import { RequestsDestination } from '../../requests-destinations/entities/requests-destination.entity';
+
 
 @Entity("flights")
 export class Flight {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Column({nullable: false})
-  id_request_destination: number 
-    
-  @Column({type : 'time with time zone', nullable: false})
+  @Column({type : 'timestamp with time zone', nullable: false})
   departure_time: Date;
 
-  @Column({type : 'time with time zone', nullable: false})
+  @Column({type : 'timestamp with time zone', nullable: false})
   arrival_time: Date;
 
   @Column({type: 'varchar', length: 10, nullable: false})
@@ -23,7 +25,7 @@ export class Flight {
   @Column({type: 'varchar', length: 10, nullable: false})
   flight_number: string;
 
-  // @ManyToOne(() => RequestDestination, (requestDestination) => requestDestination.flightst a, { eager: true })
-  // requestDestination: RequestDestination;
+  @ManyToOne(() => RequestsDestination, (requestDestination) => requestDestination.flights, { eager: true })
+  requestDestination: RequestDestination;
 
 }
