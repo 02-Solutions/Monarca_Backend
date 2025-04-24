@@ -1,27 +1,40 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-
-
-import { LogInDTO } from 'src/auth/dto/login.dto';
-import { User } from './entity/user.entity';
+import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { LogInDTO } from 'src/auth/dto/login.dto';
+import * as bcrypt from 'bcrypt';
+
+
+
 @Injectable()
 export class UserChecks {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    private readonly Userepository: Repository<User>,
   ) {}
 
-  async logIn({username, password}) 
-  {
-    const user = await this.userRepository.findOne({
-      where: {
-        username,
-        password,
-      },
+  async logIn(data: LogInDTO): Promise<User | null> {
+    console.log('Login data in user.checks.service:', data);
+  
+    const user = await this.Userepository.findOne({
+      where: { email: data.email },
+      relations: ['department', 'role', 'role.permissions'],
     });
+  
+    if (!user) {
+      console.log('Email or password incorrect');
+      return null;
+    }
+  
+    const passwordMatch = await bcrypt.compare(data.password, user.password);
+    if (!passwordMatch) {
+      console.log('Password does not match');
+      return null;
+    }
+  
+    console.log('User encontrado:', user);
+    console.log("User permissions:", user.role?.permissions);
     return user;
   }
-
- 
 }
