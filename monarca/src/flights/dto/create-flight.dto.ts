@@ -54,4 +54,13 @@ export class CreateFlightDto {
   @IsString()
   @Length(1, 10)
   flight_number: string;
+  
+  @ApiProperty({
+    description: 'ID of the request destination',
+    example: '123e4567-e89b-12d3-a456-426614174000',
+  })
+  @IsNotEmpty()
+  @IsString()
+  id_request_destination: string;
+
 }
