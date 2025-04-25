@@ -1,28 +1,82 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsUUID, IsString, IsBoolean, IsOptional } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsUUID,
+  IsString,
+  IsBoolean,
+  IsOptional,
+  IsArray,
+  IsInt,
+  IsDateString,
+  ValidateNested,
+} from 'class-validator';
+
+export class RequestDestinationtDto {
+  @ApiProperty({
+    description: 'Destination city identifier',
+    example: 'destination-uuid-000',
+  })
+  @IsUUID()
+  id_destination: string;
+
+  @ApiProperty({
+    description: 'Order of the destination in the trip sequence',
+    example: 1,
+  })
+  @IsInt()
+  destination_order: number;
+
+  @ApiProperty({
+    description: 'Number of days for the stay at the destination',
+    example: 5,
+  })
+  @IsInt()
+  stay_days: number;
+
+  @ApiProperty({
+    description: 'Arrival date at the destination',
+    example: '2025-05-01T10:00:00Z',
+  })
+  @IsDateString()
+  arrival_date: string;
+
+  @ApiProperty({
+    description: 'Departure date from the destination',
+    example: '2025-05-06T10:00:00Z',
+  })
+  @IsDateString()
+  departure_date: string;
+
+  @ApiProperty({
+    description: 'Whether a hotel is required at the destination',
+    example: true,
+  })
+  @IsBoolean()
+  is_hotel_required: boolean;
+
+  @ApiProperty({
+    description: 'Whether a plane is required for the trip to the destination',
+    example: true,
+  })
+  @IsBoolean()
+  is_plane_required: boolean;
+
+  @ApiProperty({
+    description: 'Whether this is the last destination in the trip',
+    example: true,
+  })
+  @IsBoolean()
+  is_last_destination: boolean;
+
+  @ApiProperty({
+    description: 'Additional details or requirements for this destination',
+    example: 'Hotel near downtown',
+  })
+  @IsString()
+  details: string;
+}
 
 export class CreateRequestDto {
-  @ApiProperty({
-    description: 'User who created the request',
-    example: 'user-uuid-123',
-  })
-  @IsUUID()
-  userId: string;
-
-  @ApiProperty({
-    description: 'Admin responsible for approval',
-    example: 'admin-uuid-456',
-  })
-  @IsUUID()
-  adminId: string;
-
-  @ApiProperty({
-    description: 'Travel agent assigned',
-    example: 'agent-uuid-789',
-  })
-  @IsUUID()
-  travelAgentId: string;
-
   @ApiProperty({
     description: 'Origin city identifier',
     example: 'city-uuid-000',
@@ -31,29 +85,18 @@ export class CreateRequestDto {
   originCityId: string;
 
   @ApiProperty({
-    description: 'Reason for the trip',
-    example: 'Personal Vacations',
+    description: 'Short title for the trip',
+    example: 'On-Site Training Trip',
+  })
+  @IsString()
+  title: string;
+
+  @ApiProperty({
+    description: 'Detailed reason for the trip',
+    example: 'I need to go on this trip because ...',
   })
   @IsString()
   motive: string;
-
-  @ApiProperty({
-    description: 'Flag for multi-user trip',
-    example: false,
-    required: false,
-  })
-  @IsBoolean()
-  @IsOptional()
-  isMultiUser?: boolean;
-
-  @ApiProperty({
-    description: 'Current status of the request',
-    example: 'pending',
-    required: false,
-  })
-  @IsString()
-  @IsOptional()
-  status?: string;
 
   @ApiProperty({
     description: 'Additional requirements or notes',
@@ -72,11 +115,11 @@ export class CreateRequestDto {
   priority: string;
 
   @ApiProperty({
-    description: 'Reason for cancellation, if any',
-    example: null,
-    required: false,
+    description: 'List of destinations for the trip request',
+    type: [RequestDestinationtDto],
   })
-  @IsString()
-  @IsOptional()
-  cancellationReason?: string;
+  @IsArray()
+  @ValidateNested({ each: true }) // Validate each object in the array
+  @Type(() => RequestDestinationtDto)
+  requests_destinations: RequestDestinationtDto[];
 }

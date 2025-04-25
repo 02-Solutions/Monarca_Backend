@@ -9,7 +9,9 @@ describe('HotelReservationsController', () => {
       controllers: [HotelReservationsController],
     }).compile();
 
-    controller = module.get<HotelReservationsController>(HotelReservationsController);
+    controller = module.get<HotelReservationsController>(
+      HotelReservationsController,
+    );
   });
 
   it('should be defined', () => {

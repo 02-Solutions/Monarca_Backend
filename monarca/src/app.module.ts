@@ -7,10 +7,17 @@ import { DepartmentsModule } from './departments/departments.module';
 import { RolesPermissions } from './roles/entity/role.entity';
 import { TravelAgenciesModule } from './travel-agencies/travel-agencies.module';
 import { RequestsModule } from './requests/requests.module';
-import { RequestsDestinationsModule } from './requests-destinations/requests-destinations.module';
 import { RequestLogsModule } from './request-logs/request-logs.module';
 import { HotelReservationsModule } from './hotel-reservations/hotel-reservations.module';
 import { FlightsModule } from './flights/flights.module';
+import { User } from './users/entities/user.entity';
+import { Department } from './departments/entity/department.entity';
+import { Request } from './requests/entities/request.entity';
+import { RequestsDestination } from './requests-destinations/entities/requests-destination.entity';
+import { Permission } from './roles/entity/permissions.entity';
+import { HotelReservation } from './hotel-reservations/entity/hotel-reservation.entity';
+import { Flight } from './flights/entity/flights.entity';
+import { RequestLog } from './request-logs/entities/request-log.entity';
 
 @Module({
   imports: [
@@ -27,16 +34,24 @@ import { FlightsModule } from './flights/flights.module';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
-      autoLoadEntities: true,
-      synchronize: false,
-      
+      entities: [
+        User,
+        Department,
+        Request,
+        RequestsDestination,
+        RolesPermissions,
+        Permission,
+        HotelReservation,
+        Flight,
+        RequestLog,
+      ],
+      synchronize: true,
     }),
     DepartmentsModule,
     RequestsModule,
-    RequestsDestinationsModule,
     RequestLogsModule,
     HotelReservationsModule,
-    FlightsModule
+    FlightsModule,
   ],
   controllers: [],
   providers: [],

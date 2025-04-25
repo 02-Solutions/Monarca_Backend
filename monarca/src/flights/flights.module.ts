@@ -7,6 +7,6 @@ import { Flight } from './entity/flights.entity'; // Adjust the import path as n
 @Module({
   imports: [TypeOrmModule.forFeature([Flight])],
   providers: [FlightsService],
-  controllers: [FlightsController]
+  controllers: [FlightsController],
 })
 export class FlightsModule {}

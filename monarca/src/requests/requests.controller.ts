@@ -8,8 +8,7 @@ import {
   Delete,
   Res,
   ParseUUIDPipe,
-} from '@nestjs/common';
-import { Response } from 'express';
+} from '@nestjs/common';;
 import { RequestsService } from './requests.service';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
@@ -19,13 +18,8 @@ export class RequestsController {
   constructor(private readonly requestsService: RequestsService) {}
 
   @Post()
-  async create(
-    @Body() data: CreateRequestDto,
-    @Res({ passthrough: true }) res: Response,
-  ) {
-    console.log('CreateRequestDto in controller:', data);
+  async create(@Body() data: CreateRequestDto) {
     const result = await this.requestsService.create(data);
-    res.status(201);
     return result;
   }
 

@@ -14,21 +14,21 @@ export class LoginService {
 
   async logIn(data: LogInDTO, res: Response) {
     const user = await this.userChecks.logIn(data);
-  
+
     if (!user) {
       return { status: false, message: 'Email or password incorrect' };
     }
-    
+
     // Verificar la contraseña
     const isPasswordValid = await bcrypt.compare(data.password, user.password);
-  
+
     if (!isPasswordValid) {
       return { status: false, message: 'Email or password incorrect' };
     }
-  
+
     const payload = { id: user.id };
     const token = this.jwtService.sign(payload);
-    
+
     // Cambios para la conexion con el front
     res.cookie('sessionInfo', token, {
       httpOnly: true,
@@ -36,7 +36,7 @@ export class LoginService {
       sameSite: 'lax',
       maxAge: 3600 * 1000, // 1 hour
     });
-  
+
     return { status: true, message: 'Logged in successfully' };
   }
 }
