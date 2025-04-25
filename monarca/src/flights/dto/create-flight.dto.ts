@@ -1,9 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsNumber, Length, IsDateString } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsNumber,
+  Length,
+  IsDateString,
+} from 'class-validator';
 
 export class CreateFlightDto {
-
-
   @ApiProperty({
     example: '2023-12-15T08:00:00Z',
     description: 'Scheduled departure time with timezone',
@@ -54,7 +58,7 @@ export class CreateFlightDto {
   @IsString()
   @Length(1, 10)
   flight_number: string;
-  
+
   @ApiProperty({
     description: 'ID of the request destination',
     example: '123e4567-e89b-12d3-a456-426614174000',
@@ -62,5 +66,4 @@ export class CreateFlightDto {
   @IsNotEmpty()
   @IsString()
   id_request_destination: string;
-
 }

@@ -6,8 +6,6 @@ import * as cookieParser from 'cookie-parser';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
-  console.log(process.env.JWT_SECRET);
-
   const app = await NestFactory.create(AppModule);
 
   // Habilitar CORS para permitir peticiones desde el origen del frontend
@@ -38,4 +36,3 @@ async function bootstrap() {
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();
-
