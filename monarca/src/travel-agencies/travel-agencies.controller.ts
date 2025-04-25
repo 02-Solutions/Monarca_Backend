@@ -6,10 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { TravelAgenciesService } from './travel-agencies.service';
-import { CreateTravelAgencyDto } from './dto/create-travel-agency.dto';
-import { UpdateTravelAgencyDto } from './dto/update-travel-agency.dto';
+import {
+  CreateTravelAgencyDto,
+  UpdateTravelAgencyDto,
+} from './dto/travel-agency.dtos';
 
 @Controller('travel-agencies')
 export class TravelAgenciesController {
@@ -21,25 +24,25 @@ export class TravelAgenciesController {
   }
 
   @Get()
-  findAll() {
-    return this.travelAgenciesService.findAll();
+  async findAll() {
+    return await this.travelAgenciesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.travelAgenciesService.findOne(+id);
+  findOne(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.travelAgenciesService.findOne(id);
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateTravelAgencyDto: UpdateTravelAgencyDto,
   ) {
-    return this.travelAgenciesService.update(+id, updateTravelAgencyDto);
+    return this.travelAgenciesService.update(id, updateTravelAgencyDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.travelAgenciesService.remove(+id);
+  remove(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.travelAgenciesService.remove(id);
   }
 }
