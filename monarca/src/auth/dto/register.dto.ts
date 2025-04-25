@@ -13,5 +13,4 @@ export class RegisterDTO {
 
   @IsEmail()
   email: string;
-
 }

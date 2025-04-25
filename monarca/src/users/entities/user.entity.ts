@@ -51,6 +51,4 @@ export class User {
   @ManyToOne(() => RolesPermissions)
   @JoinColumn({ name: 'id_role' })
   role: RolesPermissions;
-
 }
-

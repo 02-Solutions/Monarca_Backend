@@ -11,6 +11,6 @@ import { HotelReservation } from './entity/hotel-reservation.entity';
   // En este caso, estamos importando la entidad HotelReservations para que el módulo pueda realizar operaciones CRUD en la tabla correspondiente en la base de datos.
 
   providers: [HotelReservationsService],
-  controllers: [HotelReservationsController]
+  controllers: [HotelReservationsController],
 })
 export class HotelReservationsModule {}

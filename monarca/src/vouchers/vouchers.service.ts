@@ -10,7 +10,7 @@ export class VouchersService {
     private readonly voucherRepository: Repository<Voucher>,
   ) {}
 
-  async findOne(id: number){
+  async findOne(id: number) {
     // Using the 'where' option to find the voucher by its 'id'
     const voucher = await this.voucherRepository.findOne({
       where: { id }, // The condition for the search
@@ -31,7 +31,7 @@ export class VouchersService {
       date: new Date(createVoucherDto.date),
       file_url: createVoucherDto.file_url,
     });
-  
+
     return await this.voucherRepository.save(voucher);
   }
 }

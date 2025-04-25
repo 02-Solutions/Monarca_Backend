@@ -8,22 +8,13 @@ export class Request {
   id: string;
 
   @Column({ name: 'id_user' })
-  userId: string;
-
-  @Column({ name: 'id_admin' })
-  adminId: string;
-
-  @Column({ name: 'id_travel_agent' })
-  travelAgentId: string;
+  id_user: string;
 
   @Column({ name: 'id_origin_city' })
-  originCityId: string;
+  id_origin_city: string;
 
   @Column()
   motive: string;
-
-  @Column({ name: 'is_multi_user', default: false })
-  isMultiUser: boolean;
 
   @Column({ default: 'pending' })
   status: string;
@@ -34,13 +25,13 @@ export class Request {
   @Column()
   priority: string;
 
-  @Column({ name: 'cancellation_reason', nullable: true })
-  cancellationReason?: string;
-
   // Relationships
 
-  @OneToMany(() => RequestsDestination, (dest) => dest.request, { eager: true })
-  requestsDestinations: RequestsDestination[];
+  @OneToMany(() => RequestsDestination, (dest) => dest.request, {
+    eager: true,
+    cascade: true,
+  })
+  requests_destinations: RequestsDestination[];
 
   @OneToMany(() => RequestLog, (log) => log.request, { eager: true })
   requestLogs: RequestLog[];
