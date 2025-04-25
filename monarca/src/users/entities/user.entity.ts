@@ -13,7 +13,7 @@ import {
 @Entity({ name: 'users' })
 export class User {
   @ApiProperty({ example: 1 })
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @ApiProperty({ example: 'juan@gmail.com' })
@@ -42,7 +42,7 @@ export class User {
 
   @ApiProperty({ example: 2 })
   @Column()
-  id_role: number;
+  id_role: string;
 
   @ManyToOne(() => Department, (department) => department.users)
   @JoinColumn({ name: 'id_department' })
@@ -51,6 +51,4 @@ export class User {
   @ManyToOne(() => RolesPermissions)
   @JoinColumn({ name: 'id_role' })
   role: RolesPermissions;
-
 }
-

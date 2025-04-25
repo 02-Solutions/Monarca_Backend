@@ -14,10 +14,6 @@ import { FlightsModule } from './flights/flights.module';
 
 @Module({
   imports: [
-    AuthModule,
-    UsersModule,
-    TravelAgenciesModule,
-    RolesPermissions,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRES_HOST,
@@ -28,15 +24,18 @@ import { FlightsModule } from './flights/flights.module';
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
       autoLoadEntities: true,
-      synchronize: false,
-      
+      synchronize: true,
     }),
+    AuthModule,
+    UsersModule,
+    TravelAgenciesModule,
+    RolesPermissions,
     DepartmentsModule,
     RequestsModule,
     RequestsDestinationsModule,
     RequestLogsModule,
     HotelReservationsModule,
-    FlightsModule
+    FlightsModule,
   ],
   controllers: [],
   providers: [],

@@ -14,7 +14,7 @@ import { Flight } from 'src/flights/entity/flights.entity';
 export class RequestsDestination {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-  
+
   @Column({ name: 'destination_id' })
   destinationId: string;
 
@@ -50,7 +50,10 @@ export class RequestsDestination {
   @JoinColumn({ name: 'request_id' })
   request: Request;
 
-  @OneToMany(() => HotelReservation, (hotelReservation) => hotelReservation.requestDestination)
+  @OneToMany(
+    () => HotelReservation,
+    (hotelReservation) => hotelReservation.requestDestination,
+  )
   hotelReservations: HotelReservation[];
 
   @OneToMany(() => Flight, (flight) => flight.requestDestination)
