@@ -7,7 +7,6 @@ import { DepartmentsModule } from './departments/departments.module';
 import { RolesPermissions } from './roles/entity/role.entity';
 import { TravelAgenciesModule } from './travel-agencies/travel-agencies.module';
 import { RequestsModule } from './requests/requests.module';
-import { RequestsDestinationsModule } from './requests-destinations/requests-destinations.module';
 import { RequestLogsModule } from './request-logs/request-logs.module';
 import { HotelReservationsModule } from './hotel-reservations/hotel-reservations.module';
 import { FlightsModule } from './flights/flights.module';
@@ -32,7 +31,6 @@ import { FlightsModule } from './flights/flights.module';
     RolesPermissions,
     DepartmentsModule,
     RequestsModule,
-    RequestsDestinationsModule,
     RequestLogsModule,
     HotelReservationsModule,
     FlightsModule,

@@ -7,34 +7,39 @@ import { UpdateHotelReservationDto } from './dto/update-hotel-reservation.dto';
 
 @Injectable()
 export class HotelReservationsService {
+  constructor(
+    @InjectRepository(HotelReservation)
+    private readonly hotelReservationsRepository: Repository<HotelReservation>,
+  ) {}
 
-    constructor(
-        @InjectRepository(HotelReservation)
-        private readonly hotelReservationsRepository: Repository<HotelReservation>,
-    ) {}
+  findAll() {
+    return this.hotelReservationsRepository.find();
+  }
 
-    findAll() {
-        return this.hotelReservationsRepository.find();
- 
-    }
+  findOne(id: string) {
+    return this.hotelReservationsRepository.findOne({ where: { id } });
+  }
 
-    findOne(id: string) {
-        return this.hotelReservationsRepository.findOne({ where: { id } });
-    }
+  async update(
+    id: number,
+    updateHotelReservationDto: UpdateHotelReservationDto,
+  ) {
+    const reservation = await this.hotelReservationsRepository.update(
+      id,
+      updateHotelReservationDto,
+    );
+    return reservation;
+  }
 
-    async update(id: number,  updateHotelReservationDto: UpdateHotelReservationDto) {
-        const reservation= await this.hotelReservationsRepository.update(id, updateHotelReservationDto);
-        return reservation;
-    }
+  async remove(id: number) {
+    const reservation = await this.hotelReservationsRepository.delete(id);
+    return reservation;
+  }
 
-    async remove(id: number) {
-        const reservation = await this.hotelReservationsRepository.delete(id);
-        return reservation;
-    }    
-
-    create(createHotelReservationDto: CreateHotelReservationDto) {
-        const reservation = this.hotelReservationsRepository.create(createHotelReservationDto);
-        return this.hotelReservationsRepository.save(reservation);
-        
-    }
+  create(createHotelReservationDto: CreateHotelReservationDto) {
+    const reservation = this.hotelReservationsRepository.create(
+      createHotelReservationDto,
+    );
+    return this.hotelReservationsRepository.save(reservation);
+  }
 }

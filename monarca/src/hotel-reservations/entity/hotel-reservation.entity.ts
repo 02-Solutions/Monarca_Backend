@@ -1,18 +1,24 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { RequestsDestination } from '../../requests-destinations/entities/requests-destination.entity';
 
-
-
-@Entity({name:'hotel_reservations'})
+@Entity({ name: 'hotel_reservations' })
 export class HotelReservation {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => RequestsDestination, (requestDestination) => requestDestination.hotelReservations, { eager: true })
+  @ManyToOne(
+    () => RequestsDestination,
+    (requestDestination) => requestDestination.hotelReservations,
+    { eager: true },
+  )
   @JoinColumn({ name: 'id_request_destination' })
-  requestDestination: RequestDestination
-  ;
-
+  requestDestination: RequestDestination;
 
   @Column({ length: 50 })
   name: string;

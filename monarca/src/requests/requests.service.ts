@@ -13,7 +13,25 @@ export class RequestsService {
   ) {}
 
   async create(data: CreateRequestDto): Promise<Request> {
-    const request = this.requestsRepository.create(data);
+    const request = this.requestsRepository.create({
+      id_user: 'test123', //Lo obtendremos del session cookie despues
+      id_origin_city: data.originCityId,
+      motive: data.motive,
+      priority: data.priority,
+      requirements: data.requirements,
+      requests_destinations: data.requests_destinations.map((destDto) => ({
+        id_destination: destDto.id_destination,
+        destination_order: destDto.destination_order,
+        stay_days: destDto.stay_days,
+        arrival_date: new Date(destDto.arrival_date),
+        departure_date: new Date(destDto.departure_date),
+        is_hotel_required: destDto.is_hotel_required,
+        is_plane_required: destDto.is_plane_required,
+        is_last_destination: destDto.is_last_destination,
+        details: destDto.details,
+      })),
+    });
+
     return this.requestsRepository.save(request);
   }
 
