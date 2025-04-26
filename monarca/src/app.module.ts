@@ -10,6 +10,7 @@ import { RequestsModule } from './requests/requests.module';
 import { RequestLogsModule } from './request-logs/request-logs.module';
 import { HotelReservationsModule } from './hotel-reservations/hotel-reservations.module';
 import { FlightsModule } from './flights/flights.module';
+import { VouchersModule } from './vouchers/vouchers.module';
 import { User } from './users/entities/user.entity';
 import { Department } from './departments/entity/department.entity';
 import { Request } from './requests/entities/request.entity';
@@ -18,6 +19,8 @@ import { Permission } from './roles/entity/permissions.entity';
 import { HotelReservation } from './hotel-reservations/entity/hotel-reservation.entity';
 import { Flight } from './flights/entity/flights.entity';
 import { RequestLog } from './request-logs/entities/request-log.entity';
+import { TravelAgency } from './travel-agencies/entities/travel-agency.entity';
+import { Voucher } from './vouchers/entities/vouchers.entity';
 
 @Module({
   imports: [
@@ -25,6 +28,12 @@ import { RequestLog } from './request-logs/entities/request-log.entity';
     UsersModule,
     TravelAgenciesModule,
     RolesPermissions,
+    DepartmentsModule,
+    RequestsModule,
+    RequestLogsModule,
+    HotelReservationsModule,
+    FlightsModule,
+    VouchersModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRES_HOST,
@@ -44,14 +53,12 @@ import { RequestLog } from './request-logs/entities/request-log.entity';
         HotelReservation,
         Flight,
         RequestLog,
+        TravelAgency,
+        Voucher,
       ],
       synchronize: true,
     }),
-    DepartmentsModule,
-    RequestsModule,
-    RequestLogsModule,
-    HotelReservationsModule,
-    FlightsModule,
+
   ],
   controllers: [],
   providers: [],
