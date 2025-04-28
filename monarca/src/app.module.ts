@@ -55,6 +55,7 @@ import { Voucher } from './vouchers/entities/vouchers.entity';
         RequestLog,
         TravelAgency,
         Voucher,
+        TravelAgency,
       ],
       synchronize: true,
     }),
