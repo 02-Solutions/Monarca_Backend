@@ -18,8 +18,8 @@ export class RegisterService {
       last_name: data.last_name,
       email: data.email,
       password: hashedPassword,
-      id_department: 3,
-      id_role: 2,
+      id_department: '3',
+      id_role: '2',
       status: 'active',
     });
 

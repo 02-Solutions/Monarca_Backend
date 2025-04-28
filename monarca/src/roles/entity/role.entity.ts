@@ -9,7 +9,7 @@ import { Permission } from './permissions.entity';
 
 @Entity('roles')
 export class RolesPermissions {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column()

@@ -38,12 +38,6 @@ INSERT INTO travel_agencies (name) VALUES
 ('AventuraSinLímite'),
 ('PlanificadoresDeVacaciones');
 
--- Insertar datos en la tabla travel_agencies_users
-INSERT INTO travel_agencies_users (id_user, id_travel_agency) VALUES
-(1, 1),
-(2, 2),
-(3, 3);
-
 -- Insertar datos en la tabla user_logs (agregando registros de ejemplo)
 INSERT INTO user_logs (id_user, ip, report) VALUES
 (1, '127.0.0.1', 'User logged in'),
