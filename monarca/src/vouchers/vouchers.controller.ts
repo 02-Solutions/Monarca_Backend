@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Param, Put, Delete, Patch } from '@nestjs/common';
 import { VouchersService } from './vouchers.service';
 import { CreateVoucherDto } from './dto/create-voucher-dto';
-import { UpdateVoucherDto } from './dto/update-vocuher-dto';
+import { UpdateVoucherDto } from './dto/update-voucher-dto';
 import { Voucher } from './entities/vouchers.entity';
 import { ApiTags } from '@nestjs/swagger';
 
