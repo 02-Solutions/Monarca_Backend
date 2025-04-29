@@ -9,6 +9,7 @@ import {
 import { Request } from 'src/requests/entities/request.entity';
 import { HotelReservation } from 'src/hotel-reservations/entity/hotel-reservation.entity';
 import { Flight } from 'src/flights/entity/flights.entity';
+import { Voucher } from 'src/vouchers/entities/vouchers.entity';
 
 @Entity({ name: 'requests_destinations' })
 export class RequestsDestination {
@@ -61,4 +62,7 @@ export class RequestsDestination {
 
   @OneToMany(() => Flight, (flight) => flight.requestDestination)
   flights: Flight[];
+
+  @OneToMany(()=> Voucher, (voucher) => voucher.id_request_destination)
+  vouchers: Voucher[];
 }
