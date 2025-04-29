@@ -52,16 +52,6 @@ CREATE TABLE travel_agencies (
 );
 
 
-DROP TABLE IF EXISTS travel_agencies_users;
-CREATE TABLE travel_agencies_users (
-    id SERIAL PRIMARY KEY,
-    id_user INT NOT NULL,
-    id_travel_agency INT NOT NULL,
-    FOREIGN KEY (id_travel_agency) REFERENCES travel_agencies(id),
-    FOREIGN KEY (id_user) REFERENCES users(id)
-);
-
-
 
 DROP TABLE IF EXISTS users_logs;
 CREATE TABLE user_logs (
@@ -114,7 +104,7 @@ CREATE TABLE requests (
     priority VARCHAR(30) NOT NULL,
     FOREIGN KEY (id_user) REFERENCES users(id),
     FOREIGN KEY (id_admin) REFERENCES users(id),
-    FOREIGN KEY (id_travel_agent) REFERENCES travel_agencies_users(id),
+    FOREIGN KEY (id_travel_agent) REFERENCES users(id),
     FOREIGN KEY (id_origin_city) REFERENCES destinations(id)
 );
 
@@ -234,12 +224,6 @@ INSERT INTO travel_agencies (name) VALUES
 ('ViajesGlobal'),
 ('AventuraSinLímite'),
 ('PlanificadoresDeVacaciones');
-
--- Insertar datos en la tabla travel_agencies_users
-INSERT INTO travel_agencies_users (id_user, id_travel_agency) VALUES
-(1, 1),
-(2, 2),
-(3, 3);
 
 -- Insertar datos en la tabla user_logs (agregando registros de ejemplo)
 INSERT INTO user_logs (id_user, ip, report) VALUES
