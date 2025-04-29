@@ -21,6 +21,8 @@ import { Flight } from './flights/entity/flights.entity';
 import { RequestLog } from './request-logs/entities/request-log.entity';
 import { TravelAgency } from './travel-agencies/entities/travel-agency.entity';
 import { Voucher } from './vouchers/entities/vouchers.entity';
+import { RevisionsModule } from './revisions/revisions.module';
+import { Revision } from './revisions/entities/revision.entity';
 
 @Module({
   imports: [
@@ -34,6 +36,7 @@ import { Voucher } from './vouchers/entities/vouchers.entity';
     HotelReservationsModule,
     FlightsModule,
     VouchersModule,
+    RevisionsModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRES_HOST,
@@ -56,6 +59,7 @@ import { Voucher } from './vouchers/entities/vouchers.entity';
         TravelAgency,
         Voucher,
         TravelAgency,
+        Revision
       ],
       synchronize: true,
     }),
