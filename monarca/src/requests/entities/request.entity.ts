@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { RequestsDestination } from 'src/requests-destinations/entities/requests-destination.entity';
 import { RequestLog } from 'src/request-logs/entities/request-log.entity';
+import { Revision } from 'src/revisions/entities/revision.entity';
 
 @Entity({ name: 'requests' })
 export class Request {
@@ -35,4 +36,7 @@ export class Request {
 
   @OneToMany(() => RequestLog, (log) => log.request, { eager: true })
   requestLogs: RequestLog[];
+
+  @OneToMany(() => Revision, (log) => log.request, { eager: true })
+  revisions: Revision[];
 }
