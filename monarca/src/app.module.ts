@@ -12,12 +12,14 @@ import { HotelReservationsModule } from './hotel-reservations/hotel-reservations
 import { FlightsModule } from './flights/flights.module';
 import { User } from './users/entities/user.entity';
 import { Department } from './departments/entity/department.entity';
+import { Destination } from './destinations/entities/destination.entity';
 import { Request } from './requests/entities/request.entity';
 import { RequestsDestination } from './requests-destinations/entities/requests-destination.entity';
 import { Permission } from './roles/entity/permissions.entity';
 import { HotelReservation } from './hotel-reservations/entity/hotel-reservation.entity';
 import { Flight } from './flights/entity/flights.entity';
 import { RequestLog } from './request-logs/entities/request-log.entity';
+import { DestinationsModule } from './destinations/destinations.module';
 
 @Module({
   imports: [
@@ -37,6 +39,7 @@ import { RequestLog } from './request-logs/entities/request-log.entity';
       entities: [
         User,
         Department,
+        Destination,
         Request,
         RequestsDestination,
         RolesPermissions,
@@ -52,6 +55,7 @@ import { RequestLog } from './request-logs/entities/request-log.entity';
     RequestLogsModule,
     HotelReservationsModule,
     FlightsModule,
+    DestinationsModule,
   ],
   controllers: [],
   providers: [],
