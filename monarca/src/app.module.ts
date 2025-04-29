@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -21,6 +20,9 @@ import { Flight } from './flights/entity/flights.entity';
 import { RequestLog } from './request-logs/entities/request-log.entity';
 import { TravelAgency } from './travel-agencies/entities/travel-agency.entity';
 import { Voucher } from './vouchers/entities/vouchers.entity';
+import { UserLogsModule } from './user-logs/user-logs.module';
+import { UserLogs } from './user-logs/entity/user-logs.entity';
+
 
 @Module({
   imports: [
@@ -34,6 +36,7 @@ import { Voucher } from './vouchers/entities/vouchers.entity';
     HotelReservationsModule,
     FlightsModule,
     VouchersModule,
+    UserLogsModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRES_HOST,
@@ -56,6 +59,7 @@ import { Voucher } from './vouchers/entities/vouchers.entity';
         TravelAgency,
         Voucher,
         TravelAgency,
+        UserLogs,
       ],
       synchronize: true,
     }),
