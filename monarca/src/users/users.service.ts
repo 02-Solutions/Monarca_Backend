@@ -20,8 +20,6 @@ export class UsersService {
       throw new ForbiddenException('User not found');
     }
 
-    console.log('User permissions:', user.role?.permissions);
-
     return user;
   }
 
