@@ -5,10 +5,10 @@ export class UpdateRequestStatusDto {
   @ApiProperty({
     description: 'New status for the request',
     example: 'approved',
-    enum: ['pending', 'approved', 'cancelled'],
+    enum: ['pending review', 'pending changes', 'approved', 'cancelled'],
   })
   @IsString()
-  @IsIn(['pending', 'approved', 'cancelled'])
+  @IsIn(['pending review', 'pending changes', 'approved', 'cancelled'])
   status: string;
 
   @ApiProperty({

@@ -6,9 +6,9 @@ import {
   Patch,
   Param,
   Delete,
-  Res,
   ParseUUIDPipe,
   Request,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { RequestsService } from './requests.service';
@@ -21,13 +21,8 @@ export class RequestsController {
   constructor(private readonly requestsService: RequestsService) {}
 
   @Post()
-  async create(
-    @Body() data: CreateRequestDto,
-    @Res({ passthrough: true }) res: Response,
-  ) {
-    console.log('CreateRequestDto in controller:', data);
+  async create(@Body() data: CreateRequestDto) {
     const result = await this.requestsService.create(data);
-    res.status(201);
     return result;
   }
 
@@ -48,11 +43,6 @@ export class RequestsController {
       throw new Error('User ID not found in cookies');
     }
     return this.requestsService.findByUser(userId);
-  }
-
-  @Get('agent/:agentId')
-  async findByAgent(@Param('agentId', new ParseUUIDPipe()) agentId: string) {
-    return this.requestsService.findByAgent(agentId);
   }
 
   @Patch(':id')

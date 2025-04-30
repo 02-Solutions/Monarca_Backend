@@ -5,7 +5,7 @@ export class LogInDTO {
   @ApiProperty({ example: 'juan@gmail.com' })
   @IsString()
   @MinLength(5)
-  @MaxLength(20)
+  @MaxLength(30)
   email: string;
 
   @ApiProperty({ example: '123456' })

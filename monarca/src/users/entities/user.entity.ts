@@ -1,5 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Department } from 'src/departments/entity/department.entity';
+import { RolesPermissions } from 'src/roles/entity/role.entity';
+
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -11,16 +13,12 @@ import {
 @Entity({ name: 'users' })
 export class User {
   @ApiProperty({ example: 1 })
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
-  @ApiProperty({ example: 1 })
-  @Column({ nullable: true })
-  id_department?: number;
-
-  @ApiProperty({ example: 1 })
-  @Column({ nullable: true })
-  id_role?: number;
+  @ApiProperty({ example: 'juan@gmail.com' })
+  @Column()
+  email: string;
 
   @ApiProperty({ example: 'Juan' })
   @Column()
@@ -34,17 +32,23 @@ export class User {
   @Column()
   password: string;
 
-  @ApiProperty({ example: 'lopez@gmail.com' })
-  @Column()
-  email: string;
-
-  @Column()
   @ApiProperty({ example: 'active' })
+  @Column()
   status: string;
 
-  @ManyToOne(() => Department, (department) => department.users, {
-    nullable: true,
-  })
+  @ApiProperty({ example: 1 })
+  @Column()
+  id_department?: number;
+
+  @ApiProperty({ example: 2 })
+  @Column()
+  id_role: string;
+
+  @ManyToOne(() => Department, (department) => department.users)
   @JoinColumn({ name: 'id_department' })
   department?: Department;
+
+  @ManyToOne(() => RolesPermissions)
+  @JoinColumn({ name: 'id_role' })
+  role: RolesPermissions;
 }

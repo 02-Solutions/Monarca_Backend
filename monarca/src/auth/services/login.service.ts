@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
-import { LogInDTO } from './dto/login.dto';
-// import { UserChecks } from 'src/users/user.checks.service';
+import { LogInDTO } from '../dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UserChecks } from 'src/users/user.checks.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class LoginService {
@@ -16,24 +16,27 @@ export class LoginService {
     const user = await this.userChecks.logIn(data);
 
     if (!user) {
-      return { status: false, message: 'Log in failed!' };
+      return { status: false, message: 'Email or password incorrect' };
     }
-    const payload = {
-      id: user.id,
-    };
 
+    // Verificar la contraseña
+    const isPasswordValid = await bcrypt.compare(data.password, user.password);
+
+    if (!isPasswordValid) {
+      return { status: false, message: 'Email or password incorrect' };
+    }
+
+    const payload = { id: user.id };
     const token = this.jwtService.sign(payload);
-    // console.log(token)
+
+    // Cambios para la conexion con el front
     res.cookie('sessionInfo', token, {
       httpOnly: true,
       secure: false,
-      sameSite: 'strict',
+      sameSite: 'lax',
       maxAge: 3600 * 1000, // 1 hour
     });
 
-    return {
-      status: true,
-      message: 'Logged in successfully',
-    };
+    return { status: true, message: 'Logged in successfully' };
   }
 }
