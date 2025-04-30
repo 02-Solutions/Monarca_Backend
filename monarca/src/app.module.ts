@@ -8,17 +8,15 @@ import { RolesPermissions } from './roles/entity/role.entity';
 import { TravelAgenciesModule } from './travel-agencies/travel-agencies.module';
 import { RequestsModule } from './requests/requests.module';
 import { RequestLogsModule } from './request-logs/request-logs.module';
-import { HotelReservationsModule } from './hotel-reservations/hotel-reservations.module';
-import { FlightsModule } from './flights/flights.module';
 import { User } from './users/entities/user.entity';
 import { Department } from './departments/entity/department.entity';
 import { Request } from './requests/entities/request.entity';
+import { Reservation } from './reservations/entity/reservations.entity';
 import { RequestsDestination } from './requests-destinations/entities/requests-destination.entity';
 import { Permission } from './roles/entity/permissions.entity';
-import { HotelReservation } from './hotel-reservations/entity/hotel-reservation.entity';
-import { Flight } from './flights/entity/flights.entity';
 import { RequestLog } from './request-logs/entities/request-log.entity';
 import { TravelAgency } from './travel-agencies/entities/travel-agency.entity';
+import { ReservationsModule } from './reservations/reservations.module';
 
 @Module({
   imports: [
@@ -29,8 +27,7 @@ import { TravelAgency } from './travel-agencies/entities/travel-agency.entity';
     DepartmentsModule,
     RequestsModule,
     RequestLogsModule,
-    HotelReservationsModule,
-    FlightsModule,
+    ReservationsModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRES_HOST,
@@ -47,13 +44,13 @@ import { TravelAgency } from './travel-agencies/entities/travel-agency.entity';
         RequestsDestination,
         RolesPermissions,
         Permission,
-        HotelReservation,
-        Flight,
+        Reservation,
         RequestLog,
         TravelAgency,
       ],
       synchronize: true,
     }),
+    ReservationsModule,
   ],
   controllers: [],
   providers: [],

@@ -7,8 +7,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Request } from 'src/requests/entities/request.entity';
-import { HotelReservation } from 'src/hotel-reservations/entity/hotel-reservation.entity';
-import { Flight } from 'src/flights/entity/flights.entity';
+import { Reservation } from 'src/reservations/entity/reservations.entity';
 
 @Entity({ name: 'requests_destinations' })
 export class RequestsDestination {
@@ -53,12 +52,8 @@ export class RequestsDestination {
   @JoinColumn({ name: 'id_request' })
   request: Request;
 
-  @OneToMany(
-    () => HotelReservation,
-    (hotelReservation) => hotelReservation.requestDestination,
-  )
-  hotelReservations: HotelReservation[];
 
-  @OneToMany(() => Flight, (flight) => flight.requestDestination)
-  flights: Flight[];
+  @OneToMany(
+    () => Reservation, (reservation) => reservation.requestDestination)
+  reservations: Reservation[];
 }
