@@ -1,4 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty,
+  PartialType,
+  OmitType
+ } from '@nestjs/swagger';
 import {
   IsNotEmpty,
   IsString,
@@ -7,6 +10,7 @@ import {
   IsDateString,
   isNotEmpty,
 } from 'class-validator';
+import { Reservation } from '../entity/reservations.entity';
 
 export class CreateReservationDto { 
   @ApiProperty({
@@ -45,3 +49,8 @@ export class CreateReservationDto {
   @IsString()
   id_request_destination: string;
 }
+
+export class UpdateReservationDto extends PartialType(CreateReservationDto) {}
+
+export class ReservationDto extends OmitType(Reservation, []) {}
+

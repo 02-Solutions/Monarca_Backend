@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Request } from 'src/requests/entities/request.entity';
 import { Reservation } from 'src/reservations/entity/reservations.entity';
+import { Voucher } from 'src/vouchers/entities/vouchers.entity';
 
 @Entity({ name: 'requests_destinations' })
 export class RequestsDestination {

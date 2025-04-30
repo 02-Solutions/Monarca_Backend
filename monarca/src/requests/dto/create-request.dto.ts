@@ -7,7 +7,7 @@ import {
   IsOptional,
   IsArray,
   IsInt,
-  IsDateString,
+  IsDate,
   ValidateNested,
 } from 'class-validator';
 
@@ -37,15 +37,17 @@ export class RequestDestinationtDto {
     description: 'Arrival date at the destination',
     example: '2025-05-01T10:00:00Z',
   })
-  @IsDateString()
-  arrival_date: string;
+  @IsDate()
+  @Type(() => Date)
+  arrival_date: Date;
 
   @ApiProperty({
     description: 'Departure date from the destination',
     example: '2025-05-06T10:00:00Z',
   })
-  @IsDateString()
-  departure_date: string;
+  @IsDate()
+  @Type(() => Date)
+  departure_date: Date;
 
   @ApiProperty({
     description: 'Whether a hotel is required at the destination',
@@ -82,7 +84,7 @@ export class CreateRequestDto {
     example: 'city-uuid-000',
   })
   @IsUUID()
-  originCityId: string;
+  id_origin_city: string;
 
   @ApiProperty({
     description: 'Short title for the trip',
