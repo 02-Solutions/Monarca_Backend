@@ -36,7 +36,7 @@ import { Revision } from './revisions/entities/revision.entity';
     ReservationsModule,
     VouchersModule,
     RevisionsModule,
-     DestinationsModule,
+    DestinationsModule,
      
     TypeOrmModule.forRoot({
       type: 'postgres',

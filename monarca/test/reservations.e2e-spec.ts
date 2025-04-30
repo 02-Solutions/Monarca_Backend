@@ -4,7 +4,6 @@ import * as request from 'supertest';
 import { AppModule } from 'src/app.module';
 import * as dotenv from 'dotenv';
 import { ReservationDto } from 'src/reservations/dto/reservation.dtos';
-import { title } from 'process';
 dotenv.config();
 
 describe('TravelAgencies e2e', () => {
@@ -31,16 +30,17 @@ describe('TravelAgencies e2e', () => {
   });
 
   it('/reservations (POST) debe crear una reservacion', async () => {
-    const dto = {
-        title: "Reserva de taxi aeropuerto",
-        comments: "Taxi reservado para el usuario María García, llegada estimada a las 08:30 AM",
-        link: "https://taxi-service.com/booking/abc123",
-        id_request_destination: "123e4567-e89b-12d3-a456-426614174000"
-      };
+    const dto ={
+      title: "Reserva de taxi aeropuerto",
+      comments: "Taxi reservado para el usuario María García, llegada estimada a las 08:30 AM",
+      link: "https://taxi-service.com/booking/abc123",
+      id_request_destination: "123e4567-e89b-12d3-a456-426614174000"
+    };
     const res = await request(app.getHttpServer())
       .post('/reservations')
       .send(dto)
       .expect(201);
+      console.log('Raw Response:', res.body)
 
     expect(res.body).toHaveProperty('id');
 
@@ -50,7 +50,6 @@ describe('TravelAgencies e2e', () => {
     expect(data.comments).toBe(dto.comments);
     expect(data.link).toBe(dto.link);
     expect(data.requestDestination).toBe(dto.id_request_destination);
-
     await request(app.getHttpServer())
       .delete(`/reservations/${data.id}`)
       .expect(200);
@@ -71,7 +70,7 @@ describe('TravelAgencies e2e', () => {
       .send({ title: 'Reserva de taxi', 
         comments: 'Taxi reservado para el usuario', 
         link: 'https://example.com/reservation/12345', 
-        id_request_destination: '123e4567-e89b-12d3-a456-426614174000' })
+        id_request_destination: '123e4597-e89b-12d3-a456-426614174000' })
       .expect(201);
 
     const data = createRes.body as ReservationDto;
