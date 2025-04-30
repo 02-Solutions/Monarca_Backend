@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateVoucherDto } from './dto/Create-Voucher-dto';
-import { UpdateVoucherDto } from './dto/Update-Voucher-dto';
+import { CreateVoucherDto } from './dto/create-voucher-dto';
+import { UpdateVoucherDto } from './dto/update-voucher-dto';
 import { Voucher } from './entities/vouchers.entity';
 
 @Injectable()

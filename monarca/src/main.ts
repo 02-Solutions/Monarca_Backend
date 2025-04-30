@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { LoggingMiddleware } from './utils/logging.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,6 +17,7 @@ async function bootstrap() {
   });
 
   app.use(cookieParser());
+  app.use(new LoggingMiddleware().use);
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,

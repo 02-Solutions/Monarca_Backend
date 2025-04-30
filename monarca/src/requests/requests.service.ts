@@ -22,9 +22,18 @@ export class RequestsService {
     private readonly usersRepo: Repository<User>,
   ) {}
 
-  async create(data: CreateRequestDto): Promise<RequestEntity> {
-    const req = this.requestsRepo.create(data);
-    return this.requestsRepo.save(req);
+  async create(data: CreateRequestDto): Promise<Request> {
+    //VALIDAR VALIDEZ DE CIUDADES
+
+    const request = this.requestsRepo.create({
+      id_user: 'test123', //Lo obtendremos del session cookie despues
+      ...data,
+      requests_destinations: data.requests_destinations.map((destDto) => ({
+        ...destDto,
+      })),
+    });
+
+    return this.requestsRepo.save(request);
   }
 
   async findAll(): Promise<RequestEntity[]> {

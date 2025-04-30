@@ -13,14 +13,18 @@ import { FlightsModule } from './flights/flights.module';
 import { VouchersModule } from './vouchers/vouchers.module';
 import { User } from './users/entities/user.entity';
 import { Department } from './departments/entity/department.entity';
+import { Destination } from './destinations/entities/destination.entity';
 import { Request } from './requests/entities/request.entity';
 import { RequestsDestination } from './requests-destinations/entities/requests-destination.entity';
 import { Permission } from './roles/entity/permissions.entity';
 import { HotelReservation } from './hotel-reservations/entity/hotel-reservation.entity';
 import { Flight } from './flights/entity/flights.entity';
 import { RequestLog } from './request-logs/entities/request-log.entity';
+import { DestinationsModule } from './destinations/destinations.module';
 import { TravelAgency } from './travel-agencies/entities/travel-agency.entity';
 import { Voucher } from './vouchers/entities/vouchers.entity';
+import { RevisionsModule } from './revisions/revisions.module';
+import { Revision } from './revisions/entities/revision.entity';
 
 @Module({
   imports: [
@@ -34,6 +38,8 @@ import { Voucher } from './vouchers/entities/vouchers.entity';
     HotelReservationsModule,
     FlightsModule,
     VouchersModule,
+    RevisionsModule,
+    DestinationsModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRES_HOST,
@@ -46,6 +52,7 @@ import { Voucher } from './vouchers/entities/vouchers.entity';
       entities: [
         User,
         Department,
+        Destination,
         Request,
         RequestsDestination,
         RolesPermissions,
@@ -56,10 +63,10 @@ import { Voucher } from './vouchers/entities/vouchers.entity';
         TravelAgency,
         Voucher,
         TravelAgency,
+        Revision,
       ],
       synchronize: true,
     }),
-
   ],
   controllers: [],
   providers: [],
