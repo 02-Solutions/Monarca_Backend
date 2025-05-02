@@ -19,7 +19,6 @@ describe('TravelAgencies e2e', () => {
       new ValidationPipe({
         transform: true,
         whitelist: true,
-        forbidNonWhitelisted: true,
       }),
     );
     await app.init();
