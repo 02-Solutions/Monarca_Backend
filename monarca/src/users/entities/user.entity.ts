@@ -16,7 +16,7 @@ import {
 export class User {
   @ApiProperty({ example: 1 })
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @ApiProperty({ example: 'juan@gmail.com' })
   @Column()
