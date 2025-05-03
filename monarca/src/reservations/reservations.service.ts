@@ -29,7 +29,7 @@ export class ReservationsService {
   }
 
   async update(id: string, Body: UpdateReservationDto) {
-    return this.reservationsRepository.update(id, Body);
+    return await this.reservationsRepository.update(id, Body);
   }
 
   async remove(id: string): Promise<{ message: string; status: boolean }> {

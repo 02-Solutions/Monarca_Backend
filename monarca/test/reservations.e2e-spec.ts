@@ -3,7 +3,7 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from 'src/app.module';
 import * as dotenv from 'dotenv';
-import { ReservationDto } from 'src/reservations/dto/reservation.dtos';
+import { CreateReservationDto, ReservationDto } from 'src/reservations/dto/reservation.dtos';
 dotenv.config();
 
 describe('TravelAgencies e2e', () => {
@@ -42,6 +42,7 @@ describe('TravelAgencies e2e', () => {
       console.log('Raw Response:', res.body)
 
     expect(res.body).toHaveProperty('id');
+
 
     const data = res.body as ReservationDto;
 
@@ -86,4 +87,60 @@ describe('TravelAgencies e2e', () => {
       .delete(`/reservations/${data.id}`)
       .expect(200);
   });
+
+  it('/reservations/:id (PATCH) debe actualizar uno o mas parametros de la reserva', async () => {
+    // 1) Creamos primero para obtener su ID dinámico
+    const createRes = await request(app.getHttpServer())
+      .post('/reservations')
+      .send({ title: 'Reserva de taxi', 
+        comments: 'Taxi reservado para el usuario', 
+        link: 'https://example.com/reservation/12345', 
+        id_request_destination: '123e4597-e89b-12d3-a456-426614174000' })
+      .expect(201);
+
+    const data = createRes.body as ReservationDto;
+    // 2) Ahora lo actualizamos su comentario
+    const updatedComment = 'Taxi reservado para el usuario Juan Pérez, llegada estimada a las 09:00 AM';
+    const res = await request(app.getHttpServer())
+      .patch(`/reservations/${data.id}`)
+      .send({ comments: updatedComment })
+      .expect(200);
+    
+    const updatedReservation = await request(app.getHttpServer())
+      .get(`/reservations/${data.id}`)
+      .expect(200);
+
+    const retrieved_data = updatedReservation.body as ReservationDto;
+    expect(retrieved_data.comments).toBe(updatedComment);
+
+    await request(app.getHttpServer())
+      .delete(`/reservations/${data.id}`)
+      .expect(200);
+  });
+
+  it('/reservations/:id (DELETE) debe borrar la reserva', async () => {
+    // 1) Creamos primero para obtener su ID dinámico
+    const createRes = await request(app.getHttpServer())
+      .post('/reservations')
+      .send({ title: 'Reserva de taxi', 
+        comments: 'Taxi reservado para el usuario', 
+        link: 'https://example.com/reservation/12345', 
+        id_request_destination: '123e4597-e89b-12d3-a456-426614174000' })
+      .expect(201);
+
+    const data = createRes.body as ReservationDto;
+    // 2) Ahora la borramos
+
+    await request(app.getHttpServer())
+      .delete(`/reservations/${data.id}`)
+      .expect(200);
+
+    // 3) Verificamos que ya no existe
+    await request(app.getHttpServer())
+      .get(`/reservations/${data.id}`)
+      .expect(404);
+    
+  });
+
+
 });
