@@ -1,14 +1,14 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { User } from 'src/users/entity/user.entity';
-@Entity()
+import { User } from 'src/users/entities/user.entity';
+@Entity({ name: 'departments' })
 export class Department {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column()
   name: string;
 
   // One department can have many users.
-  @OneToMany(() => User, user => user.department)
+  @OneToMany(() => User, (user) => user.department)
   users: User[];
 }
