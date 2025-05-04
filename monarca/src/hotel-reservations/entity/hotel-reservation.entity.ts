@@ -18,7 +18,8 @@ export class HotelReservation {
     { eager: true },
   )
   @JoinColumn({ name: 'id_request_destination' })
-  requestDestination: RequestDestination;
+  requestDestination: RequestsDestination;
+
 
   @Column({ length: 50 })
   name: string;

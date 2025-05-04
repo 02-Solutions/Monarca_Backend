@@ -16,29 +16,41 @@ export class PermissionsGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const permissionsRequired = this.reflector.get<number[]>(
-      PERMISSIONS_KEY,
-      context.getHandler(),
+    
+    const request = context.switchToHttp().getRequest<Request & {
+      sessionInfo?: { id: number };
+      userPermissions?: string[];
+    }>();
+
+    const userId = request.sessionInfo?.id;
+    if (!userId) throw new ForbiddenException('User session not found');
+
+    const user = await this.usersService.findById(userId);
+    if (!user || !user.role || !user.role.permissions) {
+      throw new ForbiddenException('User or permissions not found');
+    }
+
+    console.log('User found:', user);
+
+    const userPermissions = user.role.permissions.map((p) => p.name);
+    request.userPermissions = userPermissions;
+
+    const permissionsRequired = this.reflector.get<string[]>(
+      PERMISSIONS_KEY, 
+      context.getHandler()
     );
 
     if (!permissionsRequired) return true;
 
-    const request = context.switchToHttp().getRequest();
-    const userId = request.sessionInfo.id;
-
-    const user = await this.usersService.findById(userId); // includes role & permissions
-    if (!user) throw new ForbiddenException('User not found');
-
-    console.log('User found:', user);
-    console.log('User permissions:', user.role?.permissions);
-
-    const permissionIds = user.role?.permissions.map((p) => p.id) || [];
-
-    const hasPermission = permissionsRequired.every((p) =>
-      permissionIds.includes(p),
+    const hasPermission = permissionsRequired.every((permission) =>
+      userPermissions.includes(permission),
     );
-    if (!hasPermission) throw new ForbiddenException('Permission denied');
+
+    if (!hasPermission) {
+      throw new ForbiddenException('Permission denied');
+    }
 
     return true;
+
   }
 }
