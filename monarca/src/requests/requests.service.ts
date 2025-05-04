@@ -1,14 +1,8 @@
-import {
-  Injectable,
-  NotFoundException,
-  ForbiddenException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, In } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import { Request as RequestEntity } from './entities/request.entity';
-import { User } from 'src/users/entities/user.entity';
-
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
 import { UpdateRequestStatusDto } from './dto/update-request-status.dto';
@@ -18,22 +12,17 @@ export class RequestsService {
   constructor(
     @InjectRepository(RequestEntity)
     private readonly requestsRepo: Repository<RequestEntity>,
-    @InjectRepository(User)
-    private readonly usersRepo: Repository<User>,
   ) {}
 
-  async create(data: CreateRequestDto): Promise<Request> {
-    //VALIDAR VALIDEZ DE CIUDADES
-
-    const request = this.requestsRepo.create({
-      id_user: 'test123', //Lo obtendremos del session cookie despues
+  async create(data: CreateRequestDto): Promise<RequestEntity> {
+    const newRequest = this.requestsRepo.create({
+      id_user: 'test123',
       ...data,
       requests_destinations: data.requests_destinations.map((destDto) => ({
         ...destDto,
       })),
     });
-
-    return this.requestsRepo.save(request);
+    return this.requestsRepo.save(newRequest);
   }
 
   async findAll(): Promise<RequestEntity[]> {
@@ -41,15 +30,18 @@ export class RequestsService {
   }
 
   async findOne(id: string): Promise<RequestEntity> {
-    const req = await this.requestsRepo.findOneBy({ id });
-    if (!req) throw new NotFoundException(`Request ${id} not found`);
-    return req;
+    const found = await this.requestsRepo.findOneBy({ id });
+    if (!found) {
+      throw new NotFoundException(`Request ${id} not found`);
+    }
+    return found;
   }
 
   async findByUser(userId: string): Promise<RequestEntity[]> {
     const list = await this.requestsRepo.find({ where: { id_user: userId } });
-    if (!list.length)
+    if (list.length === 0) {
       throw new NotFoundException(`No requests found for user ${userId}`);
+    }
     return list;
   }
 
