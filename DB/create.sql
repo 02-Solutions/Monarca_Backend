@@ -159,28 +159,13 @@ CREATE TABLE vouchers (
     FOREIGN KEY (id_request) REFERENCES requests(id)
 );
 
-
-DROP TABLE IF EXISTS flights;
-CREATE TABLE flights (
+DROP TABLE IF EXISTS reservations;
+CREATE TABLE reservations (
     id SERIAL PRIMARY KEY,
     id_request_destination INT NOT NULL,
-    departure_time TIMESTAMP WITH TIME ZONE NOT NULL,
-    arrival_time TIMESTAMP WITH TIME ZONE NOT NULL,
-    departure_airport VARCHAR(10) NOT NULL,
-    arrival_airport VARCHAR(10) NOT NULL,
-    flight_number VARCHAR(10) NOT NULL,
-    FOREIGN KEY (id_request_destination) REFERENCES requests_destinations(id)
-);
-
-DROP TABLE IF EXISTS hotel_reservations;
-CREATE TABLE hotel_reservations (
-    id SERIAL PRIMARY KEY,
-    id_request_destination INT NOT NULL,
-    name VARCHAR(50) NOT NULL,
-    check_in TIMESTAMP WITH TIME ZONE NOT NULL,
-    check_out TIMESTAMP WITH TIME ZONE NOT NULL,
-    address TEXT NOT NULL,
-    file_url VARCHAR(60) NOT NULL,
+    title VARCHAR(50) NOT NULL,
+    comments VARCHAR(100) NOT NULL,
+    url VARCHAR(60) NOT NULL,
     FOREIGN KEY (id_request_destination) REFERENCES requests_destinations(id)
 );
 
@@ -369,33 +354,12 @@ INSERT INTO requests_destinations (id_request, id_destination, destination_order
 
 -- Vouchers
 INSERT INTO vouchers (id_request, class, amount, date, file_url) VALUES
-(1,'economy',300.00,'2025-05-10 09:30:00+00','voucher1.pdf'),
-(2,'business',500.00,'2025-06-01 08:30:00+00','voucher2.pdf'),
-(3,'economy',250.00,'2025-07-10 10:30:00+00','voucher3.pdf'),
-(3,'economy',200.00,'2025-07-16 09:30:00+00','voucher4.pdf'),
-(4,'business',400.00,'2025-08-05 12:30:00+00','voucher5.pdf'),
-(5,'economy',350.00,'2025-09-20 07:30:00+00','voucher6.pdf'),
-(6,'economy',320.00,'2025-10-11 09:30:00+00','voucher7.pdf'),
-(6,'economy',280.00,'2025-10-15 08:30:00+00','voucher8.pdf'),
-(7,'business',600.00,'2025-11-01 06:30:00+00','voucher9.pdf');
 
--- Flights
-INSERT INTO flights (id_request_destination, departure_time, arrival_time, departure_airport, arrival_airport, flight_number) VALUES
-(1,'2025-05-10 09:00:00+00','2025-05-10 13:00:00+00','JFK','LHR','AA100'),
-(2,'2025-05-14 09:00:00+00','2025-05-14 17:00:00+00','LHR','ARN','BA200'),
-(3,'2025-06-01 08:00:00+00','2025-06-01 10:00:00+00','CDG','FRA','AF300'),
-(4,'2025-07-10 10:00:00+00','2025-07-10 12:30:00+00','BER','MAD','LH400'),
-(6,'2025-08-05 12:00:00+00','2025-08-05 20:00:00+00','NRT','SFO','JL500'),
-(7,'2025-09-20 07:00:00+00','2025-09-20 21:00:00+00','SYD','LAX','QF600'),
-(8,'2025-10-11 09:00:00+00','2025-10-11 15:00:00+00','DXB','SIN','EK700'),
-(10,'2025-11-01 06:00:00+00','2025-11-01 12:00:00+00','YYZ','JFK','AC800');
+(1, 'Económica', 500.00, '2025-04-10 09:00:00+00', 'http://ejemplo.com/voucher1.pdf'),
+(2, 'Negocios', 1200.00, '2025-04-11 10:00:00+00', 'http://ejemplo.com/voucher2.pdf');
 
--- Hotel Reservations
-INSERT INTO hotel_reservations (id_request_destination, name, check_in, check_out, address, file_url) VALUES
-(2,'The Grand London','2025-05-14 14:00:00+00','2025-05-18 11:00:00+00','1 London St, London','hotel1.pdf'),
-(4,'Berlin Stay','2025-07-10 15:00:00+00','2025-07-15 12:00:00+00','4 Berlin Ave, Berlin','hotel2.pdf'),
-(5,'Madrid Inn','2025-07-16 14:00:00+00','2025-07-19 11:00:00+00','5 Madrid Rd, Madrid','hotel3.pdf'),
-(6,'Tokyo Suites','2025-08-05 14:00:00+00','2025-08-09 12:00:00+00','6 Tokyo Ln, Tokyo','hotel4.pdf'),
-(7,'Sydney Harbor','2025-09-20 14:00:00+00','2025-09-26 12:00:00+00','7 Sydney Blvd, Sydney','hotel5.pdf'),
-(9,'Rome Retreat','2025-10-15 14:00:00+00','2025-10-17 11:00:00+00','9 Rome Way, Rome','hotel6.pdf'),
-(10,'Toronto Suites','2025-11-01 14:00:00+00','2025-11-06 12:00:00+00','10 Toronto St, Toronto','hotel7.pdf');
+-- Insertar datos en la tabla reservations
+INSERT INTO reservations (id_request_destination, title, comments, url) VALUES
+(1, 'Conferencia anual de tecnología', 'Reserva para el evento principal', 'https://ejemplo.com/conf-tecnologia'),
+(2, 'Reserva de hotel en Barcelona', 'Habitación doble con desayuno incluido', 'https://hoteles.com/reserva-1234');
+
