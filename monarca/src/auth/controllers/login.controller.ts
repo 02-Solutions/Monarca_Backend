@@ -23,17 +23,17 @@ export class LoginController {
   logIn(@Body() data: LogInDTO, @Res({ passthrough: true }) res: Response) {
     return this.loginService.logIn(data, res);
   }
+  @Post('logout')
+  logOut(@Res({ passthrough: true }) res: Response) {
+    return this.loginService.logOut(res);
+  }
 
   // Prueba de envio de cookies y el usuario que ingreso
-  @UseGuards(AuthGuard, PermissionsGuard)
+  @UseGuards(AuthGuard)
   @Get('profile')
   getProfile(@Req() req: any, @Res({ passthrough: true }) res: Response) {
-    return {
-      message: 'Prueba de envio de cookies y el usuario que ingreso',
-      user: req.sessionInfo, // user from session
-      permissions: req.userPermissions, // user permissions
-      cookie: req.headers.cookie || 'No cookie sent', // raw cookie header
-    };
+    return this.loginService.profile(req);
+      
   }
 
   // Prueba de permiso de roles para las rutas con Guard

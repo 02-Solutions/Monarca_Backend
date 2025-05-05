@@ -7,7 +7,7 @@ import { RequestsController } from './requests.controller';
 import { RequestsDestination } from 'src/requests-destinations/entities/requests-destination.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Request, RequestsDestination])],
+  imports: [TypeOrmModule.forFeature([Request, RequestsDestination, User])],
   controllers: [RequestsController],
   providers: [RequestsService],
   exports: [RequestsService],
