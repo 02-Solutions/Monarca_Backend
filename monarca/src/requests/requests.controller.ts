@@ -31,11 +31,6 @@ export class RequestsController {
     return this.requestsService.findAll();
   }
 
-  @Get(':id')
-  async findOne(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.requestsService.findOne(id);
-  }
-
   @Get('user')
   async findByUser(@Request() req) {
     const userId = req.sessionInfo.userId;
@@ -43,6 +38,11 @@ export class RequestsController {
       throw new Error('User ID not found in cookies');
     }
     return this.requestsService.findByUser(userId);
+  }
+
+  @Get(':id')
+  async findOne(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.requestsService.findOne(id);
   }
 
   @Patch(':id')
