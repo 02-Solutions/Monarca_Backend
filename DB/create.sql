@@ -159,28 +159,13 @@ CREATE TABLE vouchers (
     FOREIGN KEY (id_request) REFERENCES requests(id)
 );
 
-
-DROP TABLE IF EXISTS flights;
-CREATE TABLE flights (
+DROP TABLE IF EXISTS reservations;
+CREATE TABLE reservations (
     id SERIAL PRIMARY KEY,
     id_request_destination INT NOT NULL,
-    departure_time TIMESTAMP WITH TIME ZONE NOT NULL,
-    arrival_time TIMESTAMP WITH TIME ZONE NOT NULL,
-    departure_airport VARCHAR(10) NOT NULL,
-    arrival_airport VARCHAR(10) NOT NULL,
-    flight_number VARCHAR(10) NOT NULL,
-    FOREIGN KEY (id_request_destination) REFERENCES requests_destinations(id)
-);
-
-DROP TABLE IF EXISTS hotel_reservations;
-CREATE TABLE hotel_reservations (
-    id SERIAL PRIMARY KEY,
-    id_request_destination INT NOT NULL,
-    name VARCHAR(50) NOT NULL,
-    check_in TIMESTAMP WITH TIME ZONE NOT NULL,
-    check_out TIMESTAMP WITH TIME ZONE NOT NULL,
-    address TEXT NOT NULL,
-    file_url VARCHAR(60) NOT NULL,
+    title VARCHAR(50) NOT NULL,
+    comments VARCHAR(100) NOT NULL,
+    url VARCHAR(60) NOT NULL,
     FOREIGN KEY (id_request_destination) REFERENCES requests_destinations(id)
 );
 
@@ -275,12 +260,7 @@ INSERT INTO vouchers (id_request, class, amount, date, file_url) VALUES
 (1, 'Económica', 500.00, '2025-04-10 09:00:00+00', 'http://ejemplo.com/voucher1.pdf'),
 (2, 'Negocios', 1200.00, '2025-04-11 10:00:00+00', 'http://ejemplo.com/voucher2.pdf');
 
--- Insertar datos en la tabla flights
-INSERT INTO flights (id_request_destination, departure_time, arrival_time, departure_airport, arrival_airport, flight_number) VALUES
-(1, '2025-04-15 10:00:00+00', '2025-04-15 14:00:00+00', 'JFK', 'CDG', 'AF123'),
-(2, '2025-05-01 12:00:00+00', '2025-05-01 16:00:00+00', 'LAX', 'NRT', 'JL456');
-
--- Insertar datos en la tabla hotel_reservations
-INSERT INTO hotel_reservations (id_request_destination, name, check_in, check_out, address, file_url) VALUES
-(1, 'Hotel París', '2025-04-15 15:00:00+00', '2025-04-20 11:00:00+00', '123 Calle París, París, Francia', 'http://ejemplo.com/hotel1.pdf'),
-(2, 'Posada Tokio', '2025-05-01 15:00:00+00', '2025-05-08 11:00:00+00', '456 Calle Tokio, Tokio, Japón', 'http://ejemplo.com/hotel2.pdf');
+-- Insertar datos en la tabla reservations
+INSERT INTO reservations (id_request_destination, title, comments, url) VALUES
+(1, 'Conferencia anual de tecnología', 'Reserva para el evento principal', 'https://ejemplo.com/conf-tecnologia'),
+(2, 'Reserva de hotel en Barcelona', 'Habitación doble con desayuno incluido', 'https://hoteles.com/reserva-1234');
