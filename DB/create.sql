@@ -99,7 +99,7 @@ CREATE TABLE requests (
     id_origin_city INT NOT NULL,
     motive TEXT,
     is_multi_user BOOLEAN DEFAULT false,
-    status VARCHAR(30) DEFAULT 'pending',
+    status VARCHAR(30) DEFAULT 'pending review',
     requirements TEXT,
     priority VARCHAR(30) NOT NULL,
     FOREIGN KEY (id_user) REFERENCES users(id),
@@ -169,94 +169,192 @@ CREATE TABLE reservations (
     FOREIGN KEY (id_request_destination) REFERENCES requests_destinations(id)
 );
 
--- DUMMY DATA --
--- Insertar datos en la tabla departments
-INSERT INTO departments (name) VALUES
-('Ventas'),
-('Marketing'),
-('TI'),
-('Recursos Humanos');
+-- Dummy data insertions
 
--- Insertar datos en la tabla roles
-INSERT INTO roles (name) VALUES
-('N1'),
-('N2'),
-('Empleado');
-
--- Insertar datos en la tabla permissions
+-- Permissions
 INSERT INTO permissions (name) VALUES
-('Ver Reportes'),
-('Editar Datos'),
-('Eliminar Datos');
+('create_request'),
+('view_request'),
+('update_request'),
+('delete_request'),
+('approve_request'),
+('cancel_request'),
+('view_logs'),
+('manage_users'),
+('manage_roles'),
+('manage_departments');
 
--- Insertar datos en la tabla roles_permissions
+-- Roles
+INSERT INTO roles (name) VALUES
+('applicant'),
+('approver'),
+('travel_agent'),
+('admin'),
+('manager');
+
+-- Roles_Permissions
 INSERT INTO roles_permissions (id_role, id_permission) VALUES
-(1, 1),
-(1, 2),
-(1, 3),
-(2, 1),
-(2, 2),
-(3, 1);
+(1,1),(1,2),(1,3),
+(2,2),(2,5),(2,7),
+(3,2),(3,4),(3,6),
+(4,1),(4,2),(4,3),(4,4),(4,5),(4,6),(4,7),(4,8),(4,9),(4,10),
+(5,2),(5,5),(5,7),(5,9);
 
--- Insertar datos en la tabla users
+-- Departments
+INSERT INTO departments (name) VALUES
+('HR'),
+('Engineering'),
+('Finance'),
+('Sales'),
+('Marketing'),
+('Support'),
+('Research'),
+('Operations'),
+('Legal'),
+('IT');
+
+-- Users
 INSERT INTO users (id_department, id_role, name, last_name, password, email, status) VALUES
-(1, 1, 'Juan', 'Pérez', 'contrasena123', 'juan.perez@ejemplo.com', 'activo'),
-(2, 2, 'Ana', 'García', 'contrasena123', 'ana.garcia@ejemplo.com', 'activo'),
-(3, 3, 'Luis', 'Martínez', 'contrasena123', 'luis.martinez@ejemplo.com', 'inactivo');
+(2,1,'John','Doe','hash1','john.doe@example.com','active'),
+(3,1,'Jane','Smith','hash2','jane.smith@example.com','active'),
+(1,2,'Alice','Johnson','hash3','alice.johnson@example.com','active'),
+(4,3,'Bob','Lee','hash4','bob.lee@example.com','active'),
+(5,4,'Carol','King','hash5','carol.king@example.com','active'),
+(6,5,'David','Brown','hash6','david.brown@example.com','inactive'),
+(2,1,'Eve','Davis','hash7','eve.davis@example.com','active'),
+(3,2,'Frank','Miller','hash8','frank.miller@example.com','active'),
+(4,3,'Grace','Wilson','hash9','grace.wilson@example.com','active'),
+(5,4,'Hank','Moore','hash10','hank.moore@example.com','active'),
+(6,5,'Ivy','Taylor','hash11','ivy.taylor@example.com','active'),
+(1,1,'Jack','Anderson','hash12','jack.anderson@example.com','active'),
+(2,2,'Kara','Thomas','hash13','kara.thomas@example.com','active'),
+(3,3,'Leo','Jackson','hash14','leo.jackson@example.com','active'),
+(4,4,'Mia','White','hash15','mia.white@example.com','active'),
+(5,5,'Nina','Harris','hash16','nina.harris@example.com','inactive'),
+(6,1,'Oscar','Martin','hash17','oscar.martin@example.com','active'),
+(7,2,'Peggy','Thompson','hash18','peggy.thompson@example.com','active'),
+(8,3,'Quinn','Garcia','hash19','quinn.garcia@example.com','active'),
+(9,4,'Ray','Martinez','hash20','ray.martinez@example.com','active');
 
--- Insertar datos en la tabla travel_agencies
+-- Travel Agencies
 INSERT INTO travel_agencies (name) VALUES
-('ViajesGlobal'),
-('AventuraSinLímite'),
-('PlanificadoresDeVacaciones');
+('Global Travels'),
+('Dream Vacations'),
+('Holiday Experts'),
+('Adventure Co'),
+('Business Trips Inc');
 
--- Insertar datos en la tabla user_logs (agregando registros de ejemplo)
+-- User Logs
 INSERT INTO user_logs (id_user, ip, report) VALUES
-(1, '127.0.0.1', 'User logged in'),
-(2, '127.0.0.1', 'User logged in'),
-(3, '127.0.0.1', 'User logged in');
+(1,'192.168.1.10','User logged in'),
+(2,'192.168.1.11','Password changed'),
+(3,'192.168.1.12','Viewed request list'),
+(4,'192.168.1.13','Created a new request'),
+(5,'192.168.1.14','Approved a request'),
+(6,'192.168.1.15','Cancelled a request'),
+(7,'192.168.1.16','Uploaded voucher'),
+(8,'192.168.1.17','Downloaded report'),
+(9,'192.168.1.18','Updated profile'),
+(10,'192.168.1.19','Logged out'),
+(11,'192.168.1.20','Viewed logs'),
+(12,'192.168.1.21','Reset password'),
+(13,'192.168.1.22','Changed email'),
+(14,'192.168.1.23','Viewed dashboard'),
+(15,'192.168.1.24','Requested password reset'),
+(16,'192.168.1.25','Updated extra field');
 
--- Insertar datos en la tabla extra_fields
--- Se corrigió eliminando la coma final y se agregó un tercer campo para coincidir con la siguiente inserción
+-- Extra Fields
 INSERT INTO extra_fields (name) VALUES
-('Numero pasaporte'),
-('Contacto de Emergencia'),
-('Otro campo extra');
+('phone'),
+('address'),
+('linkedin'),
+('twitter');
 
--- Insertar datos en la tabla extra_fields_users
+-- Extra Fields Users
 INSERT INTO extra_fields_users (id_extra_field, id_user) VALUES
-(1, 1),
-(2, 2),
-(3, 3);
+(1,1),(1,2),(1,3),
+(2,2),(2,4),(2,5),
+(3,3),(3,6),(3,7),
+(4,4),(4,8),(4,9);
 
--- Insertar datos en la tabla destinations
+-- Destinations
 INSERT INTO destinations (country, city) VALUES
-('Estados Unidos', 'Nueva York'),
-('Francia', 'París'),
-('Japón', 'Tokio');
+('USA','New York'),
+('UK','London'),
+('France','Paris'),
+('Germany','Berlin'),
+('Spain','Madrid'),
+('Japan','Tokyo'),
+('Australia','Sydney'),
+('UAE','Dubai'),
+('Italy','Rome'),
+('Canada','Toronto'),
+('Canada','Vancouver'),
+('USA','San Francisco'),
+('USA','Los Angeles'),
+('Mexico','Mexico City'),
+('Argentina','Buenos Aires'),
+('Brazil','Sao Paulo'),
+('China','Beijing'),
+('China','Shanghai'),
+('Russia','Moscow'),
+('South Africa','Cape Town');
 
--- Insertar datos en la tabla requests
+-- Requests
 INSERT INTO requests (id_user, id_admin, id_travel_agent, id_origin_city, motive, is_multi_user, status, requirements, priority) VALUES
-(1, 2, 1, 1, 'Reunión de Negocios', false, 'pendiente', 'Hotel y Vuelo', 'Alta'),
-(2, 3, 2, 2, 'Vacaciones', true, 'aprobada', 'Solo Vuelo', 'Media');
+(1,5,4,14,'Conference attendance',FALSE,'pending review','Passport copy required','high'),
+(2,5,4,1,'Site visit',TRUE,'approved','Project documents','medium'),
+(3,5,4,2,'Client meeting',FALSE,'approved','Signed NDA','medium'),
+(6,5,4,3,'Workshop',FALSE,'pending review','Lab access','low'),
+(7,5,4,5,'Audit',FALSE,'cancelled','Board approval','high'),
+(8,5,4,6,'Training session',TRUE,'approved','Training materials','medium'),
+(9,5,4,7,'Maintenance check',FALSE,'approved','Safety docs','low'),
+(10,5,4,8,'Network setup',FALSE,'pending review','Hardware specs','medium'),
+(11,5,4,9,'Site inspection',TRUE,'approved','Inspection report','high'),
+(12,5,4,10,'Project kickoff',FALSE,'pending review','Kickoff agenda','high');
 
--- Insertar datos en la tabla user_trips
+-- User Trips
 INSERT INTO user_trips (id_user, id_request) VALUES
-(1, 1),
-(2, 2);
+(1,1),
+(2,2),(6,2),
+(3,3),
+(6,4),
+(7,5),
+(8,6),(11,6),
+(9,7),
+(10,8),
+(11,9),(14,9),
+(12,10);
 
--- Insertar datos en la tabla requests_logs
+-- Requests Logs
 INSERT INTO requests_logs (id_request, id_user, report, created_at) VALUES
-(1, 1, 'Solicitud creada', CURRENT_TIMESTAMP),
-(2, 2, 'Solicitud aprobada', CURRENT_TIMESTAMP);
+(1,1,'Request created','2025-04-20 10:00:00+00'),
+(2,2,'Request created','2025-04-21 11:00:00+00'),
+(3,3,'Request created','2025-04-22 09:30:00+00'),
+(4,6,'Request created','2025-04-23 14:15:00+00'),
+(5,7,'Request created','2025-04-24 16:45:00+00'),
+(6,8,'Request created','2025-04-25 08:20:00+00'),
+(7,9,'Request created','2025-04-26 13:00:00+00'),
+(8,10,'Request created','2025-04-27 09:10:00+00'),
+(9,11,'Request created','2025-04-28 10:30:00+00'),
+(10,12,'Request created','2025-04-29 12:00:00+00');
 
--- Insertar datos en la tabla requests_destinations
+-- Requests Destinations
 INSERT INTO requests_destinations (id_request, id_destination, destination_order, stay_days, arrival_date, departure_date, is_hotel_required, is_plane_required, is_last_destination) VALUES
-(1, 1, 1, 5, '2025-04-15 10:00:00+00', '2025-04-20 18:00:00+00', true, true, false),
-(2, 2, 1, 7, '2025-05-01 12:00:00+00', '2025-05-08 20:00:00+00', false, true, true);
+(1,1,1,3,'2025-05-10 09:00:00+00','2025-05-13 18:00:00+00',TRUE,TRUE,FALSE),
+(1,2,2,4,'2025-05-14 09:00:00+00','2025-05-18 18:00:00+00',TRUE,TRUE,TRUE),
+(2,3,1,2,'2025-06-01 08:00:00+00','2025-06-03 20:00:00+00',FALSE,TRUE,TRUE),
+(3,4,1,5,'2025-07-10 10:00:00+00','2025-07-15 22:00:00+00',TRUE,TRUE,FALSE),
+(3,5,2,3,'2025-07-16 09:00:00+00','2025-07-19 17:00:00+00',TRUE,FALSE,TRUE),
+(4,6,1,4,'2025-08-05 12:00:00+00','2025-08-09 23:00:00+00',TRUE,TRUE,TRUE),
+(5,7,1,6,'2025-09-20 07:00:00+00','2025-09-26 21:00:00+00',TRUE,TRUE,TRUE),
+(6,8,1,3,'2025-10-11 09:00:00+00','2025-10-14 19:00:00+00',FALSE,TRUE,FALSE),
+(6,9,2,2,'2025-10-15 08:00:00+00','2025-10-17 20:00:00+00',TRUE,FALSE,TRUE),
+(7,10,1,5,'2025-11-01 06:00:00+00','2025-11-06 18:00:00+00',TRUE,TRUE,TRUE);
 
--- Insertar datos en la tabla vouchers
+-- Vouchers
 INSERT INTO vouchers (id_request, class, amount, date, file_url) VALUES
+
 (1, 'Económica', 500.00, '2025-04-10 09:00:00+00', 'http://ejemplo.com/voucher1.pdf'),
 (2, 'Negocios', 1200.00, '2025-04-11 10:00:00+00', 'http://ejemplo.com/voucher2.pdf');
 
@@ -264,3 +362,4 @@ INSERT INTO vouchers (id_request, class, amount, date, file_url) VALUES
 INSERT INTO reservations (id_request_destination, title, comments, url) VALUES
 (1, 'Conferencia anual de tecnología', 'Reserva para el evento principal', 'https://ejemplo.com/conf-tecnologia'),
 (2, 'Reserva de hotel en Barcelona', 'Habitación doble con desayuno incluido', 'https://hoteles.com/reserva-1234');
+

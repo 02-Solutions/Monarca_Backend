@@ -54,8 +54,7 @@ export class User {
   @JoinColumn({ name: 'id_role' })
   role: RolesPermissions;
 
-  // Hacer conexion despues 
+  // Hacer conexion despues
   // @OneToMany(() => Revision, (log) => log.request, { eager: true })
   // revisions: Revision[];
-
 }

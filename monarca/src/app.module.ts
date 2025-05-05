@@ -37,7 +37,6 @@ import { Revision } from './revisions/entities/revision.entity';
     VouchersModule,
     RevisionsModule,
     DestinationsModule,
-     
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRES_HOST,
@@ -60,12 +59,10 @@ import { Revision } from './revisions/entities/revision.entity';
         TravelAgency,
         Voucher,
         TravelAgency,
-        Revision
+        Revision,
       ],
       synchronize: true,
     }),
-   
-
   ],
   controllers: [],
   providers: [],
