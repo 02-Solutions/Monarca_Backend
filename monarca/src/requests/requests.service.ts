@@ -22,7 +22,7 @@ export class RequestsService {
     private readonly usersRepo: Repository<User>,
   ) {}
 
-  async create(data: CreateRequestDto): Promise<Request> {
+  async create(data: CreateRequestDto){
     //VALIDAR VALIDEZ DE CIUDADES
 
     const request = this.requestsRepo.create({
