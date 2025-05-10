@@ -68,9 +68,8 @@ import { NotificationsModule } from './notifications/notifications.module';
         TravelAgency,
         Revision
       ],
-      synchronize: true,
+      synchronize: false,
     }),
-    NotificationsModule,
 
   ],
   controllers: [],
