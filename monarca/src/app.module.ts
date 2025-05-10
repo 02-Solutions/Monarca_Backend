@@ -23,9 +23,12 @@ import { ReservationsModule } from './reservations/reservations.module';
 import { Voucher } from './vouchers/entities/vouchers.entity';
 import { RevisionsModule } from './revisions/revisions.module';
 import { Revision } from './revisions/entities/revision.entity';
+import { NotificationsModule } from './notifications/notifications.module';
+
 
 @Module({
   imports: [
+    NotificationsModule,
     AuthModule,
     UsersModule,
     TravelAgenciesModule,
@@ -61,7 +64,7 @@ import { Revision } from './revisions/entities/revision.entity';
         TravelAgency,
         Revision,
       ],
-      synchronize: true,
+      synchronize: false,
     }),
   ],
   controllers: [],
