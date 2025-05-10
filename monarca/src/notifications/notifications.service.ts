@@ -7,7 +7,7 @@ export class NotificationsService {
 
   constructor() {
     this.transporter = nodemailer.createTransport({
-      service: 'gmail', // o 'hotmail', 'outlook', etc.
+      service: 'gmail', 
       auth: {
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASS,
