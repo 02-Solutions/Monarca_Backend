@@ -3,8 +3,8 @@ import { User } from 'src/users/entities/user.entity';
 
 @Entity({ name: 'user_logs' })
 export class UserLogs {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   id_user: number;

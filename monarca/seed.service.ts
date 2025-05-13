@@ -39,7 +39,7 @@ export class SeedService {
         @InjectRepository(RequestLog) private readonly requestLogRepo: Repository<RequestLog>,
         @InjectRepository(Revision) private readonly revisionRepo: Repository<Revision>,
         @InjectRepository(Voucher) private readonly voucherRepo: Repository<Voucher>,
-        //@InjectRepository(Permission) private readonly permissionRepo: Repository<Permission>,
+        @InjectRepository(Permission) private readonly permissionRepo: Repository<Permission>,
         @InjectRepository(Roles) private readonly rolesRepo: Repository<Roles>,
     ) {}
 
@@ -52,7 +52,7 @@ export class SeedService {
     async run() {
         const seedData: SeedData[] = [
             { repo: this.departmentRepo, file: 'departments.json', entityName: 'Department' },
-            //{ repo: this.permissionRepo, file: 'permissions.json', entityName: 'Permission' },
+            { repo: this.permissionRepo, file: 'permissions.json', entityName: 'Permission' },
             { repo: this.destinationRepo, file: 'destinations.json', entityName: 'Destination' },
             { repo: this.travelAgencyRepo, file: 'travel-agencies.json', entityName: 'TravelAgency' },
             { repo: this.rolesRepo, file: 'roles.json', entityName: 'Roles' },

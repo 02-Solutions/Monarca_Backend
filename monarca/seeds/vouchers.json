@@ -1,18 +1,22 @@
 [
     {
       "id": "a2b5c8f1-d3e0-4c7b-8a9d-0f1e2d3c4b5a",
-      "id_request": "550e8400-e29b-41d4-a716-446655440000", 
+      "id_request_destination": "8c9d0e1f-2a3b-4c5d-6e7f-8a9b0c1d2e3f", 
       "class": "Flight",
       "amount": 750.50,
+      "currency": "USD",
       "date": "2025-05-12T22:10:00Z",
-      "file_url": "/files/vouchers/flight_req_uuid2.pdf"
+      "fileUrl": "/files/vouchers/flight_req_uuid2.pdf",
+      "status": "pending"
     },
     {
       "id": "b3c6d9a2-e4f1-5d8c-9ba0-1a2f3e4d5c6b",
-      "id_request": "97c642c1-9a07-43b5-8917-e8aedc2c2234", 
+      "id_request_destination": "9d0e1f2a-3b4c-5d6e-7f8a-9b0c1d2e3f4a", 
       "class": "Hotel",
       "amount": 450.00,
+      "currency": "USD",
       "date": "2025-05-12T22:15:00Z",
-      "file_url": "/files/vouchers/hotel_req_uuid2.pdf"
+      "fileUrl": "/files/vouchers/hotel_req_uuid2.pdf",
+      "status": "pending"
     }
 ]

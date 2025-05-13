@@ -10,7 +10,7 @@ import { RequestsModule } from './requests/requests.module';
 import { RequestLogsModule } from './request-logs/request-logs.module';
 import { VouchersModule } from './vouchers/vouchers.module';
 import { User } from './users/entities/user.entity';
-import {UserLogs} from './user-logs/entity/user-logs.entity';
+import { UserLogs } from './user-logs/entity/user-logs.entity';
 import { Department } from './departments/entity/department.entity';
 import { Destination } from './destinations/entities/destination.entity';
 import { Request } from './requests/entities/request.entity';
@@ -25,6 +25,7 @@ import { Voucher } from './vouchers/entities/vouchers.entity';
 import { RevisionsModule } from './revisions/revisions.module';
 import { Revision } from './revisions/entities/revision.entity';
 import { SeedService } from 'seed.service';
+import { UserLogsModule } from './user-logs/user-logs.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { SeedService } from 'seed.service';
     VouchersModule,
     RevisionsModule,
     DestinationsModule,
+    UserLogsModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRES_HOST,
@@ -47,8 +49,7 @@ import { SeedService } from 'seed.service';
         : 5433,
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
-      database: process.env.POSTGRES_DATABASE,
-      entities: [
+      database: process.env.POSTGRES_DATABASE,      entities: [
         User,
         Department,
         Destination,
@@ -60,7 +61,7 @@ import { SeedService } from 'seed.service';
         RequestLog,
         TravelAgency,
         Voucher,
-        TravelAgency,
+        UserLogs,
         Revision,
       ],
       synchronize: true,
