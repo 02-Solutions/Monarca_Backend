@@ -18,6 +18,15 @@ export class RevisionsController {
         // console.log(dto);
         return this.revisionsService.create(dto);
     }
+    /* Para sacar userId de la cookie */
+    // @UseGuards(AuthGuard)
+    // @Post()
+    // postRevision(@Body() dto : CreateRevisionDto, @Request() req)
+    // {
+    //     // console.log(dto);
+    //     const userId = req.sessionInfo.id; // desde cookie JWT 
+    //     return this.revisionsService.create(dto, userId);
+    // }
 
 
 }

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn } from 'typeorm';
 import { RequestsDestination } from 'src/requests-destinations/entities/requests-destination.entity';
 import { RequestLog } from 'src/request-logs/entities/request-log.entity';
 import { Revision } from 'src/revisions/entities/revision.entity';
@@ -8,8 +8,9 @@ export class Request {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'id_user' })
-  id_user: string;
+  /* Cambió a uuid */
+  @Column({ name: 'id_user', type: 'uuid'})
+  id_user: string;  
 
   @Column({ name: 'id_origin_city' })
   id_origin_city: string;
@@ -25,6 +26,9 @@ export class Request {
 
   @Column()
   priority: string;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
 
   // Relationships
 

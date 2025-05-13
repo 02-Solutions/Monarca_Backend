@@ -33,4 +33,15 @@ export class RevisionsService
         // const revision = this.revisionRepository.create(data);
         return await this.revisionRepository.save(revision);
     }
+
+    /* Para sacar userId de la cookie */
+    // async create(data: CreateRevisionDto, userId: string) {
+    //     const revision = this.revisionRepository.create({
+    //        ...data, id_user: userId // OBTENER DEL COOKIE
+    //       });
+
+
+    //     // const revision = this.revisionRepository.create(data);
+    //     return await this.revisionRepository.save(revision);
+    // }
 }
