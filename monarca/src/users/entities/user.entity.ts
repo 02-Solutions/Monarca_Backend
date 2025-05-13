@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Department } from 'src/departments/entity/department.entity';
 import { Revision } from 'src/revisions/entities/revision.entity';
-import { RolesPermissions } from 'src/roles/entity/role.entity';
+import { Roles } from 'src/roles/entity/roles.entity';
 
 import {
   Entity,
@@ -50,11 +50,11 @@ export class User {
   @JoinColumn({ name: 'id_department' })
   department?: Department;
 
-  @ManyToOne(() => RolesPermissions)
+  @ManyToOne(() => Roles)
   @JoinColumn({ name: 'id_role' })
-  role: RolesPermissions;
+  role: Roles;
 
   // Hacer conexion despues
-  // @OneToMany(() => Revision, (log) => log.request, { eager: true })
-  // revisions: Revision[];
+   @OneToMany(() => Revision, (log) => log.request, { eager: true })
+   revisions: Revision[];
 }

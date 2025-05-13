@@ -1,0 +1,26 @@
+[
+    {
+      "id": "8c9d0e1f-2a3b-4c5d-6e7f-8a9b0c1d2e3f",
+      "id_request": "6a7b8c9d-0e1f-2a3b-4c5d-6e7f8a9b0c1d",
+      "id_destination": "4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b",
+      "destination_order": 1,
+      "stay_days": 5,
+      "arrival_date": "2025-08-15T14:00:00Z",
+      "departure_date": "2025-08-20T10:00:00Z",
+      "is_hotel_required": true,
+      "is_plane_required": true,
+      "is_last_destination": true
+    },
+    {
+      "id": "9d0e1f2a-3b4c-5d6e-7f8a-9b0c1d2e3f4a",
+      "id_request": "7b8c9d0e-1f2a-3b4c-5d6e-7f8a9b0c1d2e",
+      "id_destination": "2c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f",
+      "destination_order": 1,
+      "stay_days": 3,
+      "arrival_date": "2025-07-10T09:00:00Z",
+      "departure_date": "2025-07-13T17:00:00Z",
+      "is_hotel_required": true,
+      "is_plane_required": true,
+      "is_last_destination": false 
+    }
+  ]

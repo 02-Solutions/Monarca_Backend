@@ -1,0 +1,18 @@
+[
+    {
+      "id": "a2b5c8f1-d3e0-4c7b-8a9d-0f1e2d3c4b5a",
+      "id_request": "550e8400-e29b-41d4-a716-446655440000", 
+      "class": "Flight",
+      "amount": 750.50,
+      "date": "2025-05-12T22:10:00Z",
+      "file_url": "/files/vouchers/flight_req_uuid2.pdf"
+    },
+    {
+      "id": "b3c6d9a2-e4f1-5d8c-9ba0-1a2f3e4d5c6b",
+      "id_request": "97c642c1-9a07-43b5-8917-e8aedc2c2234", 
+      "class": "Hotel",
+      "amount": 450.00,
+      "date": "2025-05-12T22:15:00Z",
+      "file_url": "/files/vouchers/hotel_req_uuid2.pdf"
+    }
+]

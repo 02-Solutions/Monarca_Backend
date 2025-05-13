@@ -4,12 +4,13 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DepartmentsModule } from './departments/departments.module';
-import { RolesPermissions } from './roles/entity/role.entity';
+import { Roles } from './roles/entity/roles.entity';
 import { TravelAgenciesModule } from './travel-agencies/travel-agencies.module';
 import { RequestsModule } from './requests/requests.module';
 import { RequestLogsModule } from './request-logs/request-logs.module';
 import { VouchersModule } from './vouchers/vouchers.module';
 import { User } from './users/entities/user.entity';
+import {UserLogs} from './user-logs/entity/user-logs.entity';
 import { Department } from './departments/entity/department.entity';
 import { Destination } from './destinations/entities/destination.entity';
 import { Request } from './requests/entities/request.entity';
@@ -23,13 +24,14 @@ import { ReservationsModule } from './reservations/reservations.module';
 import { Voucher } from './vouchers/entities/vouchers.entity';
 import { RevisionsModule } from './revisions/revisions.module';
 import { Revision } from './revisions/entities/revision.entity';
+import { SeedService } from 'seed.service';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
     TravelAgenciesModule,
-    RolesPermissions,
+    Roles,
     DepartmentsModule,
     RequestsModule,
     RequestLogsModule,
@@ -52,7 +54,7 @@ import { Revision } from './revisions/entities/revision.entity';
         Destination,
         Request,
         RequestsDestination,
-        RolesPermissions,
+        Roles,
         Permission,
         Reservation,
         RequestLog,
@@ -63,8 +65,27 @@ import { Revision } from './revisions/entities/revision.entity';
       ],
       synchronize: true,
     }),
+    
+    TypeOrmModule.forFeature([
+      User,
+      Department,
+      Destination,
+      Request,
+      RequestsDestination,
+      Roles,
+      Permission,
+      Reservation,
+      RequestLog,
+      TravelAgency,
+      Voucher,
+      UserLogs,
+      Revision,
+    ]),
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    SeedService,
+  ],
+  
 })
 export class AppModule {}
