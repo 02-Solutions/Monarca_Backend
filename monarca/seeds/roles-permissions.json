@@ -1,14 +1,21 @@
 [
-    {
-      "id_role": "4d0e3a7b-3e4d-7b3d-1c5d-9b5e1e3b1c4f", 
-      "id_permission": "1a7b0d4e-0b1a-4e0a-8f2a-6e2b8b0e8f1c" 
-    },
-    {
-      "id_role": "4d0e3a7b-3e4d-7b3d-1c5d-9b5e1e3b1c4f", 
-      "id_permission": "2b8c1e5f-1c2b-5f1b-9a3b-7f3c9c1f9a2d" 
-    },
-    {
-      "id_role": "5e1f4b8c-4f5e-8c4e-2d6e-0c6f2f4c2d5a", 
-      "id_permission": "3c9d2f6a-2d3c-6a2c-0b4c-8a4d0d2a0b3e" 
-    }
-]
+    { "id_role": "4d0e3a7b-3e4d-7b3d-1c5d-9b5e1e3b1c4f", "id_permission": "1a7b0d4e-0b1a-4e0a-8f2a-6e2b8b0e8f1c" },
+    { "id_role": "4d0e3a7b-3e4d-7b3d-1c5d-9b5e1e3b1c4f", "id_permission": "2b8c1e5f-1c2b-5f1b-9a3b-7f3c9c1f9a2d" },
+    { "id_role": "4d0e3a7b-3e4d-7b3d-1c5d-9b5e1e3b1c4f", "id_permission": "3c9d2f6a-2d3c-6a2c-0b4c-8a4d0d2a0b3e" },
+    { "id_role": "4d0e3a7b-3e4d-7b3d-1c5d-9b5e1e3b1c4f", "id_permission": "4d0e3a7b-3e4d-7b3d-1c5d-9b5e1e3b1c4f" },
+  
+
+    { "id_role": "5e1f4b8c-4f5e-8c4e-2d6e-0c6f2f4c2d5a", "id_permission": "d67b45e7-6570-4be5-a210-005cb5a1aca1" },
+    { "id_role": "5e1f4b8c-4f5e-8c4e-2d6e-0c6f2f4c2d5a", "id_permission": "f1186793-bac6-44ce-98d8-d6499039d062" },
+    { "id_role": "5e1f4b8c-4f5e-8c4e-2d6e-0c6f2f4c2d5a", "id_permission": "87f39e7f-c6f8-47d9-9d13-710a69b1f30a" },
+    { "id_role": "5e1f4b8c-4f5e-8c4e-2d6e-0c6f2f4c2d5a", "id_permission": "8b754bc4-077a-4b78-8e15-8c936e9ace68" },
+    { "id_role": "5e1f4b8c-4f5e-8c4e-2d6e-0c6f2f4c2d5a", "id_permission": "957db7ba-0617-4127-b520-c50a16e64c01" },
+  
+
+    { "id_role": "7a3b6dae-6b7a-0e6a-4f8a-2e8b9b0f9a7c", "id_permission": "ddcb9a7d-4320-4252-8704-7afad235894b" },
+  
+
+    { "id_role": "6f2a5c9d-5a6f-9d5f-3e7f-1d7a3a5d3e6b", "id_permission": "eb014f52-7bcf-4f44-9f04-c1db9003afb6" },
+    { "id_role": "6f2a5c9d-5a6f-9d5f-3e7f-1d7a3a5d3e6b", "id_permission": "4b55c054-e9ec-4cbd-86db-76b8047ffebf" }
+  ]
+  

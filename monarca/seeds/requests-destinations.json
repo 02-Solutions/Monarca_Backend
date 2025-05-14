@@ -9,7 +9,8 @@
       "departure_date": "2025-08-20T10:00:00Z",
       "is_hotel_required": true,
       "is_plane_required": true,
-      "is_last_destination": true
+      "is_last_destination": true,
+      "details": "This is a detailed description of the destination."
     },
     {
       "id": "9d0e1f2a-3b4c-5d6e-7f8a-9b0c1d2e3f4a",
@@ -21,6 +22,7 @@
       "departure_date": "2025-07-13T17:00:00Z",
       "is_hotel_required": true,
       "is_plane_required": true,
-      "is_last_destination": false 
+      "is_last_destination": false,
+      "details": "This is a detailed description of the destination."
     }
   ]

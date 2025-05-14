@@ -32,7 +32,6 @@ export class UserChecks {
     }
 
     console.log('User encontrado:', user);
-    console.log('User permissions:', user.role?.permissions);
     return user;
   }
   async getUserById(id: string): Promise<User | null> {

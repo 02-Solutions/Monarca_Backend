@@ -26,6 +26,7 @@ import { RevisionsModule } from './revisions/revisions.module';
 import { Revision } from './revisions/entities/revision.entity';
 import { SeedService } from 'seed.service';
 import { UserLogsModule } from './user-logs/user-logs.module';
+import { RolePermission } from './roles/entity/roles_permissions.entity';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { UserLogsModule } from './user-logs/user-logs.module';
         Request,
         RequestsDestination,
         Roles,
+        RolePermission,
         Permission,
         Reservation,
         RequestLog,
@@ -74,6 +76,7 @@ import { UserLogsModule } from './user-logs/user-logs.module';
       Request,
       RequestsDestination,
       Roles,
+      RolePermission,
       Permission,
       Reservation,
       RequestLog,

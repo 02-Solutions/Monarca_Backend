@@ -7,6 +7,7 @@ import { UserLogs } from 'src/user-logs/entity/user-logs.entity';
 import { TravelAgency } from 'src/travel-agencies/entities/travel-agency.entity';
 import { Request } from 'src/requests/entities/request.entity';
 import { RequestsDestination } from 'src/requests-destinations/entities/requests-destination.entity';
+import { RolePermission } from 'src/roles/entity/roles_permissions.entity';
 import { Reservation } from 'src/reservations/entity/reservations.entity';
 import { RequestLog } from 'src/request-logs/entities/request-log.entity';
 import { Revision } from 'src/revisions/entities/revision.entity';
@@ -16,6 +17,7 @@ import { Roles } from 'src/roles/entity/roles.entity';
 import { Repository } from 'typeorm';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as bcrypt from 'bcrypt';
 
 interface SeedData {
     repo: Repository<any>;
@@ -41,13 +43,8 @@ export class SeedService {
         @InjectRepository(Voucher) private readonly voucherRepo: Repository<Voucher>,
         @InjectRepository(Permission) private readonly permissionRepo: Repository<Permission>,
         @InjectRepository(Roles) private readonly rolesRepo: Repository<Roles>,
+        @InjectRepository(RolePermission) private readonly rolePermissionRepo: Repository<RolePermission>,
     ) {}
-
-   
-    async seedUserandRoleTables(){
-        
-        
-    }
 
     async run() {
         const seedData: SeedData[] = [
@@ -57,14 +54,23 @@ export class SeedService {
             { repo: this.travelAgencyRepo, file: 'travel-agencies.json', entityName: 'TravelAgency' },
             { repo: this.rolesRepo, file: 'roles.json', entityName: 'Roles' },
             { repo: this.userRepo, file: 'users.json', entityName: 'User' },
+            { repo: this.rolePermissionRepo, file: 'roles-permissions.json', entityName: 'RolePermission' },
             { repo: this.userLogsRepo, file: 'user-logs.json', entityName: 'UserLogs' },
             { repo: this.requestRepo, file: 'requests.json', entityName: 'Request' },
-            { repo: this.reservationRepo, file: 'reservations.json', entityName: 'Reservation' },
             { repo: this.requestsDestinationRepo, file: 'requests-destinations.json', entityName: 'RequestsDestination' },
+            { repo: this.reservationRepo, file: 'reservations.json', entityName: 'Reservation' },
             { repo: this.requestLogRepo, file: 'request-logs.json', entityName: 'RequestLog' },
             { repo: this.revisionRepo, file: 'revisions.json', entityName: 'Revision' },
             { repo: this.voucherRepo, file: 'vouchers.json', entityName: 'Voucher' },
         ];
+
+        const hashPasswords = async (user: User) => {
+            if (user.password) {
+                const salt = await bcrypt.genSalt(10);
+                user.password = await bcrypt.hash(user.password, salt);
+            }
+            return user;
+        };
 
         for (const { repo, file, entityName } of seedData) {
             const count = await repo.count();
@@ -89,8 +95,14 @@ export class SeedService {
             const entities: Record<string, any>[] = JSON.parse(rawData);
 
             for (const entity of entities) {
-                const newEntity = repo.create(entity);
-                await repo.save(newEntity);
+                if (entityName === 'User') {
+                    let user: User | undefined;
+                    user = await hashPasswords(entity as User);
+                    await repo.save(user);
+                } else{
+                    const newEntity = repo.create(entity);
+                    await repo.save(newEntity);
+                }
                 this.logger.log(`${entityName} ${JSON.stringify(entity)} created`);
             }
 

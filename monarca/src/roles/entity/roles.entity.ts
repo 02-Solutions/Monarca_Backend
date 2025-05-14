@@ -2,9 +2,11 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
+  OneToMany,
   ManyToMany,
   JoinTable,
 } from 'typeorm';
+import { RolePermission } from './roles_permissions.entity';
 import { Permission } from './permissions.entity';
 
 @Entity('roles')
@@ -22,4 +24,7 @@ export class Roles {
     inverseJoinColumn: { name: 'id_permission', referencedColumnName: 'id' },
   })
   permissions: Permission[];
+
+  @OneToMany(() => RolePermission, rp => rp.permission)
+  rolePermissions: RolePermission[];
 }
