@@ -11,8 +11,6 @@ import {
   ValidateNested,
 } from 'class-validator';
 
-
-
 export class CreateRevisionDto {
   @ApiProperty({
     description: 'Request id',
@@ -27,5 +25,4 @@ export class CreateRevisionDto {
   })
   @IsString()
   comment: string;
-
 }

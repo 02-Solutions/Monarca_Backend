@@ -1,5 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
-import { RequestsDestination } from 'src/requests-destinations/entities/requests-destination.entity';
+
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { RequestsDestination } from 'src/requests/entities/requests-destination.entity';
+
 import { RequestLog } from 'src/request-logs/entities/request-log.entity';
 import { Request } from 'src/requests/entities/request.entity';
 import { User } from 'src/users/entities/user.entity';
@@ -17,9 +26,6 @@ export class Revision {
 
   @Column()
   comment: string;
-
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
 
 
   // Relationships

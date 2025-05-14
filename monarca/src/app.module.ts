@@ -15,7 +15,7 @@ import { Department } from './departments/entity/department.entity';
 import { Destination } from './destinations/entities/destination.entity';
 import { Request } from './requests/entities/request.entity';
 import { Reservation } from './reservations/entity/reservations.entity';
-import { RequestsDestination } from './requests-destinations/entities/requests-destination.entity';
+import { RequestsDestination } from './requests/entities/requests-destination.entity';
 import { Permission } from './roles/entity/permissions.entity';
 import { RequestLog } from './request-logs/entities/request-log.entity';
 import { DestinationsModule } from './destinations/destinations.module';
@@ -27,6 +27,7 @@ import { Revision } from './revisions/entities/revision.entity';
 import { SeedService } from 'seed.service';
 import { UserLogsModule } from './user-logs/user-logs.module';
 import { RolePermission } from './roles/entity/roles_permissions.entity';
+import { GuardsModule } from './guards/guards.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { RolePermission } from './roles/entity/roles_permissions.entity';
     RevisionsModule,
     DestinationsModule,
     UserLogsModule,
+    GuardsModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRES_HOST,
@@ -50,7 +52,8 @@ import { RolePermission } from './roles/entity/roles_permissions.entity';
         : 5433,
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
-      database: process.env.POSTGRES_DATABASE,      entities: [
+      database: process.env.POSTGRES_DATABASE,
+      entities: [
         User,
         Department,
         Destination,
@@ -68,7 +71,7 @@ import { RolePermission } from './roles/entity/roles_permissions.entity';
       ],
       synchronize: true,
     }),
-    
+
     TypeOrmModule.forFeature([
       User,
       Department,
@@ -87,9 +90,6 @@ import { RolePermission } from './roles/entity/roles_permissions.entity';
     ]),
   ],
   controllers: [],
-  providers: [
-    SeedService,
-  ],
-  
+  providers: [SeedService],
 })
 export class AppModule {}

@@ -7,6 +7,6 @@ import { Voucher } from './entities/vouchers.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Voucher])],
   controllers: [VouchersController],
-  providers: [VouchersService]
+  providers: [VouchersService],
 })
 export class VouchersModule {}
