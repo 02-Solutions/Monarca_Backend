@@ -4,42 +4,44 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DepartmentsModule } from './departments/departments.module';
-import { RolesPermissions } from './roles/entity/role.entity';
+import { Roles } from './roles/entity/roles.entity';
 import { TravelAgenciesModule } from './travel-agencies/travel-agencies.module';
 import { RequestsModule } from './requests/requests.module';
 import { RequestLogsModule } from './request-logs/request-logs.module';
-import { HotelReservationsModule } from './hotel-reservations/hotel-reservations.module';
-import { FlightsModule } from './flights/flights.module';
 import { VouchersModule } from './vouchers/vouchers.module';
 import { User } from './users/entities/user.entity';
+import { UserLogs } from './user-logs/entity/user-logs.entity';
 import { Department } from './departments/entity/department.entity';
 import { Destination } from './destinations/entities/destination.entity';
 import { Request } from './requests/entities/request.entity';
+import { Reservation } from './reservations/entity/reservations.entity';
 import { RequestsDestination } from './requests-destinations/entities/requests-destination.entity';
 import { Permission } from './roles/entity/permissions.entity';
-import { HotelReservation } from './hotel-reservations/entity/hotel-reservation.entity';
-import { Flight } from './flights/entity/flights.entity';
 import { RequestLog } from './request-logs/entities/request-log.entity';
 import { DestinationsModule } from './destinations/destinations.module';
 import { TravelAgency } from './travel-agencies/entities/travel-agency.entity';
+import { ReservationsModule } from './reservations/reservations.module';
 import { Voucher } from './vouchers/entities/vouchers.entity';
 import { RevisionsModule } from './revisions/revisions.module';
 import { Revision } from './revisions/entities/revision.entity';
+import { SeedService } from 'seed.service';
+import { UserLogsModule } from './user-logs/user-logs.module';
+import { RolePermission } from './roles/entity/roles_permissions.entity';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
     TravelAgenciesModule,
-    RolesPermissions,
+    Roles,
     DepartmentsModule,
     RequestsModule,
     RequestLogsModule,
-    HotelReservationsModule,
-    FlightsModule,
+    ReservationsModule,
     VouchersModule,
     RevisionsModule,
-     DestinationsModule,
+    DestinationsModule,
+    UserLogsModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRES_HOST,
@@ -48,28 +50,46 @@ import { Revision } from './revisions/entities/revision.entity';
         : 5433,
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
-      database: process.env.POSTGRES_DATABASE,
-      entities: [
+      database: process.env.POSTGRES_DATABASE,      entities: [
         User,
         Department,
         Destination,
         Request,
         RequestsDestination,
-        RolesPermissions,
+        Roles,
+        RolePermission,
         Permission,
-        HotelReservation,
-        Flight,
+        Reservation,
         RequestLog,
         TravelAgency,
         Voucher,
-        TravelAgency,
-        Revision
+        UserLogs,
+        Revision,
       ],
       synchronize: true,
     }),
-
+    
+    TypeOrmModule.forFeature([
+      User,
+      Department,
+      Destination,
+      Request,
+      RequestsDestination,
+      Roles,
+      RolePermission,
+      Permission,
+      Reservation,
+      RequestLog,
+      TravelAgency,
+      Voucher,
+      UserLogs,
+      Revision,
+    ]),
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    SeedService,
+  ],
+  
 })
 export class AppModule {}

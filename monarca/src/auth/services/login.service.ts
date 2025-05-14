@@ -3,6 +3,7 @@ import { Response } from 'express';
 import { LogInDTO } from '../dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UserChecks } from 'src/users/user.checks.service';
+import { User } from 'src/users/entities/user.entity';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -39,4 +40,23 @@ export class LoginService {
 
     return { status: true, message: 'Logged in successfully' };
   }
+
+  async logOut(res: Response) {
+    res.clearCookie('sessionInfo', {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+    });
+    return { status: true, message: 'Logged out successfully' };
+  }
+
+  async profile(req: any) {
+    const {id} = req.sessionInfo;
+    // get user by id with their permissions
+    const user = await this.userChecks.getUserById(id);
+
+    return { status: true, user };
+
+  }
+
 }

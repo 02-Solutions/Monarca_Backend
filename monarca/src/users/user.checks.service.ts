@@ -32,7 +32,20 @@ export class UserChecks {
     }
 
     console.log('User encontrado:', user);
-    console.log('User permissions:', user.role?.permissions);
+    return user;
+  }
+  async getUserById(id: string): Promise<User | null> {
+    const user = await this.Userepository.findOne({
+      where: { id: id },
+      select: ['id', 'name', 'email','department','last_name','role'],
+      relations: ['department', 'role', 'role.permissions'],
+    });
+
+    if (!user) {
+      console.log('User not found');
+      return null;
+    }
+
     return user;
   }
 }

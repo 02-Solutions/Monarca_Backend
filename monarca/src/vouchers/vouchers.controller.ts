@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Param, Put, Delete, Patch } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Put,
+  Delete,
+  Patch,
+} from '@nestjs/common';
 import { VouchersService } from './vouchers.service';
 import { CreateVoucherDto } from './dto/create-voucher-dto';
 import { UpdateVoucherDto } from './dto/update-voucher-dto';
@@ -39,7 +48,9 @@ export class VouchersController {
 
   // Delete a voucher
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<{ status: boolean; message: string }> {
+  async remove(
+    @Param('id') id: string,
+  ): Promise<{ status: boolean; message: string }> {
     return this.vouchersService.remove(id);
   }
 }

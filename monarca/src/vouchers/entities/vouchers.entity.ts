@@ -6,7 +6,7 @@ export class Voucher {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'request_destination_id', type: 'uuid' })
+  @Column({ name: 'id_request_destination', type: 'uuid' })
   id_request_destination: string;
 
   @Column({ name: 'class', type: 'varchar' })
@@ -28,7 +28,7 @@ export class Voucher {
   status: string;
 
   @ManyToOne(() => RequestsDestination, (requestsDestination) => requestsDestination.id)
-  @JoinColumn({ name: 'request_destination_id' })
+  @JoinColumn({ name: 'id_request_destination' })
   requestDestination: RequestsDestination;
   
 }
