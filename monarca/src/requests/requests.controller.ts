@@ -35,6 +35,7 @@ export class RequestsController {
     return result;
   }
 
+
   
   @Get('user')
   async findByUser(@Request() req: RequestInterface) {
@@ -46,6 +47,7 @@ export class RequestsController {
   }
   
   @Get('all')
+
   async findAll() {
     return this.requestsService.findAll();
   }

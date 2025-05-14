@@ -22,6 +22,7 @@ export class RequestsService {
     private readonly userChecks: UserChecks,
   ) {}
 
+
   async create(userId: string, data: CreateRequestDto) {
     //VALIDAR VALIDEZ DE CIUDADES
     
@@ -40,6 +41,7 @@ export class RequestsService {
     const request = this.requestsRepo.create({
       id_user: userId,
       id_admin: adminID,
+
       ...data,
       requests_destinations: data.requests_destinations.map((destDto) => ({
         ...destDto,
@@ -48,6 +50,22 @@ export class RequestsService {
 
     return this.requestsRepo.save(request);
   }
+
+  /* Para sacar el user id de la cookie */
+    // async create(data: CreateRequestDto, userId: string): Promise<Request> {
+
+  //   //VALIDAR VALIDEZ DE CIUDADES 
+
+  //   const request = this.requestsRepository.create({
+  //     id_user: userId, // Para sacar el user id de la cookie
+  //     ...data,
+  //     requests_destinations: data.requests_destinations.map((destDto) => ({
+  //       ...destDto
+  //     })),
+  //   });
+
+  //   return this.requestsRepository.save(request);
+  // }
 
   async findAll(): Promise<RequestEntity[]> {
     return this.requestsRepo.find();

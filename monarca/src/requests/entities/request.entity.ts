@@ -1,3 +1,4 @@
+
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, ManyToOne, JoinColumn } from 'typeorm';
 import { RequestsDestination } from 'src/requests/entities/requests-destination.entity';
 import { RequestLog } from 'src/request-logs/entities/request-log.entity';
@@ -11,8 +12,10 @@ export class Request {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  id_user: string;
+
+  @Column({ name: 'id_user', type: 'uuid'})
+  id_user: string;  
+
 
   @Column()
   id_origin_city: string;
@@ -38,6 +41,9 @@ export class Request {
 
   @Column()
   priority: string;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
 
   // Relationships
 

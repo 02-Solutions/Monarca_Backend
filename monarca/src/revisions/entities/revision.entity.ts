@@ -1,3 +1,4 @@
+
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -7,6 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { RequestsDestination } from 'src/requests/entities/requests-destination.entity';
+
 import { RequestLog } from 'src/request-logs/entities/request-log.entity';
 import { Request } from 'src/requests/entities/request.entity';
 import { User } from 'src/users/entities/user.entity';
@@ -16,7 +18,7 @@ export class Revision {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'id_user' })
+  @Column({ name: 'id_user', type: 'uuid' })
   id_user: string;
 
   @Column({ name: 'id_request' })
@@ -24,6 +26,7 @@ export class Revision {
 
   @Column()
   comment: string;
+
 
   // Relationships
 
