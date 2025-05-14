@@ -26,6 +26,14 @@ export class RequestsController {
     return result;
   }
 
+  /* Para sacar el user id de la cookie */
+  // @UseGuards(AuthGuard)
+  // @Post()
+  // async create(@Body() data: CreateRequestDto, @Request() req) {
+  //   const userId = req.sessionInfo.id; // desde cookie JWT 
+  //   return await this.requestsService.create(data, userId);
+  // }
+
   @Get()
   async findAll() {
     return this.requestsService.findAll();

@@ -23,10 +23,10 @@ export class RequestsService {
   ) {}
 
   async create(data: CreateRequestDto){
-    //VALIDAR VALIDEZ DE CIUDADES
+    //VALIDAR VALIDEZ DE CIUDADES 
 
-    const request = this.requestsRepo.create({
-      id_user: 'test123', //Lo obtendremos del session cookie despues
+    const request = this.requestsRepository.create({
+      id_user: "3c6fa565-d54f-4a86-9ee6-43ed6856bc72", //Lo obtendremos del session cookie despues
       ...data,
       requests_destinations: data.requests_destinations.map((destDto) => ({
         ...destDto,
@@ -36,8 +36,24 @@ export class RequestsService {
     return this.requestsRepo.save(request);
   }
 
-  async findAll(): Promise<RequestEntity[]> {
-    return this.requestsRepo.find();
+  /* Para sacar el user id de la cookie */
+    // async create(data: CreateRequestDto, userId: string): Promise<Request> {
+
+  //   //VALIDAR VALIDEZ DE CIUDADES 
+
+  //   const request = this.requestsRepository.create({
+  //     id_user: userId, // Para sacar el user id de la cookie
+  //     ...data,
+  //     requests_destinations: data.requests_destinations.map((destDto) => ({
+  //       ...destDto
+  //     })),
+  //   });
+
+  //   return this.requestsRepository.save(request);
+  // }
+
+  async findAll(): Promise<Request[]> {
+    return this.requestsRepository.find();
   }
 
   async findOne(id: string): Promise<RequestEntity> {
