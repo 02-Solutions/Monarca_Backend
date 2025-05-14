@@ -13,7 +13,7 @@ export class UserChecks {
   ) {}
 
   async logIn(data: LogInDTO): Promise<User | null> {
-    console.log('Login data in user.checks.service:', data);
+
 
     const user = await this.userRepository.findOne({
       where: { email: data.email },
@@ -31,7 +31,7 @@ export class UserChecks {
       return null;
     }
 
-    console.log('User encontrado:', user);
+  
     return user;
   }
   async getUserById(id: string): Promise<User | null> {
