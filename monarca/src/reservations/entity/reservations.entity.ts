@@ -19,6 +19,10 @@ export class Reservation {
   @Column({ type: 'varchar', nullable: false })
   link: string;
 
+  @Column({ name: 'id_request_destination', type: 'uuid' })
+  id_request_destination: string;
+
+
   @ManyToOne(
     () => RequestsDestination,
     (requestDestination) => requestDestination.reservations,
