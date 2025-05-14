@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Request } from 'src/requests/entities/request.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'travel_agencies' })
 export class TravelAgency {
@@ -13,4 +14,9 @@ export class TravelAgency {
   @IsString()
   @IsNotEmpty()
   name: string;
+
+
+  @OneToMany(() => Request, (req) => req.travel_agency, { })
+  requests: Request[];
+
 }

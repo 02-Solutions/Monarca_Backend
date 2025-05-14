@@ -6,7 +6,7 @@ import { User } from 'src/users/entities/user.entity';
 import { UserLogs } from 'src/user-logs/entity/user-logs.entity';
 import { TravelAgency } from 'src/travel-agencies/entities/travel-agency.entity';
 import { Request } from 'src/requests/entities/request.entity';
-import { RequestsDestination } from 'src/requests-destinations/entities/requests-destination.entity';
+import { RequestsDestination } from 'src/requests/entities/requests-destination.entity';
 import { RolePermission } from 'src/roles/entity/roles_permissions.entity';
 import { Reservation } from 'src/reservations/entity/reservations.entity';
 import { RequestLog } from 'src/request-logs/entities/request-log.entity';

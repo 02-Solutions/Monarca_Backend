@@ -1,7 +1,4 @@
-import { ApiProperty,
-  PartialType,
-  OmitType
- } from '@nestjs/swagger';
+import { ApiProperty, PartialType, OmitType } from '@nestjs/swagger';
 import {
   IsNotEmpty,
   IsString,
@@ -12,7 +9,7 @@ import {
 } from 'class-validator';
 import { Reservation } from '../entity/reservations.entity';
 
-export class CreateReservationDto { 
+export class CreateReservationDto {
   @ApiProperty({
     example: 'Taxi reservation',
     description: 'Title of the reservation that is being made',
@@ -23,13 +20,14 @@ export class CreateReservationDto {
   title: string;
 
   @ApiProperty({
-    example: 'Taxi reservation made for the user John Doe, expected arrival at 10:00 AM',
+    example:
+      'Taxi reservation made for the user John Doe, expected arrival at 10:00 AM',
     description: 'Comments or notes about the reservation',
     required: true,
   })
   @IsNotEmpty()
   @IsString()
-  comments: string
+  comments: string;
 
   @ApiProperty({
     example: 'https://example.com/reservation/12345',
@@ -38,7 +36,7 @@ export class CreateReservationDto {
   })
   @IsNotEmpty()
   @IsString()
-  link: string
+  link: string;
 
   @ApiProperty({
     description: 'ID of the request destination',
@@ -53,4 +51,3 @@ export class CreateReservationDto {
 export class UpdateReservationDto extends PartialType(CreateReservationDto) {}
 
 export class ReservationDto extends OmitType(Reservation, []) {}
-

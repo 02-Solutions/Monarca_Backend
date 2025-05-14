@@ -9,6 +9,6 @@ export class Permission {
   @Column()
   name: string;
 
-  @OneToMany(() => RolePermission, rp => rp.role)
+  @OneToMany(() => RolePermission, (rp) => rp.role)
   rolePermissions: RolePermission[];
 }
