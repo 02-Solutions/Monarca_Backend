@@ -4,9 +4,23 @@ _Innovación en Tecnologías de la Información para Soluciones Empresariales Av
 
 <img src="./Contenido%2002%20Solutions/logo.jpeg" alt="Logo de 02 Solutions" width="300" height="300"/>
 
----
+## 📚 Tabla de Contenido
 
-## Introducción
+- [Introducción](#introducción)
+- [Visión](#visión)
+- [Misión](#misión)
+- [Valores](#valores)
+- [📌 Proyecto Monarca](#proyecto-monarca-sistema-integral-de-gestión-de-viajes-empresariales)
+- [🚀 Guía de Inicialización](#guía-de-inicialización)
+  - [🛠️ Requisitos y Herramientas](#instalación-del-entorno-de-desarrollo)
+  - [📥 Instalación del Proyecto](#instalación-del-proyecto)
+  - [⚙️ Inicializar la Base de Datos](#inicializar-la-base-de-datos-con-docker-postgresql)
+  - [🌱 Insertar Datos](#insertar-datos)
+  - [🔁 Reinicializar Base de Datos](#reinicializar-la-base-de-datos)
+- [🧪 Pruebas](#ejecutar-pruebas-end-to-end)
+- [📑 Documentación API](#documentación-de-los-endpoints-con-openapi)
+
+## 📌 Introducción
 
 Bienvenido al repositorio oficial de **02 Solutions**, una compañía especializada en el desarrollo de **soluciones avanzadas de tecnologías de la información**, dedicada a impulsar la transformación digital de las empresas a través de herramientas innovadoras, escalables y personalizables.
 
@@ -14,7 +28,7 @@ Este repositorio forma parte de **Proyecto Monarca**, una iniciativa estratégic
 
 ---
 
-## Visión
+## 🎯 Visión
 
 **“Convertirnos en líderes globales en el desarrollo de soluciones tecnológicas innovadoras, flexibles y escalables, que impulsen la transformación digital y la eficiencia operativa de empresas en diversas industrias.”**
 
@@ -22,7 +36,7 @@ Esta visión guía nuestro crecimiento y nos motiva a innovar continuamente en l
 
 ---
 
-## Misión
+## 💼 Misión
 
 **“Diseñar e implementar soluciones avanzadas de tecnologías de la información que optimicen procesos empresariales, fomenten la innovación y generen un impacto positivo y sostenible en las organizaciones.”**
 
@@ -30,7 +44,7 @@ Nuestra misión impulsa el desarrollo de plataformas personalizables y escalable
 
 ---
 
-## Valores
+## 💎 Valores
 
 En **02 Solutions**, nuestros valores son el cimiento de cada decisión y desarrollo que llevamos a cabo:
 
@@ -57,53 +71,155 @@ La gestión de viajes corporativos suele estar limitada por sistemas costosos, i
 
 ---
 
-### Inciar el backend del proyecto:
+# 🚀 **Guía de Inicialización**
 
-    npm run start:dev
+## 🛠️ Instalación del Entorno de Desarrollo
+### Requisitos
 
-## Inicializar la Base de Datos con Docker y pgAdmin
+- Node.js (usamos `nvm` para manejar versiones)
+- `npm` (Node Package Manager)
+- `direnv`
 
-### 1. Construir la imagen de Docker
+> Al entrar al repo, corre `direnv allow` si es la primera vez.
+
+## Instalación de herramientas
+Instalar **direnv**
+
+- macOS: `brew install direnv`
+
+Agrega el siguiente hook a tu shell:
+```bash
+# Bash
+echo 'eval "$(direnv hook bash)"' >> ~/.bashrc
+
+# Zsh
+echo 'eval "$(direnv hook zsh)"' >> ~/.zshrc
+```
+
+Habilitar **direnv** para este repositorio (desde `Monarca_Backend/monarca`):
+```bash
+direnv allow
+```
+
+Instalar **nvm** y **Node.js** (solo si no están instalados previamente)
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+
+source ~/.bashrc # o ~/.zshrc según tu shell
+
+nvm install
+```
+
+## 📥 Instalación del Proyecto
+
+Dentro de la carpeta `Monarca_Backend/monarca` corre el siguiente comando para descargar las dependencias necesarias:
+
+```bash
+npm install
+```
+
+### Levantar en local
+
+Para iniciar el proyecto en modo desarrollo, ejecuta:
+
+```bash
+npm run start:dev
+```
+
+### Variables de entorno
+Crear un archivo `.env` con el contenido especificado en el `.env.example`:
+
+## ⚙️ Inicializar la Base de Datos con Docker (PostgreSQL)
+
+**Construir la imagen Docker:**
 
 Desde la terminal, navega al directorio `Monarca_Backend/DB` y ejecuta el siguiente comando:
 
-`docker build -t monarca-v1 .`
+```bash
+docker build -t monarca-v1 .
+```
 
 Esto construirá una imagen de Docker llamada monarca-v1, la cual debería aparecer en la sección de Images en Docker Desktop.
 
-### 2. Levantar los servicios con Docker Compose
+**Levantar los servicios con Docker Compose:**
 
-Desde el root del proyecto Monarca_Backend, ejecuta:
+Desde el root del proyecto `Monarca_Backend`, ejecuta:
 
-    docker compose up
+```bash
+docker compose up
+```
 
-Esto iniciará los contenedores definidos en el archivo docker-compose.yaml y generará automáticamente una carpeta llamada postgres dentro de Monarca_Backend/BD, la cual contendrá los datos de la base de datos. 3. Configurar un servidor en pgAdmin
+Esto iniciará los contenedores definidos en el archivo docker-compose.yaml y generará automáticamente una carpeta llamada `postgres` dentro de `Monarca_Backend/BD`, la cual contendrá los datos de la base de datos
 
-Abre pgAdmin y crea un nuevo servidor con las siguientes configuraciones:
+### Opción A: Usando pgAdmin
 
-    Nombre del servidor: MonarcaDB (puede ser cualquier nombre)
+Abre pgAdmin y configura un nuevo servidor con las siguientes configuraciones:
+   - **Nombre del servidor:** `MonarcaDB` - (puedes ser cualquier otro nombre)
+   - **Host:** `localhost`
+   - **Puerto:** `25000` - (verifica el puerto en `compose.yaml` si este no funciona)
+   - **Usuario:** `postgres` - (por defecto, a menos que se indique lo contrario)
+   - **Contraseña:** `test123` - (verifica `POSTGRES_PASSWORD` en `compose.yaml` si este no funciona)
 
-    Host name/address: localhost
+### Opción B: Solo desde la Terminal (sin pgAdmin)
 
-    Puerto: 25000 (Verifica el puerto en compose.yaml si este no funciona)
+**Acceder directamente a la base de datos desde la terminal de docker:**
 
-    Usuario: postgres (por defecto, a menos que se indique lo contrario)
+```bash
+docker exec -it monarca_database psql -U postgres -d Monarca
+```
+Este comando te da acceso directo a la consola interactiva de PostgreSQL dentro del contenedor de Docker, conectado a la base de datos Monarca como el usuario postgres.
 
-    Contraseña: test123 (Verifica el valor de POSTGRES_PASSWORD en compose.yaml si este no funciona)
 
-### 3. Reinicializar la Base de Datos:
+## Insertar Datos
+Dentro de la terminal en la carpeta `Monarca_Backend/monarca` corre el siguiente comando:
 
-#### a. Elimina manualmente la carpeta postgres ubicada en Monarca_Backend/BD.
+```bash
+npm run seed
+```
 
-#### b. Desde el root de Monarca_Backend, ejecuta nuevamente:
+Este comando inserta los dummy data asignados en la carpeta de seed en la base de datos
 
-    docker compose up
+### 🔁 Reinicializar la Base de Datos:
 
+1. **Eliminar la carpeta de datos:**
+
+Elimina manualmente o desde la terminal la carpeta postgres ubicada en Monarca_Backend/BD
+
+```bash
+rm -rf Monarca_Backend/BD/postgres
+```
+
+2. **Levantar nuevamente los contenedores:**
+
+Desde el root de Monarca_Backend, ejecuta nuevamente
+
+```bash
+docker compose up
+```
 Esto recreará la base de datos desde cero, incluyendo una nueva carpeta postgres.
 
----
+3. **Ejecutar los datos de prueba (dummy data):**
 
-## Documentación de los endpoints con OpenAPI
+Desde la carpeta de `Monarca_Backend/monarca`, ejecuta:
+
+```bash
+npm run seed
+```
+Inserta nuevamente el dummy data
+
+
+
+## 🧪 Ejecutar Pruebas End-to-End
+
+Para correr los tests end-to-end:
+
+```bash
+npm run test:e2e
+```
+
+
+
+## 📑 Documentación de los endpoints con OpenAPI
 
 La documentación de los endpoints está disponible en Swagger/OpenAPI.
 
@@ -111,9 +227,9 @@ Para acceder, simplemente visita la URL base donde corre el backend y añade `/a
 
 http://localhost:3000/api
 
-### Ejemplo de Endpoint: Crear Usuario:
+### 📦 Ejemplo de Endpoint: Crear Usuario:
 
-```
+```ts
 // src/users/dto/create-user.dto.ts
 
 /**
@@ -135,4 +251,3 @@ export class CreateUserDto {
   @ApiProperty({ example: 'password123', description: 'Contraseña del usuario' })
   password: string;
 }
-```
