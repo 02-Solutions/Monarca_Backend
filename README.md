@@ -138,7 +138,7 @@ Desde la terminal, navega al directorio `Monarca_Backend/DB` y ejecuta el siguie
 docker build -t monarca-v1 .
 ```
 
-Esto construirá una imagen de Docker llamada monarca-v1, la cual debería aparecer en la sección de Images en Docker Desktop.
+> Esto construirá una imagen de Docker llamada monarca-v1, la cual debería aparecer en la sección de Images en Docker Desktop.
 
 **Levantar los servicios con Docker Compose:**
 
@@ -148,7 +148,7 @@ Desde el root del proyecto `Monarca_Backend`, ejecuta:
 docker compose up
 ```
 
-Esto iniciará los contenedores definidos en el archivo docker-compose.yaml y generará automáticamente una carpeta llamada `postgres` dentro de `Monarca_Backend/BD`, la cual contendrá los datos de la base de datos
+> Esto iniciará los contenedores definidos en el archivo docker-compose.yaml y generará automáticamente una carpeta llamada `postgres` dentro de `Monarca_Backend/BD`, la cual contendrá los datos de la base de datos
 
 ### Opción A: Usando pgAdmin
 
