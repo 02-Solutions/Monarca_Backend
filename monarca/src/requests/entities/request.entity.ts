@@ -1,5 +1,13 @@
-
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  ManyToMany,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn,
+} from 'typeorm';
 import { RequestsDestination } from 'src/requests/entities/requests-destination.entity';
 import { RequestLog } from 'src/request-logs/entities/request-log.entity';
 import { Revision } from 'src/revisions/entities/revision.entity';
@@ -12,10 +20,8 @@ export class Request {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-
-  @Column({ name: 'id_user', type: 'uuid'})
-  id_user: string;  
-
+  @Column({ name: 'id_user', type: 'uuid' })
+  id_user: string;
 
   @Column()
   id_origin_city: string;
@@ -23,7 +29,7 @@ export class Request {
   @Column()
   id_admin: string;
 
-  @Column({  nullable: true, default: null })
+  @Column({ nullable: true, default: null })
   id_travel_agency: string;
 
   @Column()
@@ -31,9 +37,8 @@ export class Request {
 
   @Column()
   advance_money: number;
-  
 
-  @Column({ default: 'pending' })
+  @Column({ default: 'Pending Review' })
   status: string;
 
   @Column({ nullable: true })
@@ -47,16 +52,15 @@ export class Request {
 
   // Relationships
 
-
   @OneToMany(() => RequestsDestination, (dest) => dest.request, {
     cascade: true,
   })
   requests_destinations: RequestsDestination[];
 
-  @OneToMany(() => RequestLog, (log) => log.request, {  })
+  @OneToMany(() => RequestLog, (log) => log.request, {})
   requestLogs: RequestLog[];
 
-  @OneToMany(() => Revision, (rev) => rev.request, {  })
+  @OneToMany(() => Revision, (rev) => rev.request, {})
   revisions: Revision[];
 
   @ManyToOne(() => Destination, (dest) => dest.requests, {
@@ -64,7 +68,6 @@ export class Request {
   })
   @JoinColumn({ name: 'id_origin_city' })
   destination: Destination;
-
 
   @ManyToOne(() => User, (usr) => usr.requests, {
     onDelete: 'CASCADE',
@@ -78,12 +81,9 @@ export class Request {
   @JoinColumn({ name: 'id_admin' })
   admin: User;
 
-
   @ManyToOne(() => TravelAgency, (trva) => trva.requests, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'id_travel_agency' })
   travel_agency: TravelAgency;
-
-
 }

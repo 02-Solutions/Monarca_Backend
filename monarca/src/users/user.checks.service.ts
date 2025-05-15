@@ -13,8 +13,6 @@ export class UserChecks {
   ) {}
 
   async logIn(data: LogInDTO): Promise<User | null> {
-
-
     const user = await this.userRepository.findOne({
       where: { email: data.email },
       relations: ['department', 'role', 'role.permissions'],
@@ -31,7 +29,6 @@ export class UserChecks {
       return null;
     }
 
-  
     return user;
   }
   async getUserById(id: string): Promise<User | null> {
@@ -48,7 +45,6 @@ export class UserChecks {
 
     return user;
   }
-
 
   async getRandomApproverID(): Promise<string | null> {
     const approvers = await this.userRepository.find({
