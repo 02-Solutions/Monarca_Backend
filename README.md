@@ -6,19 +6,20 @@ _Innovación en Tecnologías de la Información para Soluciones Empresariales Av
 
 ## 📚 Tabla de Contenido
 
-- [Introducción](#introducción)
-- [Visión](#visión)
-- [Misión](#misión)
-- [Valores](#valores)
+- [Introducción](#-introducción)
+- [Visión](#-visión)
+- [Misión](#-misión)
+- [Valores](#-valores)
 - [📌 Proyecto Monarca](#proyecto-monarca-sistema-integral-de-gestión-de-viajes-empresariales)
-- [🚀 Guía de Inicialización](#guía-de-inicialización)
-  - [🛠️ Requisitos y Herramientas](#instalación-del-entorno-de-desarrollo)
-  - [📥 Instalación del Proyecto](#instalación-del-proyecto)
-  - [⚙️ Inicializar la Base de Datos](#inicializar-la-base-de-datos-con-docker-postgresql)
+- [🚀 Guía de Inicialización](#-guía-de-inicialización)
+  - [🛠️ Requisitos y Herramientas](#️-instalación-del-entorno-de-desarrollo)
+  - [📥 Instalación del Proyecto](#-instalación-del-proyecto)
+  - [⚙️ Inicializar la Base de Datos](#️-inicializar-la-base-de-datos-con-docker-postgresql)
   - [🌱 Insertar Datos](#insertar-datos)
-  - [🔁 Reinicializar Base de Datos](#reinicializar-la-base-de-datos)
-- [🧪 Pruebas](#ejecutar-pruebas-end-to-end)
-- [📑 Documentación API](#documentación-de-los-endpoints-con-openapi)
+  - [🔁 Reinicializar la Base de Datos](#-reinicializar-la-base-de-datos)
+- [🧪 Pruebas](#-ejecutar-pruebas-end-to-end)
+- [📑 Documentación API](#-documentación-de-los-endpoints-con-openapi)
+
 
 ## 📌 Introducción
 
@@ -58,7 +59,7 @@ En **02 Solutions**, nuestros valores son el cimiento de cada decisión y desarr
 
 ---
 
-## **Proyecto Monarca:** Sistema integral de gestión de viajes empresariales.
+## **Proyecto Monarca:** Sistema integral de gestión de viajes empresariales
 
 **¿Por qué "Monarca"?**  
 El nombre hace referencia a las icónicas migraciones de las mariposas monarca, que recorren miles de kilómetros en un viaje complejo y perfectamente coordinado. Este paralelismo representa la esencia del proyecto: facilitar, optimizar y coordinar los viajes empresariales con la misma precisión y fluidez que las migraciones de estas mariposas.
@@ -166,7 +167,7 @@ Abre pgAdmin y configura un nuevo servidor con las siguientes configuraciones:
 ```bash
 docker exec -it monarca_database psql -U postgres -d Monarca
 ```
-Este comando te da acceso directo a la consola interactiva de PostgreSQL dentro del contenedor de Docker, conectado a la base de datos Monarca como el usuario postgres.
+> Este comando te da acceso directo a la consola interactiva de PostgreSQL dentro del contenedor de Docker, conectado a la base de datos Monarca como el usuario postgres.
 
 
 ## Insertar Datos
@@ -176,9 +177,9 @@ Dentro de la terminal en la carpeta `Monarca_Backend/monarca` corre el siguiente
 npm run seed
 ```
 
-Este comando inserta los dummy data asignados en la carpeta de seed en la base de datos
+> Este comando inserta los dummy data asignados en la carpeta de seed en la base de datos
 
-### 🔁 Reinicializar la Base de Datos:
+### 🔁 Reinicializar la Base de Datos
 
 1. **Eliminar la carpeta de datos:**
 
@@ -195,7 +196,7 @@ Desde el root de Monarca_Backend, ejecuta nuevamente
 ```bash
 docker compose up
 ```
-Esto recreará la base de datos desde cero, incluyendo una nueva carpeta postgres.
+> Esto recreará la base de datos desde cero, incluyendo una nueva carpeta postgres.
 
 3. **Ejecutar los datos de prueba (dummy data):**
 
@@ -210,7 +211,7 @@ Inserta nuevamente el dummy data
 
 ## 🧪 Ejecutar Pruebas End-to-End
 
-Para correr los tests end-to-end:
+Para ejecutar las pruebas end-to-end, navega a la carpeta `Monarca_Backend/monarca` y corre el siguiente comando:
 
 ```bash
 npm run test:e2e
@@ -250,3 +251,4 @@ export class CreateUserDto {
   @ApiProperty({ example: 'password123', description: 'Contraseña del usuario' })
   password: string;
 }
+
