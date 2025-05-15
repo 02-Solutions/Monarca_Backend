@@ -2,7 +2,7 @@
     {
       "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
       "id_department": "7a3b6dae-6b7a-0e6a-4f8a-2e8b9b0f9a7c", 
-      "id_role": "4d0e3a7b-3e4d-7b3d-1c5d-9b5e1e3b1c4f", 
+      "id_role": "5e1f4b8c-4f5e-8c4e-2d6e-0c6f2f4c2d5a", 
       "name": "Admin",
       "last_name": "User",
       "password": "password",
@@ -12,7 +12,7 @@
     {
       "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
       "id_department": "8b4c7ebf-7c8b-1f7b-5a9b-3f9ca0c0ab8d", 
-      "id_role": "5e1f4b8c-4f5e-8c4e-2d6e-0c6f2f4c2d5a",
+      "id_role": "4d0e3a7b-3e4d-7b3d-1c5d-9b5e1e3b1c4f",
       "name": "Employee",
       "last_name": "One",
       "password": "password",

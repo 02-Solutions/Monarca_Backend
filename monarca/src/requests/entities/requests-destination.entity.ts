@@ -9,6 +9,7 @@ import {
 import { Request } from 'src/requests/entities/request.entity';
 import { Reservation } from 'src/reservations/entity/reservations.entity';
 import { Voucher } from 'src/vouchers/entities/vouchers.entity';
+import { Destination } from 'src/destinations/entities/destination.entity';
 
 @Entity({ name: 'requests_destinations' })
 export class RequestsDestination {
@@ -53,8 +54,13 @@ export class RequestsDestination {
   @JoinColumn({ name: 'id_request' })
   request: Request;
 
-
-  @OneToMany(
-    () => Reservation, (reservation) => reservation.requestDestination)
+  @OneToMany(() => Reservation, (reservation) => reservation.requestDestination)
   reservations: Reservation[];
+
+  @ManyToOne(() => Destination, (dest) => dest.requests_destinations, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'id_destination' })
+  destination: Destination;
+
 }

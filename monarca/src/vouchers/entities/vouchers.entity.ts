@@ -1,5 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column,ManyToOne,JoinColumn } from 'typeorm';
-import { RequestsDestination } from 'src/requests-destinations/entities/requests-destination.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { RequestsDestination } from 'src/requests/entities/requests-destination.entity';
 
 @Entity({ name: 'vouchers' })
 export class Voucher {
@@ -33,8 +39,11 @@ export class Voucher {
   @Column({ name: 'approver_id', type: 'uuid' })
   approver_id: string;
 
-  @ManyToOne(() => RequestsDestination, (requestsDestination) => requestsDestination.id)
+
+  @ManyToOne(
+    () => RequestsDestination,
+    (requestsDestination) => requestsDestination.id,
+  )
   @JoinColumn({ name: 'id_request_destination' })
   requestDestination: RequestsDestination;
-  
 }

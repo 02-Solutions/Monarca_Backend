@@ -9,13 +9,13 @@ import * as bcrypt from 'bcrypt';
 export class UserChecks {
   constructor(
     @InjectRepository(User)
-    private readonly Userepository: Repository<User>,
+    private readonly userRepository: Repository<User>,
   ) {}
 
   async logIn(data: LogInDTO): Promise<User | null> {
-    console.log('Login data in user.checks.service:', data);
 
-    const user = await this.Userepository.findOne({
+
+    const user = await this.userRepository.findOne({
       where: { email: data.email },
       relations: ['department', 'role', 'role.permissions'],
     });
@@ -31,13 +31,13 @@ export class UserChecks {
       return null;
     }
 
-    console.log('User encontrado:', user);
+  
     return user;
   }
   async getUserById(id: string): Promise<User | null> {
-    const user = await this.Userepository.findOne({
+    const user = await this.userRepository.findOne({
       where: { id: id },
-      select: ['id', 'name', 'email','department','last_name','role'],
+      select: ['id', 'name', 'email', 'department', 'last_name', 'role'],
       relations: ['department', 'role', 'role.permissions'],
     });
 
@@ -47,5 +47,28 @@ export class UserChecks {
     }
 
     return user;
+  }
+
+
+  async getRandomApproverID(): Promise<string | null> {
+    const approvers = await this.userRepository.find({
+      where: {
+        role: {
+          name: 'Aprobador',
+        },
+      },
+      select: ['id'],
+      relations: [],
+    });
+
+    // console.log(approvers)
+
+    if (approvers.length === 0) {
+      return null;
+    }
+
+    const randomIndex = Math.floor(Math.random() * approvers.length);
+
+    return approvers[randomIndex].id;
   }
 }

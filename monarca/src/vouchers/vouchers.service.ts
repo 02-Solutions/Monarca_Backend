@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateVoucherDto } from './dto/create-voucher-dto';
 import { UpdateVoucherDto } from './dto/update-voucher-dto';
 import { Voucher } from './entities/vouchers.entity';
-import { RequestsDestination } from 'src/requests-destinations/entities/requests-destination.entity';
+import { RequestsDestination } from 'src/requests/entities/requests-destination.entity';
 import { privateDecrypt } from 'crypto';
 @Injectable()
 export class VouchersService {
