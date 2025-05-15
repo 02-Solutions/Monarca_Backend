@@ -8,14 +8,11 @@ import {
   Delete,
   ParseUUIDPipe,
   Request,
-  ParseIntPipe,
   UseGuards,
 } from '@nestjs/common';
-import { Response } from 'express';
 import { RequestsService } from './requests.service';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
-import { UpdateRequestStatusDto } from './dto/update-request-status.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { PermissionsGuard } from 'src/guards/permissions.guard';
 import { RequestInterface } from 'src/guards/interfaces/request.interface';
@@ -26,7 +23,10 @@ export class RequestsController {
   constructor(private readonly requestsService: RequestsService) {}
 
   @Post()
-  async create(@Request() req: RequestInterface, @Body() data: CreateRequestDto) {
+  async create(
+    @Request() req: RequestInterface,
+    @Body() data: CreateRequestDto,
+  ) {
     const userId = req.sessionInfo.id;
     if (!userId) {
       throw new Error('User ID not found in cookies');
@@ -35,8 +35,6 @@ export class RequestsController {
     return result;
   }
 
-
-  
   @Get('user')
   async findByUser(@Request() req: RequestInterface) {
     const userId = req.sessionInfo.id;
@@ -45,32 +43,35 @@ export class RequestsController {
     }
     return this.requestsService.findByUser(userId);
   }
-  
-  @Get('all')
 
+  @Get('assigned')
+  async findAssigned(@Request() req: RequestInterface) {
+    const userId = req.sessionInfo.id;
+    if (!userId) {
+      throw new Error('User ID not found in cookies');
+    }
+    return this.requestsService.findByAdmin(userId);
+  }
+
+  @Get('all')
   async findAll() {
     return this.requestsService.findAll();
   }
-  
+
   @Get(':id')
-  async findOne(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.requestsService.findOne(id);
+  async findOne(
+    @Request() req: RequestInterface,
+    @Param('id', new ParseUUIDPipe()) id: string,
+  ) {
+    return this.requestsService.findOne(req, id);
   }
-  
+
   @Patch(':id')
   async update(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() data: UpdateRequestDto,
   ) {
     return this.requestsService.update(id, data);
-  }
-
-  @Patch('status/:id')
-  async updateStatus(
-    @Param('id', new ParseUUIDPipe()) id: string,
-    @Body() data: UpdateRequestStatusDto,
-  ) {
-    return this.requestsService.updateStatus(id, data);
   }
 
   @Delete(':id')

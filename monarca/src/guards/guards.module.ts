@@ -8,6 +8,11 @@ import { User } from 'src/users/entities/user.entity';
 @Module({
   imports: [JwtConfigModule, TypeOrmModule.forFeature([User])],
   providers: [AuthGuard, PermissionsGuard],
-  exports: [AuthGuard, PermissionsGuard, JwtConfigModule,TypeOrmModule.forFeature([User])],
+  exports: [
+    AuthGuard,
+    PermissionsGuard,
+    JwtConfigModule,
+    TypeOrmModule.forFeature([User]),
+  ],
 })
 export class GuardsModule {}

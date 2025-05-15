@@ -20,10 +20,8 @@ export class Destination {
   })
   requests: Request[];
 
-
   @OneToMany(() => RequestsDestination, (reqdest) => reqdest.destination, {
     cascade: true,
   })
   requests_destinations: RequestDestination[];
-
 }

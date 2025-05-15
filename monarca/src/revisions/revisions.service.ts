@@ -1,37 +1,44 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
 import { CreateRevisionDto } from './dto/create-revision.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Revision } from './entities/revision.entity';
+import { RequestsService } from 'src/requests/requests.service';
+import { RequestInterface } from 'src/guards/interfaces/request.interface';
+import { RequestsChecks } from 'src/requests/requests.checks';
 
 @Injectable()
 export class RevisionsService {
   constructor(
     @InjectRepository(Revision)
     private readonly revisionRepository: Repository<Revision>,
+    private readonly requestService: RequestsService,
+    private readonly requestChecks: RequestsChecks,
   ) {}
 
-  async getRequestRevisions(id: string) {
-    const request = await this.revisionRepository.find({
-      where: { id_request: id },
-    });
+  async create(req: RequestInterface, data: CreateRevisionDto) {
+    const userId = req.sessionInfo.id;
 
-    if (!request) {
-      throw new NotFoundException(`Request with id ${id} not found`);
+    if (!(await this.requestChecks.Exists(data.id_request))) {
+      throw new NotFoundException('Invalid request id.');
     }
 
-    return request;
-  }
+    if (!(await this.requestChecks.isRequestsAdmin(data.id_request, userId))) {
+      throw new UnauthorizedException('Unable to write to that request.');
+    }
 
-  async create(data: CreateRevisionDto) {
     const revision = this.revisionRepository.create({
       ...data,
-      id_user: '3c6fa565-d54f-4a86-9ee6-43ed6856bc72', // OBTENER DEL COOKIE
+      id_user: userId,
     });
 
-
     // const revision = this.revisionRepository.create(data);
+    this.requestService.updateStatus(data.id_request, 'Changes Needed');
     return await this.revisionRepository.save(revision);
   }
-
 }

@@ -10,6 +10,8 @@ import { Repository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SessionInfoInterface } from './interfaces/sessionInfo.interface';
+import { UserInfoInterface } from './interfaces/userInfo.interface';
+import { RequestInterface } from './interfaces/request.interface';
 
 @Injectable()
 export class PermissionsGuard implements CanActivate {
@@ -20,12 +22,7 @@ export class PermissionsGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest<
-      Request & {
-        sessionInfo: SessionInfoInterface;
-        userPermissions?: string[];
-      }
-    >();
+    const request = context.switchToHttp().getRequest<RequestInterface>();
 
     const userId = request.sessionInfo?.id;
     if (!userId) throw new ForbiddenException('User session not found');
@@ -35,9 +32,18 @@ export class PermissionsGuard implements CanActivate {
       throw new ForbiddenException('User or permissions not found');
     }
 
-    // console.log('User found:', user);
+    // console.log('User found:', user.id);
 
     request.sessionInfo.id = user.id;
+    request.userInfo = {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      last_name: user.last_name,
+      status: user.status,
+      id_department: user.id_department,
+      id_role: user.id_role,
+    };
     // console.log(`request.sessionInfo.id: ${request.sessionInfo.id}`)
 
     const userPermissions = user.role.permissions.map((p) => p.name);

@@ -1,5 +1,3 @@
-
-export interface SessionInfoInterface
-{
-    id: string
+export interface SessionInfoInterface {
+  id: string;
 }
