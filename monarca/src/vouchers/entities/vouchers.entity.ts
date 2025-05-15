@@ -21,11 +21,17 @@ export class Voucher {
   @Column({ name: 'date', type: 'timestamptz' })
   date: Date;
 
-  @Column({ name: 'file_url', type: 'varchar' })
-  fileUrl: string;
+  @Column({ name: 'file_url_pdf', type: 'varchar' })
+  file_url_pdf: string;
+  
+  @Column({ name: 'file_url_xml', type: 'varchar' })
+  file_url_xml: string;
 
   @Column({ name: 'status', type: 'varchar' })
   status: string;
+
+  @Column({ name: 'approver_id', type: 'uuid' })
+  approver_id: string;
 
   @ManyToOne(() => RequestsDestination, (requestsDestination) => requestsDestination.id)
   @JoinColumn({ name: 'id_request_destination' })

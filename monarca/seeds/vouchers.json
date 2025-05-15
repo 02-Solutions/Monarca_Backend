@@ -6,8 +6,10 @@
       "amount": 750.50,
       "currency": "USD",
       "date": "2025-05-12T22:10:00Z",
-      "fileUrl": "/files/vouchers/flight_req_uuid2.pdf",
-      "status": "pending"
+      "file_url_pdf": "/files/vouchers/flight_req_uuid2.pdf",
+      "file_url_xml": "/files/vouchers/flight_req_uuid2.xml",
+      "status": "pending",
+      "approver_id":"b3c6d9a2-e4f1-5d8c-9ba0-1a2f3e4d5tg"
     },
     {
       "id": "b3c6d9a2-e4f1-5d8c-9ba0-1a2f3e4d5c6b",
@@ -16,7 +18,9 @@
       "amount": 450.00,
       "currency": "USD",
       "date": "2025-05-12T22:15:00Z",
-      "fileUrl": "/files/vouchers/hotel_req_uuid2.pdf",
-      "status": "pending"
+      "file_url_pdf": "/files/vouchers/hotel_req_uuid2.pdf",
+      "file_url_xml": "/files/vouchers/hotel_req_uuid2.xml",
+      "status": "pending",
+      "approver_id":"b3c6d9a2-e4f1-5d8c-9ba0-1a2f3e4d5cf"
     }
 ]
