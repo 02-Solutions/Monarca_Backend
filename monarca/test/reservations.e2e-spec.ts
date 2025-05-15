@@ -37,7 +37,7 @@ describe('TravelAgencies e2e', () => {
       comments:
         'Taxi reservado para el usuario María García, llegada estimada a las 08:30 AM',
       link: 'https://taxi-service.com/booking/abc123',
-      id_request_destination: '123e4567-e89b-12d3-a456-426614174000',
+      id_request_destination: '8c9d0e1f-2a3b-4c5d-6e7f-8a9b0c1d2e3f',
     };
     const res = await request(app.getHttpServer())
       .post('/reservations')
@@ -52,7 +52,7 @@ describe('TravelAgencies e2e', () => {
     expect(data.title).toBe(dto.title);
     expect(data.comments).toBe(dto.comments);
     expect(data.link).toBe(dto.link);
-    expect(data.requestDestination).toBe(dto.id_request_destination);
+    expect(data.id_request_destination).toBe(dto.id_request_destination);
     await request(app.getHttpServer())
       .delete(`/reservations/${data.id}`)
       .expect(200);
@@ -74,7 +74,7 @@ describe('TravelAgencies e2e', () => {
         title: 'Reserva de taxi',
         comments: 'Taxi reservado para el usuario',
         link: 'https://example.com/reservation/12345',
-        id_request_destination: '123e4597-e89b-12d3-a456-426614174000',
+        id_request_destination: '8c9d0e1f-2a3b-4c5d-6e7f-8a9b0c1d2e3f',
       })
       .expect(201);
 
@@ -101,7 +101,7 @@ describe('TravelAgencies e2e', () => {
         title: 'Reserva de taxi',
         comments: 'Taxi reservado para el usuario',
         link: 'https://example.com/reservation/12345',
-        id_request_destination: '123e4597-e89b-12d3-a456-426614174000',
+        id_request_destination: '8c9d0e1f-2a3b-4c5d-6e7f-8a9b0c1d2e3f',
       })
       .expect(201);
 
@@ -134,7 +134,7 @@ describe('TravelAgencies e2e', () => {
         title: 'Reserva de taxi',
         comments: 'Taxi reservado para el usuario',
         link: 'https://example.com/reservation/12345',
-        id_request_destination: '123e4597-e89b-12d3-a456-426614174000',
+        id_request_destination: '8c9d0e1f-2a3b-4c5d-6e7f-8a9b0c1d2e3f',
       })
       .expect(201);
 
