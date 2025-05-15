@@ -6,19 +6,19 @@ _Innovación en Tecnologías de la Información para Soluciones Empresariales Av
 
 ## 📚 Tabla de Contenido
 
-- [Introducción](#📌-introducción)
-- [Visión](#🎯-visión)
-- [Misión](#💼-misión)
-- [Valores](#💎-valores)
+- [Introducción](#-introducción)
+- [Visión](#-visión)
+- [Misión](#-misión)
+- [Valores](#-valores)
 - [📌 Proyecto Monarca](#proyecto-monarca-sistema-integral-de-gestión-de-viajes-empresariales)
-- [🚀 Guía de Inicialización](#🚀-guía-de-inicialización)
-  - [🛠️ Requisitos y Herramientas](#🛠️-instalación-del-entorno-de-desarrollo)
-  - [📥 Instalación del Proyecto](#📥-instalación-del-proyecto)
-  - [⚙️ Inicializar la Base de Datos](#⚙️-inicializar-la-base-de-datos-con-docker-postgresql)
+- [🚀 Guía de Inicialización](#-guía-de-inicialización)
+  - [🛠️ Requisitos y Herramientas](#-instalación-del-entorno-de-desarrollo)
+  - [📥 Instalación del Proyecto](#-instalación-del-proyecto)
+  - [⚙️ Inicializar la Base de Datos](#-inicializar-la-base-de-datos-con-docker-postgresql)
   - [🌱 Insertar Datos](#insertar-datos)
-  - [🔁 Reinicializar la Base de Datos](#🔁-reinicializar-la-base-de-datos)
-- [🧪 Pruebas](#🧪-ejecutar-pruebas-end-to-end)
-- [📑 Documentación API](#📑-documentación-de-los-endpoints-con-openapi)
+  - [🔁 Reinicializar la Base de Datos](#-reinicializar-la-base-de-datos)
+- [🧪 Pruebas](#-ejecutar-pruebas-end-to-end)
+- [📑 Documentación API](#-documentación-de-los-endpoints-con-openapi)
 
 
 ## 📌 Introducción
