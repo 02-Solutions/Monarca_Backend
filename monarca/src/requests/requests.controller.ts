@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
   Request,
   ParseIntPipe,
+  BadRequestException,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { RequestsService } from './requests.service';
@@ -30,7 +31,7 @@ export class RequestsController {
   // @UseGuards(AuthGuard)
   // @Post()
   // async create(@Body() data: CreateRequestDto, @Request() req) {
-  //   const userId = req.sessionInfo.id; // desde cookie JWT 
+  //   const userId = req.sessionInfo.id; // desde cookie JWT
   //   return await this.requestsService.create(data, userId);
   // }
 
@@ -58,6 +59,15 @@ export class RequestsController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() data: UpdateRequestDto,
   ) {
+    const existing = await this.requestsService.findOne(id);
+    if (
+      existing.status !== 'pending review' &&
+      existing.status !== 'pending changes'
+    ) {
+      throw new BadRequestException(
+        `Cannot update a request when status is "${existing.status}".`,
+      );
+    }
     return this.requestsService.update(id, data);
   }
 

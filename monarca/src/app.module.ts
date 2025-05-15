@@ -50,7 +50,8 @@ import { RolePermission } from './roles/entity/roles_permissions.entity';
         : 5433,
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
-      database: process.env.POSTGRES_DATABASE,      entities: [
+      database: process.env.POSTGRES_DATABASE,
+      entities: [
         User,
         Department,
         Destination,
@@ -68,7 +69,7 @@ import { RolePermission } from './roles/entity/roles_permissions.entity';
       ],
       synchronize: true,
     }),
-    
+
     TypeOrmModule.forFeature([
       User,
       Department,
@@ -87,9 +88,6 @@ import { RolePermission } from './roles/entity/roles_permissions.entity';
     ]),
   ],
   controllers: [],
-  providers: [
-    SeedService,
-  ],
-  
+  providers: [SeedService],
 })
 export class AppModule {}
