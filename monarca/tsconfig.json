@@ -11,6 +11,7 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
+      "seed.service": ["seed.service"],
       "src/*": ["src/*"]
     },
     "incremental": true,
