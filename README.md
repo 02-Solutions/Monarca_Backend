@@ -107,7 +107,6 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 
 source ~/.bashrc # o ~/.zshrc según tu shell
 
-nvm install
 ```
 
 ## 📥 Instalación del Proyecto
