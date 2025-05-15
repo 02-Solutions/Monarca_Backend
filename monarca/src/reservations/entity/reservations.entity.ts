@@ -1,9 +1,11 @@
-import { Entity, 
-  PrimaryGeneratedColumn, 
-  Column, 
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
   ManyToOne,
-  JoinColumn } from 'typeorm';
-import { RequestsDestination } from '../../requests-destinations/entities/requests-destination.entity';
+  JoinColumn,
+} from 'typeorm';
+import { RequestsDestination } from '../../requests/entities/requests-destination.entity';
 
 @Entity('reservations')
 export class Reservation {
@@ -21,7 +23,6 @@ export class Reservation {
 
   @Column({ name: 'id_request_destination', type: 'uuid' })
   id_request_destination: string;
-
 
   @ManyToOne(
     () => RequestsDestination,

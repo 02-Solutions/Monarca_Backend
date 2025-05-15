@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Department } from 'src/departments/entity/department.entity';
+import { Request } from 'src/requests/entities/request.entity';
 import { Revision } from 'src/revisions/entities/revision.entity';
 import { Roles } from 'src/roles/entity/roles.entity';
 
@@ -55,6 +56,12 @@ export class User {
   role: Roles;
 
   // Hacer conexion despues
-   @OneToMany(() => Revision, (log) => log.request, { eager: true })
-   revisions: Revision[];
+  @OneToMany(() => Revision, (log) => log.request, {  })
+  revisions: Revision[];
+
+  @OneToMany(() => Request, (req) => req.user, { })
+  requests: Request[];
+
+  @OneToMany(() => Request, (req) => req.admin, { })
+  assigned_requests: Request[];
 }

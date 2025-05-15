@@ -81,7 +81,7 @@ export class RequestDestinationtDto {
 export class CreateRequestDto {
   @ApiProperty({
     description: 'Origin city identifier',
-    example: 'city-uuid-000',
+    example: '2c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f',
   })
   @IsUUID()
   id_origin_city: string;
@@ -93,12 +93,21 @@ export class CreateRequestDto {
   @IsString()
   title: string;
 
+
   @ApiProperty({
     description: 'Detailed reason for the trip',
     example: 'I need to go on this trip because ...',
   })
   @IsString()
   motive: string;
+
+
+  @ApiProperty({
+    description: 'Money asked for in advance for the trip',
+    example: 10000,
+  })
+  @IsInt()
+  advance_money: number;
 
   @ApiProperty({
     description: 'Additional requirements or notes',

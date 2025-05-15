@@ -9,8 +9,10 @@ import {
   ParseUUIDPipe,
 } from '@nestjs/common';
 import { ReservationsService } from './reservations.service';
-import { CreateReservationDto, UpdateReservationDto } from './dto/reservation.dtos';
-
+import {
+  CreateReservationDto,
+  UpdateReservationDto,
+} from './dto/reservation.dtos';
 
 @Controller('reservations')
 export class ReservationsController {

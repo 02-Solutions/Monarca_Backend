@@ -8,34 +8,44 @@ import {
   Delete,
   ParseUUIDPipe,
   Request,
-  ParseIntPipe,
   BadRequestException,
+  UseGuards,
 } from '@nestjs/common';
-import { Response } from 'express';
 import { RequestsService } from './requests.service';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
 import { UpdateRequestStatusDto } from './dto/update-request-status.dto';
+import { AuthGuard } from 'src/guards/auth.guard';
+import { PermissionsGuard } from 'src/guards/permissions.guard';
+import { RequestInterface } from 'src/guards/interfaces/request.interface';
 
+@UseGuards(AuthGuard, PermissionsGuard)
 @Controller('requests')
 export class RequestsController {
   constructor(private readonly requestsService: RequestsService) {}
 
   @Post()
-  async create(@Body() data: CreateRequestDto) {
-    const result = await this.requestsService.create(data);
-    return result;
+  async create(
+    @Request() req: RequestInterface,
+    @Body() data: CreateRequestDto,
+  ) {
+    const userId = req.sessionInfo.id;
+    if (!userId) {
+      throw new Error('User ID not found in session');
+    }
+    return this.requestsService.create(userId, data);
   }
 
-  /* Para sacar el user id de la cookie */
-  // @UseGuards(AuthGuard)
-  // @Post()
-  // async create(@Body() data: CreateRequestDto, @Request() req) {
-  //   const userId = req.sessionInfo.id; // desde cookie JWT
-  //   return await this.requestsService.create(data, userId);
-  // }
+  @Get('user')
+  async findByUser(@Request() req: RequestInterface) {
+    const userId = req.sessionInfo.id;
+    if (!userId) {
+      throw new Error('User ID not found in session');
+    }
+    return this.requestsService.findByUser(userId);
+  }
 
-  @Get()
+  @Get('all')
   async findAll() {
     return this.requestsService.findAll();
   }
@@ -43,15 +53,6 @@ export class RequestsController {
   @Get(':id')
   async findOne(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.requestsService.findOne(id);
-  }
-
-  @Get('user')
-  async findByUser(@Request() req) {
-    const userId = req.sessionInfo.userId;
-    if (!userId) {
-      throw new Error('User ID not found in cookies');
-    }
-    return this.requestsService.findByUser(userId);
   }
 
   @Patch(':id')
