@@ -28,9 +28,15 @@ import { SeedService } from 'seed.service';
 import { UserLogsModule } from './user-logs/user-logs.module';
 import { RolePermission } from './roles/entity/roles_permissions.entity';
 import { GuardsModule } from './guards/guards.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({ 
+      rootPath: join(__dirname, '..', '..','uploads'),
+      serveRoot: '/files',
+    }),
     AuthModule,
     UsersModule,
     TravelAgenciesModule,
