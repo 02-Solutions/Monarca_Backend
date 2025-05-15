@@ -61,6 +61,10 @@ La gestión de viajes corporativos suele estar limitada por sistemas costosos, i
 
     npm run start:dev
 
+## Cargar de datos dummy la base de datos
+
+    npm run seed
+
 ## Inicializar la Base de Datos con Docker y pgAdmin
 
 ### 1. Construir la imagen de Docker

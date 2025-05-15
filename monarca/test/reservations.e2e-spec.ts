@@ -70,7 +70,7 @@ describe('TravelAgencies e2e', () => {
       .send({ title: 'Reserva de taxi', 
         comments: 'Taxi reservado para el usuario', 
         link: 'https://example.com/reservation/12345', 
-        id_request_destination: '123e4597-e89b-12d3-a456-426614174000' })
+        id_request_destination: "9d0e1f2a-3b4c-5d6e-7f8a-9b0c1d2e3f4a" })
       .expect(201);
 
     const data = createRes.body as ReservationDto;
@@ -125,7 +125,7 @@ describe('TravelAgencies e2e', () => {
       .send({ title: 'Reserva de taxi', 
         comments: 'Taxi reservado para el usuario', 
         link: 'https://example.com/reservation/12345', 
-        id_request_destination: '123e4597-e89b-12d3-a456-426614174000' })
+        id_request_destination: "9d0e1f2a-3b4c-5d6e-7f8a-9b0c1d2e3f4a" })
       .expect(201);
 
     const data = createRes.body as ReservationDto;
