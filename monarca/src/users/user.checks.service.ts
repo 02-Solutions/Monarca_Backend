@@ -67,4 +67,26 @@ export class UserChecks {
 
     return approvers[randomIndex].id;
   }
+
+  async getRandomSOIID(): Promise<string | null> {
+    const SOIs = await this.userRepository.find({
+      where: {
+        role: {
+          name: 'SOI',
+        },
+      },
+      select: ['id'],
+      relations: [],
+    });
+
+    // console.log(approvers)
+
+    if (SOIs.length === 0) {
+      return null;
+    }
+
+    const randomIndex = Math.floor(Math.random() * SOIs.length);
+
+    return SOIs[randomIndex].id;
+  }
 }

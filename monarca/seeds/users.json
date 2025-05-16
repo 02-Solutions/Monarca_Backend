@@ -28,5 +28,15 @@
       "password": "password",
       "email": "agent1-uuid@example.com",
       "status": "active"
+    },
+    {
+      "id": "4338202c-e24d-442b-b53c-3840c4bf3d8a",
+      "id_department": "8b4c7ebf-7c8b-1f7b-5a9b-3f9ca0c0ab8d", 
+      "id_role": "7a3b6dae-6b7a-0e6a-4f8a-2e8b9b0f9a7c",
+      "name": "SOI",
+      "last_name": "One",
+      "password": "password",
+      "email": "SOI-uuid@example.com",
+      "status": "active"
     }
 ]

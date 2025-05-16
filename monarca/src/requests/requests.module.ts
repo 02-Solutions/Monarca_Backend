@@ -19,7 +19,7 @@ import { TravelAgenciesModule } from 'src/travel-agencies/travel-agencies.module
     GuardsModule,
     UsersModule,
     DestinationsModule,
-    TravelAgenciesModule
+    TravelAgenciesModule,
   ],
   controllers: [RequestsController, RequestsStatusController],
   providers: [RequestsService, RequestsChecks, RequestsStatusService],

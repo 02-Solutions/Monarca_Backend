@@ -50,6 +50,7 @@ export class RequestsDestination {
 
   @ManyToOne(() => Request, (request) => request.requests_destinations, {
     onDelete: 'CASCADE',
+    orphanedRowAction: 'delete',
   })
   @JoinColumn({ name: 'id_request' })
   request: Request;

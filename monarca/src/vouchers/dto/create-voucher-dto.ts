@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsUUID, IsString, IsNumber, IsDateString,IsOptional, } from 'class-validator';
+import {
+  IsUUID,
+  IsString,
+  IsNumber,
+  IsDateString,
+  IsOptional,
+} from 'class-validator';
 import { Transform } from 'class-transformer';
 export class CreateVoucherDto {
   @ApiProperty({
@@ -58,7 +64,7 @@ export class CreateVoucherDto {
   })
   @IsString()
   status: string;
-  
+
   @ApiProperty({
     description: 'ID of the person in charge of approving the vouchers',
     example: 'd05c8455-c3d5-4a6c-b79b-2d9c695cd674',

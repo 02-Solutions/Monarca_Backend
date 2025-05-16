@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
   Request,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { RequestsService } from './requests.service';
 import { CreateRequestDto } from './dto/create-request.dto';
@@ -44,13 +45,22 @@ export class RequestsController {
     return this.requestsService.findByUser(userId);
   }
 
-  @Get('assigned')
-  async findAssigned(@Request() req: RequestInterface) {
+  @Get('to-approve')
+  async findAssignedApprover(@Request() req: RequestInterface) {
     const userId = req.sessionInfo.id;
     if (!userId) {
       throw new Error('User ID not found in cookies');
     }
     return this.requestsService.findByAdmin(userId);
+  }
+
+  @Get('to-approve-SOI')
+  async findAssignedSOI(@Request() req: RequestInterface) {
+    const userId = req.sessionInfo.id;
+    if (!userId) {
+      throw new Error('User ID not found in cookies');
+    }
+    return this.requestsService.findBySOI(userId);
   }
 
   @Get('all')
@@ -66,16 +76,12 @@ export class RequestsController {
     return this.requestsService.findOne(req, id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   async update(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() data: UpdateRequestDto,
+    @Request() req: RequestInterface,
   ) {
-    return this.requestsService.update(id, data);
-  }
-
-  @Delete(':id')
-  async remove(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.requestsService.remove(id);
+    return this.requestsService.updateRequest(req, id, data);
   }
 }
