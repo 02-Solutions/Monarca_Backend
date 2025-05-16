@@ -1,12 +1,18 @@
-import { Entity, PrimaryGeneratedColumn, Column,ManyToOne,JoinColumn } from 'typeorm';
-import { RequestsDestination } from 'src/requests-destinations/entities/requests-destination.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { RequestsDestination } from 'src/requests/entities/requests-destination.entity';
 
 @Entity({ name: 'vouchers' })
 export class Voucher {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'request_destination_id', type: 'uuid' })
+  @Column({ name: 'id_request_destination', type: 'uuid' })
   id_request_destination: string;
 
   @Column({ name: 'class', type: 'varchar' })
@@ -21,14 +27,23 @@ export class Voucher {
   @Column({ name: 'date', type: 'timestamptz' })
   date: Date;
 
-  @Column({ name: 'file_url', type: 'varchar' })
-  fileUrl: string;
+  @Column({ name: 'file_url_pdf', type: 'varchar' })
+  file_url_pdf: string;
+
+  @Column({ name: 'file_url_xml', type: 'varchar' })
+  file_url_xml: string;
 
   @Column({ name: 'status', type: 'varchar' })
   status: string;
 
-  @ManyToOne(() => RequestsDestination, (requestsDestination) => requestsDestination.id)
-  @JoinColumn({ name: 'request_destination_id' })
+  @Column({ name: 'approver_id', type: 'uuid' })
+  approver_id: string;
+
+  @ManyToOne(
+    () => RequestsDestination,
+    (requestsDestination) => requestsDestination.id,
+    { onDelete: 'CASCADE' },
+  )
+  @JoinColumn({ name: 'id_request_destination' })
   requestDestination: RequestsDestination;
-  
 }

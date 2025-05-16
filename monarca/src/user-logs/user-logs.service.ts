@@ -21,15 +21,15 @@ export class UserLogsService {
     return this.userLogsRepository.find();
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.userLogsRepository.findOne({ where: { id } });
   }
 
-  update(id: number, dto: UpdateUserLogDto) {
+  update(id: string, dto: UpdateUserLogDto) {
     return this.userLogsRepository.update(id, dto);
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.userLogsRepository.delete(id);
   }
 }

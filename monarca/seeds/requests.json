@@ -1,0 +1,30 @@
+[
+    {
+        "id": "7b8c9d0e-1f2a-3b4c-5d6e-7f8a9b0c1d2e",
+        "id_user": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+        "id_admin": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "id_SOI": "4338202c-e24d-442b-b53c-3840c4bf3d8a",
+        "id_origin_city": "f405305f-0ce8-41c7-98f2-a88fc5842292", 
+        "title": "Conference attendance",
+        "motive": "HR told me I had to go.",
+        "advance_money": 10000,
+        "status": "Pending Review",
+        "requirements": "Flight tickets, accommodation details",
+        "priority": "Medium",
+        "created_at": "2025-05-14T11:30:00Z"
+    },
+    {
+        "id": "6a7b8c9d-0e1f-2a3b-4c5d-6e7f8a9b0c1d",
+        "id_user": "b2c3d4e5-f6a7-8901-2345-67890abcdef0", 
+        "id_admin": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "id_SOI": "4338202c-e24d-442b-b53c-3840c4bf3d8a",
+        "id_origin_city": "f405305f-0ce8-41c7-98f2-a88fc5842292",
+        "title": "Client meeting",
+        "motive": "Need to meet this client to finish the sale.",
+        "advance_money": 5000,
+        "status": "Pending Review",
+        "requirements": "Passport, visa",
+        "priority": "High",
+        "created_at": "2025-05-14T11:30:00Z"
+    }
+]

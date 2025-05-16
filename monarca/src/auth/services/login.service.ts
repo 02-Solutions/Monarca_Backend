@@ -51,12 +51,10 @@ export class LoginService {
   }
 
   async profile(req: any) {
-    const {id} = req.sessionInfo;
+    const { id } = req.sessionInfo;
     // get user by id with their permissions
     const user = await this.userChecks.getUserById(id);
 
     return { status: true, user };
-
   }
-
 }

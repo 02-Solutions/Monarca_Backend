@@ -1,9 +1,11 @@
-import { Entity, 
-  PrimaryGeneratedColumn, 
-  Column, 
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
   ManyToOne,
-  JoinColumn } from 'typeorm';
-import { RequestsDestination } from '../../requests-destinations/entities/requests-destination.entity';
+  JoinColumn,
+} from 'typeorm';
+import { RequestsDestination } from '../../requests/entities/requests-destination.entity';
 
 @Entity('reservations')
 export class Reservation {
@@ -19,10 +21,13 @@ export class Reservation {
   @Column({ type: 'varchar', nullable: false })
   link: string;
 
+  @Column({ name: 'id_request_destination', type: 'uuid' })
+  id_request_destination: string;
+
   @ManyToOne(
     () => RequestsDestination,
     (requestDestination) => requestDestination.reservations,
-    { eager: true },
+    { onDelete: 'CASCADE' },
   )
   @JoinColumn({ name: 'id_request_destination' })
   requestDestination: RequestDestination;
