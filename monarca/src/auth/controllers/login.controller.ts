@@ -22,7 +22,7 @@ export class LoginController {
     return this.loginService.logIn(data, res);
   }
   @Post('logout')
-  @HttpCode(200) 
+  @HttpCode(200)
   logOut(@Res({ passthrough: true }) res: Response) {
     return this.loginService.logOut(res);
   }

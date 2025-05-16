@@ -27,7 +27,7 @@ export class Reservation {
   @ManyToOne(
     () => RequestsDestination,
     (requestDestination) => requestDestination.reservations,
-    { eager: true },
+    { onDelete: 'CASCADE' },
   )
   @JoinColumn({ name: 'id_request_destination' })
   requestDestination: RequestDestination;

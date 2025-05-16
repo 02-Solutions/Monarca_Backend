@@ -62,12 +62,8 @@ export class RequestsStatusController {
     @Request() req: RequestInterface,
     @Param('id', new ParseUUIDPipe()) id_request: string,
   ) {
-    return await this.requestsStatusService.SOIApproval(
-      req,
-      id_request,
-    );
+    return await this.requestsStatusService.SOIApproval(req, id_request);
   }
-
 
   @Patch('finished-uploading-vouchers/:id')
   async finsihedUploadingVouchers(

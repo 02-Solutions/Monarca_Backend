@@ -12,17 +12,17 @@ export class VouchersService {
     @InjectRepository(Voucher)
     private readonly voucherRepo: Repository<Voucher>,
     @InjectRepository(RequestsDestination)
-    private readonly rdRepo: Repository<RequestsDestination>
+    private readonly rdRepo: Repository<RequestsDestination>,
   ) {}
 
   async create(data: CreateVoucherDto): Promise<Voucher> {
     const rd = await this.rdRepo.findOne({
       where: { id: data.id_request_destination },
-      relations: ['request'],                            // ← make sure your RD entity has @ManyToOne(() => Request, ...)
+      relations: ['request'], // ← make sure your RD entity has @ManyToOne(() => Request, ...)
     });
     if (!rd) {
       throw new NotFoundException(
-        `RequestDestination ${data.id_request_destination} not found`
+        `RequestDestination ${data.id_request_destination} not found`,
       );
     }
     const approverId = rd.request.id_user;
@@ -36,7 +36,7 @@ export class VouchersService {
       file_url_pdf: data.file_url_pdf,
       file_url_xml: data.file_url_xml,
       status: data.status,
-      approver_id:approverId, // Mapping the correct file URL
+      approver_id: approverId, // Mapping the correct file URL
     });
     return this.voucherRepo.save(voucher);
   }
@@ -58,7 +58,8 @@ export class VouchersService {
 
     const updatedVoucherData = {
       // Update only provided fields
-      id_request_destination: data.id_request_destination ?? existingVoucher.id_request_destination, // Use existing if not provided
+      id_request_destination:
+        data.id_request_destination ?? existingVoucher.id_request_destination, // Use existing if not provided
       class: data.class ?? existingVoucher.class, // Use existing if not provided
       amount: data.amount ?? existingVoucher.amount, // Use existing if not provided
       currency: data.currency ?? existingVoucher.currency, // Use existing if not provided

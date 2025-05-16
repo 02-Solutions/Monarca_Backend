@@ -29,8 +29,14 @@ export class Request {
   @Column()
   id_admin: string;
 
+  @Column()
+  id_SOI: string;
+
   @Column({ nullable: true, default: null })
   id_travel_agency: string;
+
+  @Column()
+  title: string;
 
   @Column()
   motive: string;
@@ -75,11 +81,17 @@ export class Request {
   @JoinColumn({ name: 'id_user' })
   user: User;
 
-  @ManyToOne(() => User, (usr) => usr.requests, {
+  @ManyToOne(() => User, (usr) => usr.assigned_requests, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'id_admin' })
   admin: User;
+
+  @ManyToOne(() => User, (usr) => usr.SOI_assigned_requests, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'id_SOI' })
+  SOI: User;
 
   @ManyToOne(() => TravelAgency, (trva) => trva.requests, {
     onDelete: 'CASCADE',

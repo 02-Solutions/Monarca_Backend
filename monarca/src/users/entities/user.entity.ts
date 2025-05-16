@@ -64,4 +64,7 @@ export class User {
 
   @OneToMany(() => Request, (req) => req.admin, {})
   assigned_requests: Request[];
+
+  @OneToMany(() => Request, (req) => req.admin, {})
+  SOI_assigned_requests: Request[];
 }

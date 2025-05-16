@@ -110,11 +110,9 @@ export class CreateRequestDto {
   @ApiProperty({
     description: 'Additional requirements or notes',
     example: 'Need a wheelchair for an elderly person',
-    required: false,
   })
   @IsString()
-  @IsOptional()
-  requirements?: string;
+  requirements: string;
 
   @ApiProperty({
     description: 'Priority level of the request',

@@ -29,7 +29,7 @@ export class Voucher {
 
   @Column({ name: 'file_url_pdf', type: 'varchar' })
   file_url_pdf: string;
-  
+
   @Column({ name: 'file_url_xml', type: 'varchar' })
   file_url_xml: string;
 
@@ -39,10 +39,10 @@ export class Voucher {
   @Column({ name: 'approver_id', type: 'uuid' })
   approver_id: string;
 
-
   @ManyToOne(
     () => RequestsDestination,
     (requestsDestination) => requestsDestination.id,
+    { onDelete: 'CASCADE' },
   )
   @JoinColumn({ name: 'id_request_destination' })
   requestDestination: RequestsDestination;

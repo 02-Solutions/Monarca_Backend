@@ -15,8 +15,7 @@ export class TravelAgenciesChecks {
     private readonly repo: Repository<TravelAgency>,
   ) {}
 
-  async Exists(id_travel_agency: string)
-  {
+  async Exists(id_travel_agency: string) {
     const travel_agency = await this.repo.findOne({
       where: { id: id_travel_agency },
     });

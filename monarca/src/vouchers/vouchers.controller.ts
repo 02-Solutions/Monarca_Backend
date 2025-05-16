@@ -14,8 +14,7 @@ import { UpdateVoucherDto } from './dto/update-voucher-dto';
 import { Voucher } from './entities/vouchers.entity';
 import { ApiTags } from '@nestjs/swagger';
 import { UploadPdfInterceptor } from 'src/utils/interceptor.middleware';
-import { UseInterceptors, UploadedFile,UploadedFiles} from '@nestjs/common';
-
+import { UseInterceptors, UploadedFile, UploadedFiles } from '@nestjs/common';
 
 @ApiTags('Vouchers') // Swagger documentation tag for the controller
 @Controller('vouchers')
@@ -60,7 +59,6 @@ export class VouchersController {
       ...fileMap,
     });
   }
-
 
   // Get all vouchers
   @Get()

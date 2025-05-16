@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Voucher } from './entities/vouchers.entity';
 import { RequestsDestination } from 'src/requests/entities/requests-destination.entity';
 @Module({
-  imports: [TypeOrmModule.forFeature([Voucher,RequestsDestination])],
+  imports: [TypeOrmModule.forFeature([Voucher, RequestsDestination])],
   controllers: [VouchersController],
   providers: [VouchersService],
 })
