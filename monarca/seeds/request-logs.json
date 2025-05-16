@@ -1,18 +1,18 @@
  [
     {
-      "id": "c4f8d1a2-b4e0-4f2a-8f9c-0a1b2c3d4e5f",
-      "idRequests": "6a7b8c9d-0e1f-2a3b-4c5d-6e7f8a9b0c1d",
-      "idUser": "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
-      "oldStatus": "pending",
-      "newStatus": "submitted",
-      "changeDate": "2025-05-12T22:00:00Z"
+      "id": "acb7cab5-477a-405b-8d80-79e6df65e138",
+      "id_request": "581c998a-9f67-4431-b6ab-635ec9794ba7",
+      "id_user": "5932b459-a3ea-46a1-8482-d56bfda8c866",
+      "old_status": "pending",
+      "new_status": "submitted",
+      "change_date": "2025-05-12T22:00:00Z"
     },
     {
-      "id": "d5a9e2b3-c5f1-5a3b-9a0d-1b2c3d4e5f6a",
-      "idRequests": "7b8c9d0e-1f2a-3b4c-5d6e-7f8a9b0c1d2e",
-      "idUser": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
-      "oldStatus": "submitted",
-      "newStatus": "approved",
-      "changeDate": "2025-05-12T22:05:00Z"
+      "id": "5c9485d4-a47a-4f14-8de0-274db0d09bec",
+      "id_request": "158c357b-762a-4781-a86f-66485076e5d7",
+      "id_user": "5932b459-a3ea-46a1-8482-d56bfda8c866",
+      "old_status": "submitted",
+      "new_status": "approved",
+      "change_date": "2025-05-12T22:05:00Z"
     }
   ]

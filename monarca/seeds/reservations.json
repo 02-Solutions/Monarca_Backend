@@ -1,14 +1,14 @@
 [
     {
-      "id": "c4d7ea3b-f5a2-6e9d-0cb1-2b3a4f5e6d7c",
-      "id_request_destination": "8c9d0e1f-2a3b-4c5d-6e7f-8a9b0c1d2e3f",
+      "id": "0fcdfe79-061b-4b98-be44-66888a25305d",
+      "id_request_destination": "17c8984c-ee37-44cf-8138-9728063b4560",
       "title": "Hotel Eiffel",
       "comments": "Standard room, city view if possible.",
       "link": "https://hoteleiffel-uuid.example.com/booking/123"
     },
     {
-      "id": "d5e8fb4c-06b3-7fae-1dc2-3c4b5a6f7e8d",
-      "id_request_destination": "9d0e1f2a-3b4c-5d6e-7f8a-9b0c1d2e3f4a",
+      "id": "c1db8bda-fdfd-4a2c-b2e5-13eeb1cd1542",
+      "id_request_destination": "04ea0e14-33f5-4edc-ba72-8cad148cbd8c",
       "title": "Hilton CDMX Airport",
       "comments": "Near airport.",
       "link": "https://hiltoncdmx-uuid.example.com/booking/789"
