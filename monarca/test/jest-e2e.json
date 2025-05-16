@@ -7,9 +7,10 @@
     "^.+\\.(t|j)s$": "ts-jest"
   },
   "moduleNameMapper": {
-    "^src/(.*)$": "<rootDir>/src/$1"
+    "^src/(.*)$": "<rootDir>/src/$1",
+    "^seed.service$": "<rootDir>/seed.service.ts"
   },
-  "moduleDirectories": ["node_modules", "src"],
+  "moduleDirectories": ["node_modules", "src", "<rootDir>"],
   "setupFiles": ["dotenv/config"],
   "testTimeout": 30000
 }
