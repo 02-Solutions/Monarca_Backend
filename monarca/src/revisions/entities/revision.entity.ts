@@ -1,4 +1,3 @@
-
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -26,7 +25,6 @@ export class Revision {
 
   @Column()
   comment: string;
-
 
   // Relationships
 

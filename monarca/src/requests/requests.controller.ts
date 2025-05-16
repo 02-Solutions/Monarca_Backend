@@ -14,7 +14,6 @@ import {
 import { RequestsService } from './requests.service';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
-import { UpdateRequestStatusDto } from './dto/update-request-status.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { PermissionsGuard } from 'src/guards/permissions.guard';
 import { RequestInterface } from 'src/guards/interfaces/request.interface';
@@ -51,7 +50,10 @@ export class RequestsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id', new ParseUUIDPipe()) id: string) {
+  async findOne(
+    @Request() req: RequestInterface,
+    @Param('id', new ParseUUIDPipe()) id: string,
+  ) {
     return this.requestsService.findOne(id);
   }
 
@@ -70,14 +72,6 @@ export class RequestsController {
       );
     }
     return this.requestsService.update(id, data);
-  }
-
-  @Patch('status/:id')
-  async updateStatus(
-    @Param('id', new ParseUUIDPipe()) id: string,
-    @Body() data: UpdateRequestStatusDto,
-  ) {
-    return this.requestsService.updateStatus(id, data);
   }
 
   @Delete(':id')

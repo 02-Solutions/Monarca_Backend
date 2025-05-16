@@ -62,5 +62,4 @@ export class RequestsDestination {
   })
   @JoinColumn({ name: 'id_destination' })
   destination: Destination;
-
 }

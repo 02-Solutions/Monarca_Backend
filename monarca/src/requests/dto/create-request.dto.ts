@@ -93,14 +93,12 @@ export class CreateRequestDto {
   @IsString()
   title: string;
 
-
   @ApiProperty({
     description: 'Detailed reason for the trip',
     example: 'I need to go on this trip because ...',
   })
   @IsString()
   motive: string;
-
 
   @ApiProperty({
     description: 'Money asked for in advance for the trip',

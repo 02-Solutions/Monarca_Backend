@@ -41,7 +41,7 @@ export class User {
 
   @ApiProperty({ example: 1 })
   @Column()
-  id_department?: number;
+  id_department?: string;
 
   @ApiProperty({ example: 2 })
   @Column()
@@ -56,12 +56,12 @@ export class User {
   role: Roles;
 
   // Hacer conexion despues
-  @OneToMany(() => Revision, (log) => log.request, {  })
+  @OneToMany(() => Revision, (log) => log.request, {})
   revisions: Revision[];
 
-  @OneToMany(() => Request, (req) => req.user, { })
+  @OneToMany(() => Request, (req) => req.user, {})
   requests: Request[];
 
-  @OneToMany(() => Request, (req) => req.admin, { })
+  @OneToMany(() => Request, (req) => req.admin, {})
   assigned_requests: Request[];
 }

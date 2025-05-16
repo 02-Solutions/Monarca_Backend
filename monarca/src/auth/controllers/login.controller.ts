@@ -6,6 +6,7 @@ import {
   Get,
   Req,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { LogInDTO } from '../dto/login.dto';
@@ -21,6 +22,7 @@ export class LoginController {
     return this.loginService.logIn(data, res);
   }
   @Post('logout')
+  @HttpCode(200) 
   logOut(@Res({ passthrough: true }) res: Response) {
     return this.loginService.logOut(res);
   }
