@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-
-import { Request as RequestEntity } from './entities/request.entity';
-=======
 import {
   Injectable,
   NotFoundException,
@@ -19,7 +12,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In, DataSource } from 'typeorm';
 import { Request as RequestEntity } from './entities/request.entity';
 import { User } from 'src/users/entities/user.entity';
->>>>>>> 673dd0f2baf47d9d29d52167ebb79ebd91283544
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
 import { UserChecks } from 'src/users/user.checks.service';
@@ -33,13 +25,6 @@ export class RequestsService {
   constructor(
     @InjectRepository(RequestEntity)
     private readonly requestsRepo: Repository<RequestEntity>,
-<<<<<<< HEAD
-  ) {}
-
-  async create(data: CreateRequestDto): Promise<RequestEntity> {
-    const newRequest = this.requestsRepo.create({
-      id_user: 'test123',
-=======
     private readonly userChecks: UserChecks,
     private readonly destinationChecks: DestinationsChecks,
     private readonly requestsChecks: RequestsChecks,
@@ -79,7 +64,6 @@ export class RequestsService {
       id_user: userId,
       id_admin: adminId,
       id_SOI: SOIId,
->>>>>>> 673dd0f2baf47d9d29d52167ebb79ebd91283544
       ...data,
       requests_destinations: data.requests_destinations.map((destDto) => ({
         ...destDto,
@@ -92,14 +76,6 @@ export class RequestsService {
     return this.requestsRepo.find();
   }
 
-<<<<<<< HEAD
-  async findOne(id: string): Promise<RequestEntity> {
-    const found = await this.requestsRepo.findOneBy({ id });
-    if (!found) {
-      throw new NotFoundException(`Request ${id} not found`);
-    }
-    return found;
-=======
   async findOne(req: RequestInterface, id: string): Promise<RequestEntity> {
     const userId = req.sessionInfo.id;
 
@@ -110,21 +86,18 @@ export class RequestsService {
     if (!request) throw new NotFoundException(`Request ${id} not found`);
 
     // VALIDAR QUE PUEDE ACCEDER REQUEST
-    if (userId !== request.id_user && userId !== request.id_admin  && userId !== request.id_SOI)
+    if (
+      userId !== request.id_user &&
+      userId !== request.id_admin &&
+      userId !== request.id_SOI
+    )
       throw new UnauthorizedException('Cannot access this request.');
 
     return request;
->>>>>>> 673dd0f2baf47d9d29d52167ebb79ebd91283544
   }
 
   async findByUser(userId: string): Promise<RequestEntity[]> {
     const list = await this.requestsRepo.find({ where: { id_user: userId } });
-<<<<<<< HEAD
-    if (list.length === 0) {
-      throw new NotFoundException(`No requests found for user ${userId}`);
-    }
-=======
->>>>>>> 673dd0f2baf47d9d29d52167ebb79ebd91283544
     return list;
   }
 
@@ -157,8 +130,13 @@ export class RequestsService {
         throw new UnauthorizedException('Unable to edit this request.');
 
       //Un request solo puede ser editado si esta en estos estados
-      if (entity.status !== "Pending Review" && entity.status !== "Changes Needed")
-        throw new ConflictException('Unable to edit this request beacuse of its current status.');
+      if (
+        entity.status !== 'Pending Review' &&
+        entity.status !== 'Changes Needed'
+      )
+        throw new ConflictException(
+          'Unable to edit this request beacuse of its current status.',
+        );
 
       //VALIDAR VALIDEZ DE CIUDADES
       if (!(await this.destinationChecks.isValid(data.id_origin_city))) {
@@ -182,9 +160,9 @@ export class RequestsService {
       entity.requests_destinations = data.requests_destinations.map((d) =>
         destRepo.create({ ...d }),
       );
-      
+
       //Update status
-      entity.status = "Pending Review";
+      entity.status = 'Pending Review';
 
       return await repo.save(entity); // single round-trip
     });
@@ -200,6 +178,4 @@ export class RequestsService {
 
     return await this.requestsRepo.save(request);
   }
-
-
 }

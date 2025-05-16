@@ -36,14 +36,6 @@ export class RequestsController {
     return result;
   }
 
-<<<<<<< HEAD
-  @Get()
-  async findAll() {
-    return this.requestsService.findAll();
-  }
-
-=======
->>>>>>> 673dd0f2baf47d9d29d52167ebb79ebd91283544
   @Get('user')
   async findByUser(@Request() req: RequestInterface) {
     const userId = req.sessionInfo.id;
@@ -53,14 +45,6 @@ export class RequestsController {
     return this.requestsService.findByUser(userId);
   }
 
-<<<<<<< HEAD
-  @Get(':id')
-  async findOne(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.requestsService.findOne(id);
-  }
-
-  @Patch(':id')
-=======
   @Get('to-approve')
   async findAssignedApprover(@Request() req: RequestInterface) {
     const userId = req.sessionInfo.id;
@@ -93,7 +77,6 @@ export class RequestsController {
   }
 
   @Put(':id')
->>>>>>> 673dd0f2baf47d9d29d52167ebb79ebd91283544
   async update(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() data: UpdateRequestDto,
