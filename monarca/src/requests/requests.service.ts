@@ -95,7 +95,8 @@ export class RequestsService {
     return request;
   }
 
-  async findByUser(userId: string): Promise<RequestEntity[]> {
+  async findByUser(req: RequestInterface): Promise<RequestEntity[]> {
+    const userId = req.sessionInfo.id;
     const list = await this.requestsRepo.find({ 
       where: { id_user: userId },
       relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination'],
@@ -103,7 +104,8 @@ export class RequestsService {
     return list;
   }
 
-  async findByAdmin(userId: string): Promise<RequestEntity[]> {
+  async findByAdmin(req: RequestInterface): Promise<RequestEntity[]> {
+    const userId = req.sessionInfo.id;
     const list = await this.requestsRepo.find({ 
       where: { id_admin: userId, status: "Pending Review" },
       relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination'],
@@ -111,7 +113,8 @@ export class RequestsService {
     return list;
   }
 
-  async findBySOI(userId: string): Promise<RequestEntity[]> {
+  async findBySOI(req: RequestInterface): Promise<RequestEntity[]> {
+    const userId = req.sessionInfo.id;
     const list = await this.requestsRepo.find({ 
       where: { id_SOI: userId },
       relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination'],
