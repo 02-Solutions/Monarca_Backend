@@ -74,7 +74,9 @@ export class RequestsService {
   }
 
   async findAll(): Promise<RequestEntity[]> {
-    return this.requestsRepo.find();
+    return this.requestsRepo.find({
+      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination'],
+    });
   }
 
   async findOne(req: RequestInterface, id: string): Promise<RequestEntity> {
@@ -82,7 +84,7 @@ export class RequestsService {
 
     const request = await this.requestsRepo.findOne({
       where: { id },
-      relations: ['requests_destinations', 'revisions'],
+      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination'],
     });
     if (!request) throw new NotFoundException(`Request ${id} not found`);
 
@@ -94,17 +96,26 @@ export class RequestsService {
   }
 
   async findByUser(userId: string): Promise<RequestEntity[]> {
-    const list = await this.requestsRepo.find({ where: { id_user: userId } });
+    const list = await this.requestsRepo.find({ 
+      where: { id_user: userId },
+      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination'],
+    });
     return list;
   }
 
   async findByAdmin(userId: string): Promise<RequestEntity[]> {
-    const list = await this.requestsRepo.find({ where: { id_admin: userId } });
+    const list = await this.requestsRepo.find({ 
+      where: { id_admin: userId, status: "Pending Review" },
+      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination'],
+    });
     return list;
   }
 
   async findBySOI(userId: string): Promise<RequestEntity[]> {
-    const list = await this.requestsRepo.find({ where: { id_SOI: userId } });
+    const list = await this.requestsRepo.find({ 
+      where: { id_SOI: userId },
+      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination'],
+    });
     return list;
   }
 

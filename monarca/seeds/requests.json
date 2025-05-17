@@ -9,7 +9,7 @@
         "title": "Conference attendance",
         "motive": "HR told me I had to go.",
         "advance_money": 10000,
-        "status": "Pending Review",
+        "status": "Completed",
         "requirements": "Flight tickets, accommodation details",
         "priority": "Medium",
         "created_at": "2025-05-14T11:30:00Z"
@@ -24,7 +24,7 @@
         "title": "Client meeting",
         "motive": "Need to meet this client to finish the sale.",
         "advance_money": 5000,
-        "status": "Pending Review",
+        "status": "Completed",
         "requirements": "Passport, visa",
         "priority": "High",
         "created_at": "2025-05-14T11:30:00Z"
