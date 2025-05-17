@@ -1,34 +1,33 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { CreateVoucherDto } from './dto/create-voucher-dto';
 import { UpdateVoucherDto } from './dto/update-voucher-dto';
 import { Voucher } from './entities/vouchers.entity';
-import { RequestsDestination } from 'src/requests/entities/requests-destination.entity';
+import { Request } from 'src/requests/entities/request.entity';
 import { privateDecrypt } from 'crypto';
 @Injectable()
 export class VouchersService {
   constructor(
     @InjectRepository(Voucher)
     private readonly voucherRepo: Repository<Voucher>,
-    @InjectRepository(RequestsDestination)
-    private readonly rdRepo: Repository<RequestsDestination>,
+    @InjectRepository(Request)
+    private readonly rRepo: Repository<Request>,
   ) {}
 
   async create(data: CreateVoucherDto): Promise<Voucher> {
-    const rd = await this.rdRepo.findOne({
-      where: { id: data.id_request_destination },
-      relations: ['request'], // ← make sure your RD entity has @ManyToOne(() => Request, ...)
+    const request = await this.rRepo.findOne({
+      where: { id: data.id_request },
     });
-    if (!rd) {
+    if (!request) {
       throw new NotFoundException(
-        `RequestDestination ${data.id_request_destination} not found`,
+        `RequestDestination ${data.id_request} not found`,
       );
     }
-    const approverId = rd.request.id_user;
+    const approverId = request.id_admin;
 
     const voucher = this.voucherRepo.create({
-      id_request_destination: data.id_request_destination, // Using the correct DTO property
+      id_request: data.id_request, // Using the correct DTO property
       class: data.class,
       amount: data.amount,
       currency: data.currency,
@@ -36,7 +35,7 @@ export class VouchersService {
       file_url_pdf: data.file_url_pdf,
       file_url_xml: data.file_url_xml,
       status: data.status,
-      approver_id: approverId, // Mapping the correct file URL
+      id_approver: approverId, // Mapping the correct file URL
     });
     return this.voucherRepo.save(voucher);
   }
@@ -58,8 +57,7 @@ export class VouchersService {
 
     const updatedVoucherData = {
       // Update only provided fields
-      id_request_destination:
-        data.id_request_destination ?? existingVoucher.id_request_destination, // Use existing if not provided
+      id_request:data.id_request ?? existingVoucher.id_request, // Use existing if not provided
       class: data.class ?? existingVoucher.class, // Use existing if not provided
       amount: data.amount ?? existingVoucher.amount, // Use existing if not provided
       currency: data.currency ?? existingVoucher.currency, // Use existing if not provided
@@ -80,5 +78,41 @@ export class VouchersService {
       throw new NotFoundException(`Voucher with ID ${id} not found`);
     }
     return { status: true, message: `Voucher with ID ${id} removed` };
+  }
+
+  async approve(id: string): Promise<{ status: boolean; message: string }> {
+    // 1) run the update
+    const result: UpdateResult = await this.voucherRepo.update(id, {
+      status: 'Voucher Approved',         // ← your “determined value” here
+    });
+
+    // 2) if nothing was affected, the id didn’t exist
+    if (result.affected === 0) {
+      throw new NotFoundException(`Voucher with ID ${id} not found`);
+    }
+
+    // 3) return a success payload
+    return {
+      status: true,
+      message: `Voucher ${id} approved`,
+    };
+  }
+
+  async deny(id: string): Promise<{ status: boolean; message: string }> {
+    // 1) run the update
+    const result: UpdateResult = await this.voucherRepo.update(id, {
+      status: 'Voucher Denied',         // ← your “determined value” here
+    });
+
+    // 2) if nothing was affected, the id didn’t exist
+    if (result.affected === 0) {
+      throw new NotFoundException(`Voucher with ID ${id} not found`);
+    }
+
+    // 3) return a success payload
+    return {
+      status: true,
+      message: `Voucher ${id} denied`,
+    };
   }
 }

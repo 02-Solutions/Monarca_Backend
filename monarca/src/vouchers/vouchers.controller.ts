@@ -22,11 +22,6 @@ export class VouchersController {
   constructor(private readonly vouchersService: VouchersService) {}
 
   // Create a new voucher
-  @Post()
-  async create(@Body() createVoucherDto: CreateVoucherDto): Promise<Voucher> {
-    return this.vouchersService.create(createVoucherDto);
-  }
-
   @UseInterceptors(UploadPdfInterceptor())
   @Post('upload')
   async uploadVoucher(
@@ -46,7 +41,7 @@ export class VouchersController {
     ];
 
     for (const file of uploaded) {
-      const publicUrl = `http://localhost:3000/files/${file.filename}`;
+      const publicUrl = `http://localhost:3000/files/vouchers/${file.filename}`;
       if (file.fieldname === 'file_url_pdf') {
         fileMap.file_url_pdf = publicUrl;
       } else if (file.fieldname === 'file_url_xml') {
@@ -80,6 +75,23 @@ export class VouchersController {
   ): Promise<Voucher> {
     return this.vouchersService.update(id, updateVoucherDto);
   }
+
+
+  @Patch(':id/approve')
+  async approve(
+    @Param('id') id: string,
+  ): Promise<{ status: boolean; message: string }> {
+    return this.vouchersService.approve(id);
+  }
+
+  @Patch(':id/deny')
+  async deny(
+    @Param('id') id: string,
+  ): Promise<{ status: boolean; message: string }> {
+    return this.vouchersService.deny(id);
+  }
+
+
 
   // Delete a voucher
   @Delete(':id')
