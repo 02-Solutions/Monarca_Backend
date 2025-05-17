@@ -28,39 +28,23 @@ export class RequestsController {
     @Request() req: RequestInterface,
     @Body() data: CreateRequestDto,
   ) {
-    const userId = req.sessionInfo.id;
-    if (!userId) {
-      throw new Error('User ID not found in cookies');
-    }
-    const result = await this.requestsService.create(userId, data);
+    const result = await this.requestsService.create(req, data);
     return result;
   }
 
   @Get('user')
   async findByUser(@Request() req: RequestInterface) {
-    const userId = req.sessionInfo.id;
-    if (!userId) {
-      throw new Error('User ID not found in cookies');
-    }
-    return this.requestsService.findByUser(userId);
+    return this.requestsService.findByUser(req);
   }
 
   @Get('to-approve')
   async findAssignedApprover(@Request() req: RequestInterface) {
-    const userId = req.sessionInfo.id;
-    if (!userId) {
-      throw new Error('User ID not found in cookies');
-    }
-    return this.requestsService.findByAdmin(userId);
+    return this.requestsService.findByAdmin(req);
   }
 
   @Get('to-approve-SOI')
   async findAssignedSOI(@Request() req: RequestInterface) {
-    const userId = req.sessionInfo.id;
-    if (!userId) {
-      throw new Error('User ID not found in cookies');
-    }
-    return this.requestsService.findBySOI(userId);
+    return this.requestsService.findBySOI(req);
   }
 
   @Get('all')
@@ -77,7 +61,7 @@ export class RequestsController {
   }
 
   @Put(':id')
-  async update(
+  async updateRequest(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() data: UpdateRequestDto,
     @Request() req: RequestInterface,

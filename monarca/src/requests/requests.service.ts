@@ -27,11 +27,11 @@ export class RequestsService {
     private readonly requestsRepo: Repository<RequestEntity>,
     private readonly userChecks: UserChecks,
     private readonly destinationChecks: DestinationsChecks,
-    private readonly requestsChecks: RequestsChecks,
     private readonly dataSource: DataSource,
   ) {}
 
-  async create(userId: string, data: CreateRequestDto) {
+  async create(req: RequestInterface, data: CreateRequestDto) {
+    const userId = req.sessionInfo.id;
     //VALIDAR VALIDEZ DE CIUDADES
     if (!(await this.destinationChecks.isValid(data.id_origin_city))) {
       throw new BadRequestException('Invalid id_origin_city.');
