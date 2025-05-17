@@ -10,6 +10,16 @@
       "status": "active"
     },
     {
+      "id": "7528d97a-02d1-4c55-9477-8b368acc09f0",
+      "id_department": "883d9e05-612c-4d08-9efb-5099952fc850", 
+      "id_role": "b0d4211d-457e-4d84-b8a4-320af380683f", 
+      "name": "Requester",
+      "last_name": "Two",
+      "password": "password",
+      "email": "requester2@monarca.com",
+      "status": "active"
+    },
+    {
       "id": "5781a1d8-f9f7-4561-b2ed-f6117877459f",
       "id_department": "883d9e05-612c-4d08-9efb-5099952fc850", 
       "id_role": "8f28d424-2d93-483a-9018-f568cf6bc13a",
@@ -37,6 +47,7 @@
       "last_name": "One",
       "password": "password",
       "email": "travelagent1@monarca.com",
-      "status": "active"
+      "status": "active",
+      "id_travel_agency": "24169971-6d7f-4bf7-982c-dad1aebac579"
     }
 ]

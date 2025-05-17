@@ -6,4 +6,5 @@ export interface UserInfoInterface {
   status: string;
   id_department: string;
   id_role: string;
+  id_travel_agency: string | undefined;
 }

@@ -47,6 +47,11 @@ export class RequestsController {
     return this.requestsService.findBySOI(req);
   }
 
+  @Get('to-reserve')
+  async findAssignedTA(@Request() req: RequestInterface) {
+    return this.requestsService.findByTA(req);
+  }
+
   @Get('all')
   async findAll() {
     return this.requestsService.findAll();
