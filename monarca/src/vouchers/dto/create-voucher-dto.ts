@@ -13,7 +13,7 @@ export class CreateVoucherDto {
     example: 'request-uuid-123',
   })
   @IsUUID()
-  id_request_destination: string;
+  id_request: string;
 
   @ApiProperty({
     description: 'Voucher classification or type',
@@ -70,5 +70,5 @@ export class CreateVoucherDto {
     example: 'd05c8455-c3d5-4a6c-b79b-2d9c695cd674',
   })
   @IsString()
-  approver_id: string;
+  id_approver: string;
 }

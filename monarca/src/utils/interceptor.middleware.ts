@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import * as fs from 'fs';
 
 export const UploadPdfInterceptor = () => {
-  const uploadPath = join(process.cwd(), 'uploads');
+  const uploadPath = join(process.cwd(), 'uploads', 'vouchers');
   console.log('path:', uploadPath);
 
   if (!fs.existsSync(uploadPath)) {
