@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException,ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
 import { CreateVoucherDto } from './dto/create-voucher-dto';
@@ -15,7 +15,7 @@ export class VouchersService {
     private readonly rRepo: Repository<Request>,
   ) {}
 
-  async create(data: CreateVoucherDto): Promise<Voucher> {
+  async create(id_user:string, data: CreateVoucherDto): Promise<Voucher> {
     const request = await this.rRepo.findOne({
       where: { id: data.id_request },
     });
@@ -25,7 +25,12 @@ export class VouchersService {
       );
     }
     const approverId = request.id_admin;
-
+    const id_creator= request.id_user;
+    if (id_user !== id_creator) {
+      throw new ForbiddenException(
+        `User ${id_user} is not authorized to create a voucher for this request`,
+      );
+    }
     const voucher = this.voucherRepo.create({
       id_request: data.id_request, // Using the correct DTO property
       class: data.class,
@@ -37,7 +42,7 @@ export class VouchersService {
       status: data.status,
       id_approver: approverId, // Mapping the correct file URL
     });
-    return this.voucherRepo.save(voucher);
+    return await this.voucherRepo.save(voucher);
   }
 
   async findAll(): Promise<Voucher[]> {
@@ -114,5 +119,17 @@ export class VouchersService {
       status: true,
       message: `Voucher ${id} denied`,
     };
+  }
+
+  async findByRequest(requestId: string): Promise<Voucher[]> {
+    const vouchers = await this.voucherRepo.find({
+      where: { id_request: requestId},
+    });
+    if (vouchers.length === 0) {
+      throw new NotFoundException(
+        `No vouchers found for Request ID ${requestId}`
+      );
+    }
+    return vouchers;
   }
 }

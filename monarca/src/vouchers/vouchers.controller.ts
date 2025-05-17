@@ -7,6 +7,8 @@ import {
   Put,
   Delete,
   Patch,
+  Req,
+  UseGuards
 } from '@nestjs/common';
 import { VouchersService } from './vouchers.service';
 import { CreateVoucherDto } from './dto/create-voucher-dto';
@@ -15,7 +17,11 @@ import { Voucher } from './entities/vouchers.entity';
 import { ApiTags } from '@nestjs/swagger';
 import { UploadPdfInterceptor } from 'src/utils/interceptor.middleware';
 import { UseInterceptors, UploadedFile, UploadedFiles } from '@nestjs/common';
+import { RequestInterface } from 'src/guards/interfaces/request.interface';
+import { AuthGuard } from 'src/guards/auth.guard';
+import { PermissionsGuard } from 'src/guards/permissions.guard';
 
+@UseGuards(AuthGuard, PermissionsGuard)
 @ApiTags('Vouchers') // Swagger documentation tag for the controller
 @Controller('vouchers')
 export class VouchersController {
@@ -25,6 +31,7 @@ export class VouchersController {
   @UseInterceptors(UploadPdfInterceptor())
   @Post('upload')
   async uploadVoucher(
+    @Req() req: RequestInterface,
     @UploadedFiles()
     files: {
       file_url_pdf?: Express.Multer.File[];
@@ -32,6 +39,8 @@ export class VouchersController {
     },
     @Body() dto: CreateVoucherDto,
   ) {
+
+    const id_user = req.sessionInfo.id; 
     const fileMap: Record<string, string> = {};
 
     // flatten both arrays into one list
@@ -49,10 +58,10 @@ export class VouchersController {
       }
     }
 
-    return this.vouchersService.create({
-      ...dto,
-      ...fileMap,
-    });
+    return this.vouchersService.create(
+      id_user,
+      {...dto, ...fileMap}
+    );
   }
 
   // Get all vouchers
@@ -62,10 +71,13 @@ export class VouchersController {
   }
 
   // Get a single voucher by its ID
-  @Get(':id')
-  async findOne(@Param('id') id: string): Promise<Voucher> {
-    return this.vouchersService.findOne(id);
+  @Get(':requestId')
+  async findByRequest(
+    @Param('requestId') requestId: string
+  ): Promise<Voucher[]> {
+    return this.vouchersService.findByRequest(requestId);
   }
+  
 
   // Update an existing voucher
   @Patch(':id')
@@ -91,13 +103,4 @@ export class VouchersController {
     return this.vouchersService.deny(id);
   }
 
-
-
-  // Delete a voucher
-  @Delete(':id')
-  async remove(
-    @Param('id') id: string,
-  ): Promise<{ status: boolean; message: string }> {
-    return this.vouchersService.remove(id);
-  }
 }
