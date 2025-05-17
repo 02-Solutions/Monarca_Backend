@@ -98,23 +98,27 @@ export class RequestsStatusService {
     return await this.requestsService.updateStatus(id_request, 'Cancelled');
   }
 
-  //NOT FINISHED
   async finishedReservations(req: RequestInterface, id_request: string) {
-    // const id_travel_agency = req.userInfo.id_travel_agency;
+    const id_travel_agency = req.userInfo.id_travel_agency;
+
     const request = await this.requestsRepo.findOne({
       where: { id: id_request },
     });
 
     if (!request) throw new NotFoundException('Invalid request id');
 
-    //TODO
-    // CAMBIAR A VER SI ES DEL TRAVEL AGENCY (ESPERAR CAMBIOS)
-    // if (request.id_travel_agency !== id_travel_agency)
-    //   throw new UnauthorizedException('Unable to cancel request.')
+    
+    // console.log("Scenario 1: ")
+    // console.log (`(!(id_travel_agency && id_travel_agency === request.id_travel_agency)) ${(!(id_travel_agency && id_travel_agency === request.id_travel_agency))}`)
+    // console.log("Scenario 2: ")
+    // console.log (` (!!id_travel_agency && id_travel_agency !== request.id_travel_agency) ${ (!!id_travel_agency && id_travel_agency !== request.id_travel_agency)}`)
+    
+    if  (!(id_travel_agency && id_travel_agency === request.id_travel_agency)) //Testear mas
+      throw new UnauthorizedException('Unable to change requests status.')
 
     if (request.status !== 'Pending Reservations')
       throw new ConflictException(
-        'Unable to chaneg status because of the requests current status.',
+        'Unable to change status because of the requests current status.',
       );
 
     return await this.requestsService.updateStatus(

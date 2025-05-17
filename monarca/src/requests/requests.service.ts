@@ -87,13 +87,16 @@ export class RequestsService {
     if (!request) throw new NotFoundException(`Request ${id} not found`);
 
     // VALIDAR QUE PUEDE ACCEDER REQUEST
+    const id_travel_agency = req.userInfo.id_travel_agency;
+    
     if (
       userId !== request.id_user &&
       userId !== request.id_admin &&
-      userId !== request.id_SOI
+      userId !== request.id_SOI && 
+      !(id_travel_agency && id_travel_agency === request.id_travel_agency) //Testear mas
     )
       throw new UnauthorizedException('Cannot access this request.');
-
+  
     return request;
   }
 
@@ -119,6 +122,20 @@ export class RequestsService {
     const userId = req.sessionInfo.id;
     const list = await this.requestsRepo.find({ 
       where: { id_SOI: userId },
+      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination'],
+    });
+    return list;
+  }
+
+  async findByTA(req: RequestInterface): Promise<RequestEntity[]> {
+    const userId = req.sessionInfo.id;
+    const travelAgencyId = req.userInfo.id_travel_agency;
+    
+    if (!travelAgencyId)
+      throw new UnauthorizedException('Cannot access this endpoint.')
+
+    const list = await this.requestsRepo.find({ 
+      where: { id_travel_agency: travelAgencyId },
       relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination'],
     });
     return list;
