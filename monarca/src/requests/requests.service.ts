@@ -1,7 +1,6 @@
 import {
   Injectable,
   NotFoundException,
-  ForbiddenException,
   HttpException,
   HttpStatus,
   BadRequestException,
@@ -9,15 +8,13 @@ import {
   ConflictException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, In, DataSource } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { Request as RequestEntity } from './entities/request.entity';
-import { User } from 'src/users/entities/user.entity';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
 import { UserChecks } from 'src/users/user.checks.service';
 import { DestinationsChecks } from 'src/destinations/destinations.checks';
 import { RequestInterface } from 'src/guards/interfaces/request.interface';
-import { RequestsChecks } from './requests.checks';
 import { RequestsDestination } from './entities/requests-destination.entity';
 
 @Injectable()
@@ -87,7 +84,11 @@ export class RequestsService {
     if (!request) throw new NotFoundException(`Request ${id} not found`);
 
     // VALIDAR QUE PUEDE ACCEDER REQUEST
-    if (userId !== request.id_user && userId !== request.id_admin  && userId !== request.id_SOI)
+    if (
+      userId !== request.id_user &&
+      userId !== request.id_admin &&
+      userId !== request.id_SOI
+    )
       throw new UnauthorizedException('Cannot access this request.');
 
     return request;
@@ -130,8 +131,13 @@ export class RequestsService {
         throw new UnauthorizedException('Unable to edit this request.');
 
       //Un request solo puede ser editado si esta en estos estados
-      if (entity.status !== "Pending Review" && entity.status !== "Changes Needed")
-        throw new ConflictException('Unable to edit this request beacuse of its current status.');
+      if (
+        entity.status !== 'Pending Review' &&
+        entity.status !== 'Changes Needed'
+      )
+        throw new ConflictException(
+          'Unable to edit this request beacuse of its current status.',
+        );
 
       //VALIDAR VALIDEZ DE CIUDADES
       if (!(await this.destinationChecks.isValid(data.id_origin_city))) {
@@ -155,9 +161,9 @@ export class RequestsService {
       entity.requests_destinations = data.requests_destinations.map((d) =>
         destRepo.create({ ...d }),
       );
-      
+
       //Update status
-      entity.status = "Pending Review";
+      entity.status = 'Pending Review';
 
       return await repo.save(entity); // single round-trip
     });
@@ -173,6 +179,4 @@ export class RequestsService {
 
     return await this.requestsRepo.save(request);
   }
-
-
 }

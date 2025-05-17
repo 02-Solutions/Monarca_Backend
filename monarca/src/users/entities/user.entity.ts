@@ -3,6 +3,7 @@ import { Department } from 'src/departments/entity/department.entity';
 import { Request } from 'src/requests/entities/request.entity';
 import { Revision } from 'src/revisions/entities/revision.entity';
 import { Roles } from 'src/roles/entity/roles.entity';
+import { TravelAgency } from 'src/travel-agencies/entities/travel-agency.entity';
 
 import {
   Entity,
@@ -47,6 +48,13 @@ export class User {
   @Column()
   id_role: string;
 
+  @ApiProperty()
+  @Column({
+    type: 'uuid',
+    nullable: true,
+  })
+  id_travel_agency?: string;
+
   @ManyToOne(() => Department, (department) => department.users)
   @JoinColumn({ name: 'id_department' })
   department?: Department;
@@ -54,6 +62,10 @@ export class User {
   @ManyToOne(() => Roles)
   @JoinColumn({ name: 'id_role' })
   role: Roles;
+
+  @ManyToOne(() => TravelAgency, (travel_agency) => travel_agency.users)
+  @JoinColumn({ name: 'id_travel_agency' })
+  travel_agency?: TravelAgency;
 
   // Hacer conexion despues
   @OneToMany(() => Revision, (log) => log.request, {})
