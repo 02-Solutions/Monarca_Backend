@@ -43,8 +43,9 @@ export class RequestsService {
     }
 
     //ASIGNAR APROVADOR
-    const adminId = await this.userChecks.getRandomApproverID();
-    if (!adminId) {
+    const id_department = req.userInfo.id_department;
+    const adminId = await this.userChecks.getRandomApproverIdFromSameDepartment(id_department, userId);
+    if (!adminId ) {
       throw new HttpException(
         'There is no admin available to assign the request.',
         HttpStatus.UNPROCESSABLE_ENTITY,

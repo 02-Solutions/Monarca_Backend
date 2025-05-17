@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { LogInDTO } from 'src/auth/dto/login.dto';
 import * as bcrypt from 'bcrypt';
 
@@ -67,6 +67,32 @@ export class UserChecks {
 
     return approvers[randomIndex].id;
   }
+
+  async getRandomApproverIdFromSameDepartment(id_department: string, id_user: string): Promise<string | null> {
+    const approvers = await this.userRepository.find({
+      where: {
+        id: Not(id_user), // Que no se pueda asignar a si mismo como aprobador
+        id_department: id_department,
+        role: {
+          name: 'Aprobador',
+
+        },
+      },
+      select: ['id'],
+      relations: [],
+    });
+
+    // console.log(approvers)
+
+    if (approvers.length === 0) {
+      return null;
+    }
+
+    const randomIndex = Math.floor(Math.random() * approvers.length);
+
+    return approvers[randomIndex].id;
+  }
+  
 
   async getRandomSOIID(): Promise<string | null> {
     const SOIs = await this.userRepository.find({

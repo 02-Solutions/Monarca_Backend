@@ -41,7 +41,7 @@ export class User {
 
   @ApiProperty({ example: 1 })
   @Column()
-  id_department?: string;
+  id_department: string;
 
   @ApiProperty({ example: 2 })
   @Column()
@@ -49,7 +49,7 @@ export class User {
 
   @ManyToOne(() => Department, (department) => department.users)
   @JoinColumn({ name: 'id_department' })
-  department?: Department;
+  department: Department;
 
   @ManyToOne(() => Roles)
   @JoinColumn({ name: 'id_role' })
