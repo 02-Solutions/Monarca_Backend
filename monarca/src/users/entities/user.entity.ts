@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Department } from 'src/departments/entity/department.entity';
 import { RolesPermissions } from 'src/roles/entity/role.entity';
+import { UserLogs } from 'src/user-logs/entity/user-logs.entity';
 
 import {
   Entity,
@@ -8,6 +9,7 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity({ name: 'users' })
@@ -51,4 +53,8 @@ export class User {
   @ManyToOne(() => RolesPermissions)
   @JoinColumn({ name: 'id_role' })
   role: RolesPermissions;
+  
+  @OneToMany(() => UserLogs, (log) => log.user)
+  logs: UserLogs[];
+
 }
