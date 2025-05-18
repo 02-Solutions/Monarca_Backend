@@ -7,21 +7,29 @@ import {
   Delete,
   Body,
   ParseUUIDPipe,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { ReservationsService } from './reservations.service';
 import {
   CreateReservationDto,
   UpdateReservationDto,
 } from './dto/reservation.dtos';
+import { AuthGuard } from 'src/guards/auth.guard';
+import { PermissionsGuard } from 'src/guards/permissions.guard';
+import { RequestInterface } from 'src/guards/interfaces/request.interface';
 
+@UseGuards(AuthGuard,PermissionsGuard)
 @Controller('reservations')
 export class ReservationsController {
   constructor(private readonly reservationsService: ReservationsService) {}
 
   @Post()
-  async create(@Body() createReservationDto: CreateReservationDto) {
-    console.log('createReservationDto :', createReservationDto);
-    return this.reservationsService.create(createReservationDto);
+  async createReservation(
+    @Request() req : RequestInterface,
+    @Body() createReservationDto: CreateReservationDto,
+    ) {
+    return this.reservationsService.createReservation(req, createReservationDto);
   }
 
   @Get()
