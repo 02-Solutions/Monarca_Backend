@@ -135,7 +135,7 @@ export class RequestsService {
       throw new UnauthorizedException('Cannot access this endpoint.')
 
     const list = await this.requestsRepo.find({ 
-      where: { id_travel_agency: travelAgencyId },
+      where: { id_travel_agency: travelAgencyId, status: "Pending Reservations" },
       relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination'],
     });
     return list;
