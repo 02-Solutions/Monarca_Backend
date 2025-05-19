@@ -14,6 +14,7 @@ import { Revision } from 'src/revisions/entities/revision.entity';
 import { Destination } from 'src/destinations/entities/destination.entity';
 import { User } from 'src/users/entities/user.entity';
 import { TravelAgency } from 'src/travel-agencies/entities/travel-agency.entity';
+import { Voucher } from 'src/vouchers/entities/vouchers.entity';
 
 @Entity({ name: 'requests' })
 export class Request {
@@ -98,4 +99,8 @@ export class Request {
   })
   @JoinColumn({ name: 'id_travel_agency' })
   travel_agency: TravelAgency;
+
+  @OneToMany(() => Voucher, (v) => v.requests, {})
+  @JoinColumn({ name: 'id_request' })
+  vouchers: Voucher[];
 }

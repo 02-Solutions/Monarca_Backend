@@ -82,7 +82,7 @@ export class RequestsService {
 
     const request = await this.requestsRepo.findOne({
       where: { id },
-      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination'],
+      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination', 'vouchers'],
     });
     if (!request) throw new NotFoundException(`Request ${id} not found`);
 
