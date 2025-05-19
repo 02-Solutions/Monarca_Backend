@@ -6,6 +6,8 @@ import {
   Length,
   IsDateString,
   isNotEmpty,
+  IsOptional,
+  IsInstance,
 } from 'class-validator';
 import { Reservation } from '../entity/reservations.entity';
 
@@ -30,13 +32,12 @@ export class CreateReservationDto {
   comments: string;
 
   @ApiProperty({
-    example: 'https://example.com/reservation/12345',
-    description: 'URL link to the reservation details',
-    required: true,
-  })
-  @IsNotEmpty()
-  @IsString()
-  link: string;
+      description: 'pdf file of the reservation',
+      example: 'file',
+    })
+   @IsOptional()
+    file?: string;
+
 
   @ApiProperty({
     description: 'ID of the request destination',
