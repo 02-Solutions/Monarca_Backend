@@ -9,6 +9,8 @@ import {
   ParseUUIDPipe,
   UseGuards,
   Request,
+  UseInterceptors,
+  UploadedFiles
 } from '@nestjs/common';
 import { ReservationsService } from './reservations.service';
 import {
@@ -18,18 +20,43 @@ import {
 import { AuthGuard } from 'src/guards/auth.guard';
 import { PermissionsGuard } from 'src/guards/permissions.guard';
 import { RequestInterface } from 'src/guards/interfaces/request.interface';
+import { UploadPdfInterceptor } from 'src/utils/uploadPdf.middleware';
 
 @UseGuards(AuthGuard,PermissionsGuard)
 @Controller('reservations')
 export class ReservationsController {
   constructor(private readonly reservationsService: ReservationsService) {}
 
+  @UseInterceptors(UploadPdfInterceptor())
   @Post()
   async createReservation(
     @Request() req : RequestInterface,
+    @UploadedFiles()
+        files: {
+          file?: Express.Multer.File[];
+        },
     @Body() createReservationDto: CreateReservationDto,
     ) {
-    return this.reservationsService.createReservation(req, createReservationDto);
+      // flatten both arrays into one list
+    const uploaded = [
+      ...(files.file || []),
+
+    ];
+
+    const fileMap: Record<string, string> = {};
+
+    for (const file of uploaded) {
+      const publicUrl = `http://localhost:3000/files/reservations/${file.filename}`;
+      if (file.fieldname === 'file') {
+        fileMap.link = publicUrl;
+      } }
+    return this.reservationsService.createReservation(req, 
+      {
+        ...createReservationDto,
+        ...fileMap,
+      } as CreateReservationDto
+    );
+    
   }
 
   @Get()
