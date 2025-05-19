@@ -73,7 +73,7 @@ export class RequestsService {
 
   async findAll(): Promise<RequestEntity[]> {
     return this.requestsRepo.find({
-      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination'],
+      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination', 'travel_agency', 'travel_agency.users'],
     });
   }
 
