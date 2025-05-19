@@ -110,7 +110,7 @@ export class RequestsService {
     const userId = req.sessionInfo.id;
     const list = await this.requestsRepo.find({ 
       where: { id_admin: userId, status: "Pending Review" },
-      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination'],
+      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'user.department', 'admin', 'SOI', 'destination'],
     });
     return list;
   }
