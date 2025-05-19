@@ -111,4 +111,72 @@ export class SeedService {
             this.logger.log('----------------------------------');
         }
     }
+
+
+    async truncate() {
+        this.logger.log('🔄 Starting manual truncate without disabling FK constraints...');
+
+        const connection = this.departmentRepo.manager.connection;
+        const queryRunner = connection.createQueryRunner();
+        await queryRunner.connect();
+
+        try {
+            await queryRunner.startTransaction();
+
+            const tables = [
+                'vouchers',
+                'revisions',
+                'request_logs',
+                'reservations',
+                'requests_destinations',
+                'requests',
+                'user_logs',
+                'roles_permissions',
+                'users',
+                'roles',
+                'travel_agencies',
+                'destinations',
+                'permissions',
+                'departments'
+            ];
+
+            for (const table of tables) {
+                this.logger.log(`🧨 Truncating table ${table}...`);
+                await queryRunner.query(`TRUNCATE TABLE "${table}" RESTART IDENTITY CASCADE;`);
+            }
+
+            await queryRunner.commitTransaction();
+            this.logger.log('✅ Truncate completed.');
+        } catch (error) {
+            this.logger.error('❌ Error during truncate:', error);
+            await queryRunner.rollbackTransaction();
+        } finally {
+            await queryRunner.release();
+        }
+    }
+
+
+
+    async dropAllTables() {
+        const connection = this.departmentRepo.manager.connection;
+        const queryRunner = connection.createQueryRunner();
+        await queryRunner.connect();
+
+        try {
+            await queryRunner.startTransaction();
+
+            this.logger.warn('❌ Dropping all tables via schema reset...');
+            await queryRunner.query(`DROP SCHEMA public CASCADE;`);
+            await queryRunner.query(`CREATE SCHEMA public;`);
+            this.logger.log('✅ All tables dropped and schema recreated.');
+
+            await queryRunner.commitTransaction();
+        } catch (error) {
+            this.logger.error('❌ Error dropping all tables:', error);
+            await queryRunner.rollbackTransaction();
+        } finally {
+            await queryRunner.release();
+        }
+    }
+
 }

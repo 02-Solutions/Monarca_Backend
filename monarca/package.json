@@ -6,7 +6,9 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "seed": "ts-node -r tsconfig-paths/register -r source-map-support/register -r dotenv/config ./seed.ts",
+    "db:seed": "ts-node -r tsconfig-paths/register -r source-map-support/register -r dotenv/config ./seed.ts --seed",
+    "db:truncate": "ts-node -r tsconfig-paths/register -r source-map-support/register -r dotenv/config ./seed.ts --truncate",
+    "db:drop": "ts-node -r tsconfig-paths/register -r source-map-support/register -r dotenv/config ./seed.ts --drop",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
