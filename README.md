@@ -14,8 +14,7 @@ _Innovación en Tecnologías de la Información para Soluciones Empresariales Av
 - [🚀 Guía de Inicialización](#-guía-de-inicialización)
   - [🛠️ Requisitos y Herramientas](#️-instalación-del-entorno-de-desarrollo)
   - [📥 Instalación del Proyecto](#-instalación-del-proyecto)
-  - [⚙️ Inicializar la Base de Datos](#️-inicializar-la-base-de-datos-con-docker-postgresql)
-  - [🌱 Insertar Datos](#insertar-datos)
+  - [🐳 Inicio y gestión de los servicios Docker (PostgreSQL)](#️-inicio-y-gestión-de-los-servicios-docker-(PostgreSQL))
   - [🔁 Reinicializar la Base de Datos](#-reinicializar-la-base-de-datos)
 - [🧪 Pruebas](#-ejecutar-pruebas-end-to-end)
 - [📑 Documentación API](#-documentación-de-los-endpoints-con-openapi)
@@ -81,8 +80,6 @@ La gestión de viajes corporativos suele estar limitada por sistemas costosos, i
 - `npm` (Node Package Manager)
 - `direnv`
 
-> Al entrar al repo, corre `direnv allow` si es la primera vez.
-
 ## Instalación de herramientas
 Instalar **direnv**
 
@@ -101,13 +98,13 @@ Habilitar **direnv** para este repositorio (desde `Monarca_Backend/monarca`):
 ```bash
 direnv allow
 ```
+> Al entrar al repositorio, corre `direnv allow` si es la primera vez despues de la descarga.
 
 Instalar **nvm** y **Node.js** (solo si no están instalados previamente)
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 
 source ~/.bashrc # o ~/.zshrc según tu shell
-
 ```
 
 ## 📥 Instalación del Proyecto
@@ -120,7 +117,7 @@ npm install
 
 ### Levantar en local
 
-Para iniciar el proyecto en modo desarrollo, ejecuta:
+Para iniciar el proyecto en modo desarrollo, corre:
 
 ```bash
 npm run start:dev
@@ -129,9 +126,11 @@ npm run start:dev
 ### Variables de entorno
 Crear un archivo `.env` con el contenido especificado en el `.env.example`:
 
-## ⚙️ Inicializar la Base de Datos con Docker (PostgreSQL)
+> Son credenciales necesarias que la base de datos utiliza
 
-**Construir la imagen Docker:**
+## 🐳 Inicio y gestión de los servicios Docker (PostgreSQL)
+
+**Construir la imagen Docker (solo una vez si no existe):**
 
 Desde la terminal, navega al directorio `Monarca_Backend/DB` y ejecuta el siguiente comando:
 
@@ -141,30 +140,70 @@ docker build -t monarca-v1 .
 
 > Esto construirá una imagen de Docker llamada monarca-v1, la cual debería aparecer en la sección de Images en Docker Desktop.
 
+---
 **Levantar los servicios con Docker Compose:**
 
 Desde el root del proyecto `Monarca_Backend`, ejecuta:
 
 ```bash
-docker compose up
+docker compose up -d
 ```
 
 > Esto iniciará los contenedores definidos en el archivo docker-compose.yaml y generará automáticamente una carpeta llamada `postgres` dentro de `Monarca_Backend/BD`, la cual contendrá los datos de la base de datos
 
+Alternativa: también se puede iniciar el contenedor desde Docker Desktop, desde la pestaña Containers y haciendo clic en Start sobre el contenedor correspondiente.
+
+---
+**Detener los contenedores**
+
+Para detener los contenedores desde la terminal ejecuta:
+
+```bash
+# Detiene todos los contenedores
+docker compose stop
+
+# Alternativa: detener un contenedor específico por su nombre
+docker stop <nombre_del_contenedor> # monarca_database
+```
+> Esto detiene los contenedores, pero no los elimina ni borra los datos.
+
+También se puede apagar desde Docker Desktop haciendo clic en Stop en la interfaz.
+
+---
+**Reiniciar los contenedores detenidos**
+
+Para volver a inicializar los contenedores ya creados desde la terminal ejecuta:
+
+```bash
+# Inicializa todos los contenedores
+docker compose start
+
+# Alternativa: inicializar un contenedor específico por su nombre
+docker start <nombre_del_contenedor> # monarca_database
+```
+> Reiniciará todos los contenedores previamente creados por Docker Compose.
+
+También se puede realizar desde Docker Desktop con el botón Start.
+
+
+## Opciones para el acceso hacia la base de datos
+
 ### Opción A: Usando pgAdmin
 
-Abre pgAdmin y configura un nuevo servidor con las siguientes configuraciones:
-   - **Nombre del servidor:** `MonarcaDB` - (puedes ser cualquier otro nombre)
+Desde la aplicacion de pgAdmin, configura un nuevo servidor con los siguientes parametros:
+   - **Nombre del servidor:** `MonarcaDB` - (puede ser cualquier otro nombre)
    - **Host:** `localhost`
-   - **Puerto:** `25000` - (verifica el puerto en `compose.yaml` si este no funciona)
+   - **Puerto:** `25000` - (verificar el puerto en `compose.yaml` si este no funciona)
    - **Usuario:** `postgres` - (por defecto, a menos que se indique lo contrario)
-   - **Contraseña:** `test123` - (verifica `POSTGRES_PASSWORD` en `compose.yaml` si este no funciona)
+   - **Contraseña:** `test123` - (verificar `POSTGRES_PASSWORD` en `compose.yaml` si este no funciona)
 
 ### Opción B: Solo desde la Terminal (sin pgAdmin)
 
 **Acceder directamente a la base de datos desde la terminal de docker:**
 
 ```bash
+# docker exec -it <nombre del contenedor> psql -U <usuario DB> -d <nombre de la DB>
+
 docker exec -it monarca_database psql -U postgres -d Monarca
 ```
 > Este comando te da acceso directo a la consola interactiva de PostgreSQL dentro del contenedor de Docker, conectado a la base de datos Monarca como el usuario postgres.
@@ -174,12 +213,35 @@ docker exec -it monarca_database psql -U postgres -d Monarca
 Dentro de la terminal en la carpeta `Monarca_Backend/monarca` corre el siguiente comando:
 
 ```bash
-npm run seed
+npm run db:seed
 ```
 
 > Este comando inserta los dummy data asignados en la carpeta de seed en la base de datos
 
-### 🔁 Reinicializar la Base de Datos
+
+## 🔁 Reinicializar la Base de Datos
+
+
+
+### Opción A: Reinicio sin eliminar el contenedor
+
+1. **Ejecutar la eliminación del contenido actual:**
+
+```bash
+# Si se necesita eliminar todos los datos
+npm run db:drop
+
+# si solo se requiere vaciar las tablas
+npm run db:truncate
+```
+2. **Volver a insertar los datos de prueba (dummy data):**
+
+```bash
+npm run db:seed
+```
+> Estos comandos deben ejecutarse desde la carpeta `Monarca_Backend/monarca`.
+
+### Opción B: Reinicio completo (contenedor y base de datos)
 
 1. **Eliminar la carpeta de datos:**
 
@@ -194,7 +256,7 @@ rm -rf Monarca_Backend/BD/postgres
 Desde el root de Monarca_Backend, ejecuta nuevamente
 
 ```bash
-docker compose up
+docker compose up -d
 ```
 > Esto recreará la base de datos desde cero, incluyendo una nueva carpeta postgres.
 
@@ -203,7 +265,7 @@ docker compose up
 Desde la carpeta de `Monarca_Backend/monarca`, ejecuta:
 
 ```bash
-npm run seed
+npm run db:seed
 ```
 Inserta nuevamente el dummy data
 
