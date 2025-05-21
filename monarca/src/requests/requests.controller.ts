@@ -6,43 +6,71 @@ import {
   Patch,
   Param,
   Delete,
-  Res,
   ParseUUIDPipe,
-} from '@nestjs/common';;
+  Request,
+  UseGuards,
+  Put,
+} from '@nestjs/common';
 import { RequestsService } from './requests.service';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
+import { AuthGuard } from 'src/guards/auth.guard';
+import { PermissionsGuard } from 'src/guards/permissions.guard';
+import { RequestInterface } from 'src/guards/interfaces/request.interface';
 
+@UseGuards(AuthGuard, PermissionsGuard)
 @Controller('requests')
 export class RequestsController {
   constructor(private readonly requestsService: RequestsService) {}
 
   @Post()
-  async create(@Body() data: CreateRequestDto) {
-    const result = await this.requestsService.create(data);
+  async create(
+    @Request() req: RequestInterface,
+    @Body() data: CreateRequestDto,
+  ) {
+    const result = await this.requestsService.create(req, data);
     return result;
   }
 
-  @Get()
+  @Get('user')
+  async findByUser(@Request() req: RequestInterface) {
+    return this.requestsService.findByUser(req);
+  }
+
+  @Get('to-approve')
+  async findAssignedApprover(@Request() req: RequestInterface) {
+    return this.requestsService.findByAdmin(req);
+  }
+
+  @Get('to-approve-SOI')
+  async findAssignedSOI(@Request() req: RequestInterface) {
+    return this.requestsService.findBySOI(req);
+  }
+
+  @Get('to-reserve')
+  async findAssignedTA(@Request() req: RequestInterface) {
+    return this.requestsService.findByTA(req);
+  }
+
+  @Get('all')
   async findAll() {
     return this.requestsService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.requestsService.findOne(id);
+  async findOne(
+    @Request() req: RequestInterface,
+    @Param('id', new ParseUUIDPipe()) id: string,
+  ) {
+    return this.requestsService.findOne(req, id);
   }
 
-  @Patch(':id')
-  async update(
+  @Put(':id')
+  async updateRequest(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() data: UpdateRequestDto,
+    @Request() req: RequestInterface,
   ) {
-    return this.requestsService.update(id, data);
-  }
-
-  @Delete(':id')
-  async remove(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.requestsService.remove(id);
+    return this.requestsService.updateRequest(req, id, data);
   }
 }

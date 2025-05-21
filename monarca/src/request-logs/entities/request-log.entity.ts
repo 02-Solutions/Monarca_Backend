@@ -12,29 +12,29 @@ export class RequestLog {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'id_requests' })
-  idRequests: string;
+  @Column({ name: 'id_request' })
+  id_request: string;
 
   @Column({ name: 'id_user' })
-  idUser: string;
+  id_user: string;
 
   @Column({ name: 'old_status' })
-  oldStatus: string;
+  old_status: string;
 
   @Column({ name: 'new_status' })
-  newStatus: string;
+  new_status: string;
 
   @Column({
     name: 'change_date',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  changeDate: string;
+  change_date: string;
 
   // Relationships
   @ManyToOne(() => Request, (request) => request.requestLogs, {
     onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: 'id_requests' })
+  @JoinColumn({ name: 'id_request' })
   request: Request;
 }

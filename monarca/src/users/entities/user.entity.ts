@@ -1,7 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Department } from 'src/departments/entity/department.entity';
+import { Request } from 'src/requests/entities/request.entity';
 import { Revision } from 'src/revisions/entities/revision.entity';
-import { RolesPermissions } from 'src/roles/entity/role.entity';
+import { Roles } from 'src/roles/entity/roles.entity';
+import { TravelAgency } from 'src/travel-agencies/entities/travel-agency.entity';
 
 import {
   Entity,
@@ -16,7 +18,7 @@ import {
 export class User {
   @ApiProperty({ example: 1 })
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @ApiProperty({ example: 'juan@gmail.com' })
   @Column()
@@ -40,22 +42,41 @@ export class User {
 
   @ApiProperty({ example: 1 })
   @Column()
-  id_department?: number;
+  id_department: string;
 
   @ApiProperty({ example: 2 })
   @Column()
   id_role: string;
 
+  @ApiProperty()
+  @Column({
+    type: 'uuid',
+    nullable: true,
+  })
+  id_travel_agency?: string;
+
   @ManyToOne(() => Department, (department) => department.users)
   @JoinColumn({ name: 'id_department' })
-  department?: Department;
+  department: Department;
 
-  @ManyToOne(() => RolesPermissions)
+  @ManyToOne(() => Roles)
   @JoinColumn({ name: 'id_role' })
-  role: RolesPermissions;
+  role: Roles;
 
-  // Hacer conexion despues 
-  // @OneToMany(() => Revision, (log) => log.request, { eager: true })
-  // revisions: Revision[];
+  @ManyToOne(() => TravelAgency, (travel_agency) => travel_agency.users)
+  @JoinColumn({ name: 'id_travel_agency' })
+  travel_agency?: TravelAgency;
 
+  // Hacer conexion despues
+  @OneToMany(() => Revision, (log) => log.request, {})
+  revisions: Revision[];
+
+  @OneToMany(() => Request, (req) => req.user, {})
+  requests: Request[];
+
+  @OneToMany(() => Request, (req) => req.admin, {})
+  assigned_requests: Request[];
+
+  @OneToMany(() => Request, (req) => req.admin, {})
+  SOI_assigned_requests: Request[];
 }

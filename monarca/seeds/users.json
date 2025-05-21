@@ -1,0 +1,53 @@
+[
+    {
+      "id": "5932b459-a3ea-46a1-8482-d56bfda8c866",
+      "id_department": "883d9e05-612c-4d08-9efb-5099952fc850", 
+      "id_role": "b0d4211d-457e-4d84-b8a4-320af380683f", 
+      "name": "Requester",
+      "last_name": "One",
+      "password": "password",
+      "email": "requester1@monarca.com",
+      "status": "active"
+    },
+    {
+      "id": "7528d97a-02d1-4c55-9477-8b368acc09f0",
+      "id_department": "883d9e05-612c-4d08-9efb-5099952fc850", 
+      "id_role": "b0d4211d-457e-4d84-b8a4-320af380683f", 
+      "name": "Requester",
+      "last_name": "Two",
+      "password": "password",
+      "email": "requester2@monarca.com",
+      "status": "active"
+    },
+    {
+      "id": "5781a1d8-f9f7-4561-b2ed-f6117877459f",
+      "id_department": "883d9e05-612c-4d08-9efb-5099952fc850", 
+      "id_role": "8f28d424-2d93-483a-9018-f568cf6bc13a",
+      "name": "Approver",
+      "last_name": "One",
+      "password": "password",
+      "email": "approver1@monarca.com",
+      "status": "active"
+    },
+    {
+      "id": "d3b833d4-a445-4c1e-9d3d-06be11d115fd",
+      "id_department": "118424c8-a563-4452-921f-795e25c58b3a", 
+      "id_role": "5719d634-d923-4103-9677-fafb05532b76",
+      "name": "SOI",
+      "last_name": "One",
+      "password": "password",
+      "email": "soi1@monarca.com",
+      "status": "active"
+    },
+    {
+      "id": "0f89e2dd-3b30-4d46-b9c3-825328dbc9c9",
+      "id_department": "118424c8-a563-4452-921f-795e25c58b3a", 
+      "id_role": "55967de0-dc95-4343-9ad6-7b1756203400",
+      "name": "TravelAgent",
+      "last_name": "One",
+      "password": "password",
+      "email": "travelagent1@monarca.com",
+      "status": "active",
+      "id_travel_agency": "24169971-6d7f-4bf7-982c-dad1aebac579"
+    }
+]

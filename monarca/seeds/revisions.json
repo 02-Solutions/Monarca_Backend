@@ -1,0 +1,16 @@
+[
+    {
+        "id": "575aa200-510c-4355-9a1a-d74c671f2196",
+        "id_user": "5781a1d8-f9f7-4561-b2ed-f6117877459f",
+        "id_request": "581c998a-9f67-4431-b6ab-635ec9794ba7",
+        "comment": "User created successfully",
+        "created_at": "2025-05-14T11:30:00Z"
+    },
+    {
+        "id": "e76fbf7a-f1ec-45a4-ad69-0ff19a2b6e3e",
+        "id_user": "5781a1d8-f9f7-4561-b2ed-f6117877459f",
+        "id_request": "158c357b-762a-4781-a86f-66485076e5d7",
+        "comment": "User created successfully",
+        "created_at": "2025-05-14T11:30:00Z"
+    }
+]

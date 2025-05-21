@@ -37,7 +37,10 @@ export class TravelAgenciesService {
   }
 
   async findOne(id: string): Promise<TravelAgencyDto> {
-    const ent = await this.repo.findOneBy({ id });
+    const ent = await this.repo.findOne({
+      where: { id },
+      relations: { users: true },
+    });
     if (!ent) throw new NotFoundException(`Travel agency ${id} not found`);
     return ent;
   }

@@ -1,0 +1,32 @@
+[
+    {
+        "id": "581c998a-9f67-4431-b6ab-635ec9794ba7",
+        "id_user": "5932b459-a3ea-46a1-8482-d56bfda8c866",
+        "id_admin": "5781a1d8-f9f7-4561-b2ed-f6117877459f",
+        "id_SOI": "d3b833d4-a445-4c1e-9d3d-06be11d115fd",
+        "id_origin_city": "d7ee631a-c1b8-42f0-8ae6-cd4d6b23470f", 
+        "id_travel_agency": "24169971-6d7f-4bf7-982c-dad1aebac579", 
+        "title": "Conference attendance",
+        "motive": "HR told me I had to go.",
+        "advance_money": 10000,
+        "status": "Completed",
+        "requirements": "Flight tickets, accommodation details",
+        "priority": "Medium",
+        "created_at": "2025-05-14T11:30:00Z"
+    },
+    {
+        "id": "158c357b-762a-4781-a86f-66485076e5d7",
+        "id_user": "5932b459-a3ea-46a1-8482-d56bfda8c866", 
+        "id_admin": "5781a1d8-f9f7-4561-b2ed-f6117877459f",
+        "id_SOI": "d3b833d4-a445-4c1e-9d3d-06be11d115fd",
+        "id_origin_city": "d7ee631a-c1b8-42f0-8ae6-cd4d6b23470f",
+        "id_travel_agency": "24169971-6d7f-4bf7-982c-dad1aebac579", 
+        "title": "Client meeting",
+        "motive": "Need to meet this client to finish the sale.",
+        "advance_money": 5000,
+        "status": "Completed",
+        "requirements": "Passport, visa",
+        "priority": "High",
+        "created_at": "2025-05-14T11:30:00Z"
+    }
+]

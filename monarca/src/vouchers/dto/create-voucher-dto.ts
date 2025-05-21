@@ -1,13 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsUUID, IsString, IsNumber, IsDateString } from 'class-validator';
-
+import {
+  IsUUID,
+  IsString,
+  IsNumber,
+  IsDateString,
+  IsOptional,
+} from 'class-validator';
+import { Transform } from 'class-transformer';
 export class CreateVoucherDto {
   @ApiProperty({
     description: 'Identifier of the related travel request',
     example: 'request-uuid-123',
   })
   @IsUUID()
-  id_request_destination: string;
+  id_request: string;
 
   @ApiProperty({
     description: 'Voucher classification or type',
@@ -20,6 +26,7 @@ export class CreateVoucherDto {
     description: 'Monetary amount of the voucher',
     example: 150.0,
   })
+  @Transform(({ value }) => Number(value))
   @IsNumber()
   amount: number;
 
@@ -27,7 +34,7 @@ export class CreateVoucherDto {
     description: 'The currency used',
     example: 'USD',
   })
-  @IsNumber()
+  @IsString()
   currency: string;
 
   @ApiProperty({
@@ -35,14 +42,21 @@ export class CreateVoucherDto {
     example: '2025-04-25T00:00:00.000Z',
   })
   @IsDateString()
-  date: Date;
+  date: string;
 
   @ApiProperty({
     description: 'URL pointing to the stored voucher file',
     example: 'https://storage.example.com/vouchers/voucher-123.pdf',
   })
-  @IsString()
-  file_url: string;
+  @IsOptional()
+  file_url_pdf?: string;
+
+  @ApiProperty({
+    description: 'URL pointing to the stored voucher file',
+    example: 'https://storage.example.com/vouchers/voucher-123.xml',
+  })
+  @IsOptional()
+  file_url_xml?: string;
 
   @ApiProperty({
     description: 'Status of approval',
@@ -50,4 +64,11 @@ export class CreateVoucherDto {
   })
   @IsString()
   status: string;
+
+  @ApiProperty({
+    description: 'ID of the person in charge of approving the vouchers',
+    example: 'd05c8455-c3d5-4a6c-b79b-2d9c695cd674',
+  })
+  @IsString()
+  id_approver: string;
 }

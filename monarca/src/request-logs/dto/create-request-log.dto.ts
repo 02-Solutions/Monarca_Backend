@@ -7,28 +7,28 @@ export class CreateRequestLogDto {
     example: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
   })
   @IsUUID()
-  idRequests: string;
+  id_request: string;
 
   @ApiProperty({
     description: 'User who made the change',
     example: 'user-uuid-666',
   })
   @IsUUID()
-  idUser: string;
+  id_user: string;
 
   @ApiProperty({
     description: 'Status before the change',
     example: 'pending',
   })
   @IsString()
-  oldStatus: string;
+  old_status: string;
 
   @ApiProperty({
     description: 'Status after the change',
     example: 'approved',
   })
   @IsString()
-  newStatus: string;
+  new_status: string;
 
   @ApiProperty({
     description: 'Date and time when the change occurred',
@@ -37,5 +37,5 @@ export class CreateRequestLogDto {
   })
   @IsDateString()
   @IsOptional()
-  changeDate?: string;
+  change_date?: string;
 }
