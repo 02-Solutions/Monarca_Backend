@@ -16,6 +16,7 @@ import { UserChecks } from 'src/users/user.checks.service';
 import { DestinationsChecks } from 'src/destinations/destinations.checks';
 import { RequestInterface } from 'src/guards/interfaces/request.interface';
 import { RequestsDestination } from './entities/requests-destination.entity';
+import { RequestLog } from 'src/request-logs/entities/request-log.entity';
 
 @Injectable()
 export class RequestsService {
@@ -25,6 +26,8 @@ export class RequestsService {
     private readonly userChecks: UserChecks,
     private readonly destinationChecks: DestinationsChecks,
     private readonly dataSource: DataSource,
+    @InjectRepository(RequestLog)
+    private readonly logsRepo: Repository<RequestLog>,
   ) {}
 
   async create(req: RequestInterface, data: CreateRequestDto) {
@@ -41,8 +44,11 @@ export class RequestsService {
 
     //ASIGNAR APROVADOR
     const id_department = req.userInfo.id_department;
-    const adminId = await this.userChecks.getRandomApproverIdFromSameDepartment(id_department, userId);
-    if (!adminId ) {
+    const adminId = await this.userChecks.getRandomApproverIdFromSameDepartment(
+      id_department,
+      userId,
+    );
+    if (!adminId) {
       throw new HttpException(
         'There is no admin available to assign the request.',
         HttpStatus.UNPROCESSABLE_ENTITY,
@@ -68,12 +74,33 @@ export class RequestsService {
       })),
     });
 
-    return this.requestsRepo.save(request);
+    const saved = await this.requestsRepo.save(request);
+
+    // Log creación de un request
+    const log = this.logsRepo.create({
+      id_request: saved.id,
+      id_user: saved.id_user,
+      report: 'Creó la solicitud',
+      new_status: saved.status,
+    });
+    await this.logsRepo.save(log);
+
+    return saved;
   }
 
   async findAll(): Promise<RequestEntity[]> {
     return this.requestsRepo.find({
-      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination', 'travel_agency', 'travel_agency.users'],
+      relations: [
+        'requests_destinations',
+        'requests_destinations.destination',
+        'revisions',
+        'user',
+        'admin',
+        'SOI',
+        'destination',
+        'travel_agency',
+        'travel_agency.users',
+      ],
     });
   }
 
@@ -82,47 +109,81 @@ export class RequestsService {
 
     const request = await this.requestsRepo.findOne({
       where: { id },
-      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination', 'vouchers'],
+      relations: [
+        'requests_destinations',
+        'requests_destinations.destination',
+        'revisions',
+        'user',
+        'admin',
+        'SOI',
+        'destination',
+        'vouchers',
+      ],
     });
     if (!request) throw new NotFoundException(`Request ${id} not found`);
 
     // VALIDAR QUE PUEDE ACCEDER REQUEST
     const id_travel_agency = req.userInfo.id_travel_agency;
-    
+
     if (
       userId !== request.id_user &&
       userId !== request.id_admin &&
-      userId !== request.id_SOI && 
+      userId !== request.id_SOI &&
       !(id_travel_agency && id_travel_agency === request.id_travel_agency) //Testear mas
     )
       throw new UnauthorizedException('Cannot access this request.');
-  
+
     return request;
   }
 
   async findByUser(req: RequestInterface): Promise<RequestEntity[]> {
     const userId = req.sessionInfo.id;
-    const list = await this.requestsRepo.find({ 
+    const list = await this.requestsRepo.find({
       where: { id_user: userId },
-      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination'],
+      relations: [
+        'requests_destinations',
+        'requests_destinations.destination',
+        'revisions',
+        'user',
+        'admin',
+        'SOI',
+        'destination',
+      ],
     });
     return list;
   }
 
   async findByAdmin(req: RequestInterface): Promise<RequestEntity[]> {
     const userId = req.sessionInfo.id;
-    const list = await this.requestsRepo.find({ 
-      where: { id_admin: userId, status: "Pending Review" },
-      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'user.department', 'admin', 'SOI', 'destination'],
+    const list = await this.requestsRepo.find({
+      where: { id_admin: userId, status: 'Pending Review' },
+      relations: [
+        'requests_destinations',
+        'requests_destinations.destination',
+        'revisions',
+        'user',
+        'user.department',
+        'admin',
+        'SOI',
+        'destination',
+      ],
     });
     return list;
   }
 
   async findBySOI(req: RequestInterface): Promise<RequestEntity[]> {
     const userId = req.sessionInfo.id;
-    const list = await this.requestsRepo.find({ 
+    const list = await this.requestsRepo.find({
       where: { id_SOI: userId },
-      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination'],
+      relations: [
+        'requests_destinations',
+        'requests_destinations.destination',
+        'revisions',
+        'user',
+        'admin',
+        'SOI',
+        'destination',
+      ],
     });
     return list;
   }
@@ -130,13 +191,24 @@ export class RequestsService {
   async findByTA(req: RequestInterface): Promise<RequestEntity[]> {
     const userId = req.sessionInfo.id;
     const travelAgencyId = req.userInfo.id_travel_agency;
-    
-    if (!travelAgencyId)
-      throw new UnauthorizedException('Cannot access this endpoint.')
 
-    const list = await this.requestsRepo.find({ 
-      where: { id_travel_agency: travelAgencyId, status: "Pending Reservations" },
-      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination'],
+    if (!travelAgencyId)
+      throw new UnauthorizedException('Cannot access this endpoint.');
+
+    const list = await this.requestsRepo.find({
+      where: {
+        id_travel_agency: travelAgencyId,
+        status: 'Pending Reservations',
+      },
+      relations: [
+        'requests_destinations',
+        'requests_destinations.destination',
+        'revisions',
+        'user',
+        'admin',
+        'SOI',
+        'destination',
+      ],
     });
     return list;
   }
@@ -194,7 +266,18 @@ export class RequestsService {
       //Update status
       entity.status = 'Pending Review';
 
-      return await repo.save(entity); // single round-trip
+      const updated = await repo.save(entity);
+
+      // Log de actualización
+      const log = manager.getRepository(RequestLog).create({
+        id_request: updated.id,
+        id_user: updated.id_user,
+        report: 'Actualizó la solicitud',
+        new_status: updated.status,
+      });
+      await manager.getRepository(RequestLog).save(log);
+
+      return updated;
     });
   }
 
@@ -206,6 +289,17 @@ export class RequestsService {
     }
     request.status = newStatus;
 
-    return await this.requestsRepo.save(request);
+    const updated = await this.requestsRepo.save(request);
+
+    // Log de cambio de estado
+    const log = this.logsRepo.create({
+      id_request: updated.id,
+      id_user: updated.id_user,
+      report: 'Cambió el estado',
+      new_status: newStatus,
+    });
+    await this.logsRepo.save(log);
+
+    return updated;
   }
 }
