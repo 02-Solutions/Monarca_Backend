@@ -16,7 +16,7 @@ import { UpdateVoucherDto } from './dto/update-voucher-dto';
 import { Voucher } from './entities/vouchers.entity';
 import { ApiTags } from '@nestjs/swagger';
 import { UploadPdfInterceptor } from 'src/utils/interceptor.middleware';
-import { UseInterceptors, UploadedFile, UploadedFiles } from '@nestjs/common';
+import { UseInterceptors, UploadedFiles, InternalServerErrorException } from '@nestjs/common';
 import { RequestInterface } from 'src/guards/interfaces/request.interface';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { PermissionsGuard } from 'src/guards/permissions.guard';
@@ -40,6 +40,12 @@ export class VouchersController {
     @Body() dto: CreateVoucherDto,
   ) {
 
+    const baseDownloadLink = process.env.DOWNLOAD_LINK;
+    const pathToVocuherDownload= "/files/vouchers/";
+    if (!baseDownloadLink) {
+      throw new InternalServerErrorException('DOWNLOAD_LINK not configured');
+    }
+
     const id_user = req.sessionInfo.id; 
     const fileMap: Record<string, string> = {};
 
@@ -50,7 +56,7 @@ export class VouchersController {
     ];
 
     for (const file of uploaded) {
-      const publicUrl = `http://localhost:3000/files/vouchers/${file.filename}`;
+      const publicUrl = `${baseDownloadLink}${pathToVocuherDownload}${file.filename}`;
       if (file.fieldname === 'file_url_pdf') {
         fileMap.file_url_pdf = publicUrl;
       } else if (file.fieldname === 'file_url_xml') {
