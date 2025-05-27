@@ -1,18 +1,18 @@
- [
-    {
-      "id": "acb7cab5-477a-405b-8d80-79e6df65e138",
-      "id_request": "581c998a-9f67-4431-b6ab-635ec9794ba7",
-      "id_user": "5932b459-a3ea-46a1-8482-d56bfda8c866",
-      "old_status": "pending",
-      "new_status": "submitted",
-      "change_date": "2025-05-12T22:00:00Z"
-    },
-    {
-      "id": "5c9485d4-a47a-4f14-8de0-274db0d09bec",
-      "id_request": "158c357b-762a-4781-a86f-66485076e5d7",
-      "id_user": "5932b459-a3ea-46a1-8482-d56bfda8c866",
-      "old_status": "submitted",
-      "new_status": "approved",
-      "change_date": "2025-05-12T22:05:00Z"
-    }
-  ]
+[
+  {
+    "id": "acb7cab5-477a-405b-8d80-79e6df65e138",
+    "id_request": "581c998a-9f67-4431-b6ab-635ec9794ba7",
+    "id_user": "5932b459-a3ea-46a1-8482-d56bfda8c866",
+    "report": "Editó",
+    "new_status": "submitted",
+    "change_date": "2025-05-12T22:00:00Z"
+  },
+  {
+    "id": "5c9485d4-a47a-4f14-8de0-274db0d09bec",
+    "id_request": "158c357b-762a-4781-a86f-66485076e5d7",
+    "id_user": "5932b459-a3ea-46a1-8482-d56bfda8c866",
+    "report": "Aprobó",
+    "new_status": "approved",
+    "change_date": "2025-05-12T22:05:00Z"
+  }
+]

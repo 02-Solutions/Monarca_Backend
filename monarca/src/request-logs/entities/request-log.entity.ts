@@ -18,8 +18,12 @@ export class RequestLog {
   @Column({ name: 'id_user' })
   id_user: string;
 
-  @Column({ name: 'old_status' })
-  old_status: string;
+  @Column({
+    name: 'report',
+    type: 'varchar',
+    nullable: true,
+  })
+  report: string | null;
 
   @Column({ name: 'new_status' })
   new_status: string;
