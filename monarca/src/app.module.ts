@@ -75,7 +75,7 @@ import { join } from 'path';
         UserLogs,
         Revision,
       ],
-      synchronize: true,
+      synchronize: false,
     }),
 
     TypeOrmModule.forFeature([
