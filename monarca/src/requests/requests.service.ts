@@ -8,7 +8,7 @@ import {
   ConflictException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DataSource } from 'typeorm';
+import { Repository, DataSource, EntityManager } from 'typeorm';
 import { Request as RequestEntity } from './entities/request.entity';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
@@ -26,9 +26,43 @@ export class RequestsService {
     private readonly userChecks: UserChecks,
     private readonly destinationChecks: DestinationsChecks,
     private readonly dataSource: DataSource,
-    @InjectRepository(RequestLog)
-    private readonly logsRepo: Repository<RequestLog>,
   ) {}
+
+  private async getCityName(id: string): Promise<string> {
+    return await this.destinationChecks.getCityNameById(id);
+  }
+
+  private async logRequestAction(
+    manager: EntityManager,
+    id_request: string,
+    id_user: string,
+    action: 'create' | 'update' | 'status_change',
+    new_status: string,
+    extraData?: Record<string, any>,
+  ) {
+    let report: string;
+
+    switch (action) {
+      case 'create':
+        report = `Solicitud creada con origen en la ciudad ${extraData?.originCity} y ${extraData?.numDestinations} destino(s).`;
+        break;
+      case 'update':
+        report = `Solicitud actualizada. Se modificaron campos como motivo, ciudad de origen o destinos.`;
+        break;
+      case 'status_change':
+        report = `El estado cambió de '${extraData?.fromStatus}' a '${new_status}'.`;
+        break;
+      default:
+        report = 'Acción realizada en la solicitud.';
+    }
+
+    await manager.save(RequestLog, {
+      id_request,
+      id_user,
+      report,
+      new_status,
+    });
+  }
 
   async create(req: RequestInterface, data: CreateRequestDto) {
     const userId = req.sessionInfo.id;
@@ -77,13 +111,18 @@ export class RequestsService {
     const saved = await this.requestsRepo.save(request);
 
     // Log creación de un request
-    const log = this.logsRepo.create({
-      id_request: saved.id,
-      id_user: saved.id_user,
-      report: 'Creó la solicitud',
-      new_status: saved.status,
-    });
-    await this.logsRepo.save(log);
+    const originCityName = await this.getCityName(saved.id_origin_city);
+    await this.logRequestAction(
+      this.dataSource.createEntityManager(),
+      saved.id,
+      saved.id_user,
+      'create',
+      saved.status,
+      {
+        originCity: originCityName,
+        numDestinations: saved.requests_destinations.length,
+      },
+    );
 
     return saved;
   }
@@ -269,13 +308,13 @@ export class RequestsService {
       const updated = await repo.save(entity);
 
       // Log de actualización
-      const log = manager.getRepository(RequestLog).create({
-        id_request: updated.id,
-        id_user: updated.id_user,
-        report: 'Actualizó la solicitud',
-        new_status: updated.status,
-      });
-      await manager.getRepository(RequestLog).save(log);
+      await this.logRequestAction(
+        manager,
+        updated.id,
+        updated.id_user,
+        'update',
+        updated.status,
+      );
 
       return updated;
     });
@@ -287,18 +326,20 @@ export class RequestsService {
     if (!request) {
       throw new Error('Request not found');
     }
+    const previousStatus = request.status;
     request.status = newStatus;
 
     const updated = await this.requestsRepo.save(request);
 
     // Log de cambio de estado
-    const log = this.logsRepo.create({
-      id_request: updated.id,
-      id_user: updated.id_user,
-      report: 'Cambió el estado',
-      new_status: newStatus,
-    });
-    await this.logsRepo.save(log);
+    await this.logRequestAction(
+      this.dataSource.createEntityManager(),
+      updated.id,
+      updated.id_user,
+      'status_change',
+      newStatus,
+      { fromStatus: previousStatus },
+    );
 
     return updated;
   }
