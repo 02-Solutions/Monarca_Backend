@@ -36,6 +36,7 @@ export class VouchersService {
       class: data.class,
       amount: data.amount,
       currency: data.currency,
+      tax_type: data.tax_type,
       date: new Date(data.date), // Ensuring that the date is correctly parsed
       file_url_pdf: data.file_url_pdf,
       file_url_xml: data.file_url_xml,
@@ -65,6 +66,7 @@ export class VouchersService {
       id_request:data.id_request ?? existingVoucher.id_request, // Use existing if not provided
       class: data.class ?? existingVoucher.class, // Use existing if not provided
       amount: data.amount ?? existingVoucher.amount, // Use existing if not provided
+      tax_type: data.tax_type ?? existingVoucher.tax_type, // Use existing if not provided
       currency: data.currency ?? existingVoucher.currency, // Use existing if not provided
       date: data.date ? new Date(data.date) : existingVoucher.date, // Update only if new date is provided
       file_url_pdf: data.file_url_pdf ?? existingVoucher.file_url_pdf, // Use existing if not provided

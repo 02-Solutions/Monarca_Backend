@@ -31,6 +31,13 @@ export class CreateVoucherDto {
   amount: number;
 
   @ApiProperty({
+    description: 'The type of tax applied',
+    example: '15%',
+  })
+  @IsString()
+  tax_type: string;
+
+  @ApiProperty({
     description: 'The currency used',
     example: 'USD',
   })
