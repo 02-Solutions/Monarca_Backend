@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CostCenter } from 'src/cost-centers/entity/cost-centers.entity';
 import { Department } from './src/departments/entity/department.entity';
 import { Destination } from 'src/destinations/entities/destination.entity';
 import { User } from 'src/users/entities/user.entity';
@@ -31,6 +32,7 @@ export class SeedService {
 
     constructor(
         @InjectRepository(Department) private readonly departmentRepo: Repository<Department>,
+        @InjectRepository(CostCenter) private readonly costCenterRepo: Repository<CostCenter>,
         @InjectRepository(Destination) private readonly destinationRepo: Repository<Destination>,
         @InjectRepository(User) private readonly userRepo: Repository<User>,
         @InjectRepository(UserLogs) private readonly userLogsRepo: Repository<UserLogs>,
@@ -48,6 +50,7 @@ export class SeedService {
 
     async run() {
         const seedData: SeedData[] = [
+            { repo: this.costCenterRepo, file: 'cost-centers.json', entityName: 'CostCenter' },
             { repo: this.departmentRepo, file: 'departments.json', entityName: 'Department' },
             { repo: this.permissionRepo, file: 'permissions.json', entityName: 'Permission' },
             { repo: this.destinationRepo, file: 'destinations.json', entityName: 'Destination' },
@@ -99,10 +102,21 @@ export class SeedService {
                     let user: User | undefined;
                     user = await hashPasswords(entity as User);
                     await repo.save(user);
-                } else{
+                } else if (entityName === 'Department') {
+                    const costCenter = await this.costCenterRepo.findOneByOrFail({ id: entity.cost_center_id });
+                    
+                    const department = this.departmentRepo.create({
+                        id: entity.id,
+                        name: entity.name,
+                        cost_center: costCenter,
+                    });
+                
+                    await this.departmentRepo.save(department);
+                } else {
                     const newEntity = repo.create(entity);
                     await repo.save(newEntity);
                 }
+                
                 this.logger.log(`${entityName} ${JSON.stringify(entity)} created`);
             }
 
@@ -137,7 +151,8 @@ export class SeedService {
                 'travel_agencies',
                 'destinations',
                 'permissions',
-                'departments'
+                'departments',
+                'cost_centers'
             ];
 
             for (const table of tables) {
