@@ -46,6 +46,11 @@ export class RequestsController {
   async findAssignedSOI(@Request() req: RequestInterface) {
     return this.requestsService.findBySOI(req);
   }
+  // Para jalar todos los requests en estatus de Pending Refund Approval asignados a un SOI
+  @Get('refund-to-approve-SOI')
+  async findPendingRefundApproval(@Request() req: RequestInterface) {
+    return this.requestsService.findPendingRefundApproval(req);
+  }
 
   @Get('to-reserve')
   async findAssignedTA(@Request() req: RequestInterface) {
