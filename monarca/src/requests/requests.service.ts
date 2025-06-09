@@ -227,6 +227,24 @@ export class RequestsService {
     return list;
   }
 
+  // Para jalar todos los requests en estatus de Pending Refund Approval asignados a un SOI
+  async findPendingRefundApproval(req: RequestInterface): Promise<RequestEntity[]> {
+    const userId = req.sessionInfo.id;
+    const list = await this.requestsRepo.find({
+      where: { status: 'Pending Refund Approval' },
+      relations: [
+        'requests_destinations',
+        'requests_destinations.destination',
+        'revisions',
+        'user',
+        'admin',
+        'SOI',
+        'destination',
+      ],
+    });
+    return list;
+  }
+
   async findByTA(req: RequestInterface): Promise<RequestEntity[]> {
     const userId = req.sessionInfo.id;
     const travelAgencyId = req.userInfo.id_travel_agency;
