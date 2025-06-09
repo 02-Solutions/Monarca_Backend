@@ -86,4 +86,15 @@ export class RequestsStatusController {
       id_request,
     );
   }
+
+  @Patch('complete-request/:id')
+  async finsihedRegisteringRequest(
+    @Request() req: RequestInterface,
+    @Param('id', new ParseUUIDPipe()) id_request: string,
+  ) {
+    return await this.requestsStatusService.finsihedRegisteringRequest(
+      req,
+      id_request,
+    );
+  }
 }

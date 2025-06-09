@@ -8,6 +8,6 @@ import { RequestLogsController } from './request-logs.controller';
   imports: [TypeOrmModule.forFeature([RequestLog])],
   controllers: [RequestLogsController],
   providers: [RequestLogsService],
-  exports: [RequestLogsService],
+  exports: [TypeOrmModule, RequestLogsService],
 })
 export class RequestLogsModule {}

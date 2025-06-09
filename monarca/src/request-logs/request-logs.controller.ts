@@ -18,17 +18,6 @@ import { UpdateRequestLogDto } from './dto/update-request-log.dto';
 export class RequestLogsController {
   constructor(private readonly logsService: RequestLogsService) {}
 
-  @Post()
-  async create(
-    @Body() data: CreateRequestLogDto,
-    @Res({ passthrough: true }) res: Response,
-  ) {
-    console.log('CreateRequestLogDto:', data);
-    const result = await this.logsService.create(data);
-    res.status(201);
-    return result;
-  }
-
   @Get()
   async findAll() {
     return this.logsService.findAll();
@@ -37,18 +26,5 @@ export class RequestLogsController {
   @Get(':id')
   async findOne(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.logsService.findOne(id);
-  }
-
-  @Patch(':id')
-  async update(
-    @Param('id', new ParseUUIDPipe()) id: string,
-    @Body() data: UpdateRequestLogDto,
-  ) {
-    return this.logsService.update(id, data);
-  }
-
-  @Delete(':id')
-  async remove(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.logsService.remove(id);
   }
 }

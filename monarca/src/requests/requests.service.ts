@@ -8,7 +8,7 @@ import {
   ConflictException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DataSource } from 'typeorm';
+import { Repository, DataSource, EntityManager } from 'typeorm';
 import { Request as RequestEntity } from './entities/request.entity';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
@@ -16,6 +16,7 @@ import { UserChecks } from 'src/users/user.checks.service';
 import { DestinationsChecks } from 'src/destinations/destinations.checks';
 import { RequestInterface } from 'src/guards/interfaces/request.interface';
 import { RequestsDestination } from './entities/requests-destination.entity';
+import { RequestLog } from 'src/request-logs/entities/request-log.entity';
 
 @Injectable()
 export class RequestsService {
@@ -26,6 +27,42 @@ export class RequestsService {
     private readonly destinationChecks: DestinationsChecks,
     private readonly dataSource: DataSource,
   ) {}
+
+  private async getCityName(id: string): Promise<string> {
+    return await this.destinationChecks.getCityNameById(id);
+  }
+
+  private async logRequestAction(
+    manager: EntityManager,
+    id_request: string,
+    id_user: string,
+    action: 'create' | 'update' | 'status_change',
+    new_status: string,
+    extraData?: Record<string, any>,
+  ) {
+    let report: string;
+
+    switch (action) {
+      case 'create':
+        report = `Solicitud creada con origen en la ciudad ${extraData?.originCity} y ${extraData?.numDestinations} destino(s).`;
+        break;
+      case 'update':
+        report = `Solicitud actualizada. Se modificaron campos como motivo, ciudad de origen o destinos.`;
+        break;
+      case 'status_change':
+        report = `El estado cambió de '${extraData?.fromStatus}' a '${new_status}'.`;
+        break;
+      default:
+        report = 'Acción realizada en la solicitud.';
+    }
+
+    await manager.save(RequestLog, {
+      id_request,
+      id_user,
+      report,
+      new_status,
+    });
+  }
 
   async create(req: RequestInterface, data: CreateRequestDto) {
     const userId = req.sessionInfo.id;
@@ -41,8 +78,11 @@ export class RequestsService {
 
     //ASIGNAR APROVADOR
     const id_department = req.userInfo.id_department;
-    const adminId = await this.userChecks.getRandomApproverIdFromSameDepartment(id_department, userId);
-    if (!adminId ) {
+    const adminId = await this.userChecks.getRandomApproverIdFromSameDepartment(
+      id_department,
+      userId,
+    );
+    if (!adminId) {
       throw new HttpException(
         'There is no admin available to assign the request.',
         HttpStatus.UNPROCESSABLE_ENTITY,
@@ -68,12 +108,38 @@ export class RequestsService {
       })),
     });
 
-    return this.requestsRepo.save(request);
+    const saved = await this.requestsRepo.save(request);
+
+    // Log creación de un request
+    const originCityName = await this.getCityName(saved.id_origin_city);
+    await this.logRequestAction(
+      this.dataSource.createEntityManager(),
+      saved.id,
+      saved.id_user,
+      'create',
+      saved.status,
+      {
+        originCity: originCityName,
+        numDestinations: saved.requests_destinations.length,
+      },
+    );
+
+    return saved;
   }
 
   async findAll(): Promise<RequestEntity[]> {
     return this.requestsRepo.find({
-      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination', 'travel_agency', 'travel_agency.users'],
+      relations: [
+        'requests_destinations',
+        'requests_destinations.destination',
+        'revisions',
+        'user',
+        'admin',
+        'SOI',
+        'destination',
+        'travel_agency',
+        'travel_agency.users',
+      ],
     });
   }
 
@@ -82,29 +148,46 @@ export class RequestsService {
 
     const request = await this.requestsRepo.findOne({
       where: { id },
-      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination', 'vouchers'],
+      relations: [
+        'requests_destinations',
+        'requests_destinations.destination',
+        'revisions',
+        'user',
+        'admin',
+        'SOI',
+        'destination',
+        'vouchers',
+      ],
     });
     if (!request) throw new NotFoundException(`Request ${id} not found`);
 
     // VALIDAR QUE PUEDE ACCEDER REQUEST
     const id_travel_agency = req.userInfo.id_travel_agency;
-    
+
     if (
       userId !== request.id_user &&
       userId !== request.id_admin &&
-      userId !== request.id_SOI && 
+      userId !== request.id_SOI &&
       !(id_travel_agency && id_travel_agency === request.id_travel_agency) //Testear mas
     )
       throw new UnauthorizedException('Cannot access this request.');
-  
+
     return request;
   }
 
   async findByUser(req: RequestInterface): Promise<RequestEntity[]> {
     const userId = req.sessionInfo.id;
-    const list = await this.requestsRepo.find({ 
+    const list = await this.requestsRepo.find({
       where: { id_user: userId },
-      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination'],
+      relations: [
+        'requests_destinations',
+        'requests_destinations.destination',
+        'revisions',
+        'user',
+        'admin',
+        'SOI',
+        'destination',
+      ],
     });
     return list;
   }
@@ -120,9 +203,35 @@ export class RequestsService {
 
   async findBySOI(req: RequestInterface): Promise<RequestEntity[]> {
     const userId = req.sessionInfo.id;
-    const list = await this.requestsRepo.find({ 
+    const list = await this.requestsRepo.find({
       where: { id_SOI: userId },
-      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination'],
+      relations: [
+        'requests_destinations',
+        'requests_destinations.destination',
+        'revisions',
+        'user',
+        'admin',
+        'SOI',
+        'destination',
+      ],
+    });
+    return list;
+  }
+
+  // Para jalar todos los requests en estatus de Pending Refund Approval asignados a un SOI
+  async findPendingRefundApproval(req: RequestInterface): Promise<RequestEntity[]> {
+    const userId = req.sessionInfo.id;
+    const list = await this.requestsRepo.find({
+      where: { status: 'Pending Refund Approval' },
+      relations: [
+        'requests_destinations',
+        'requests_destinations.destination',
+        'revisions',
+        'user',
+        'admin',
+        'SOI',
+        'destination',
+      ],
     });
     return list;
   }
@@ -130,13 +239,24 @@ export class RequestsService {
   async findByTA(req: RequestInterface): Promise<RequestEntity[]> {
     const userId = req.sessionInfo.id;
     const travelAgencyId = req.userInfo.id_travel_agency;
-    
-    if (!travelAgencyId)
-      throw new UnauthorizedException('Cannot access this endpoint.')
 
-    const list = await this.requestsRepo.find({ 
-      where: { id_travel_agency: travelAgencyId, status: "Pending Reservations" },
-      relations: ['requests_destinations', 'requests_destinations.destination', 'revisions', 'user', 'admin', 'SOI', 'destination'],
+    if (!travelAgencyId)
+      throw new UnauthorizedException('Cannot access this endpoint.');
+
+    const list = await this.requestsRepo.find({
+      where: {
+        id_travel_agency: travelAgencyId,
+        status: 'Pending Reservations',
+      },
+      relations: [
+        'requests_destinations',
+        'requests_destinations.destination',
+        'revisions',
+        'user',
+        'admin',
+        'SOI',
+        'destination',
+      ],
     });
     return list;
   }
@@ -194,7 +314,18 @@ export class RequestsService {
       //Update status
       entity.status = 'Pending Review';
 
-      return await repo.save(entity); // single round-trip
+      const updated = await repo.save(entity);
+
+      // Log de actualización
+      await this.logRequestAction(
+        manager,
+        updated.id,
+        updated.id_user,
+        'update',
+        updated.status,
+      );
+
+      return updated;
     });
   }
 
@@ -204,8 +335,21 @@ export class RequestsService {
     if (!request) {
       throw new Error('Request not found');
     }
+    const previousStatus = request.status;
     request.status = newStatus;
 
-    return await this.requestsRepo.save(request);
+    const updated = await this.requestsRepo.save(request);
+
+    // Log de cambio de estado
+    await this.logRequestAction(
+      this.dataSource.createEntityManager(),
+      updated.id,
+      updated.id_user,
+      'status_change',
+      newStatus,
+      { fromStatus: previousStatus },
+    );
+
+    return updated;
   }
 }
