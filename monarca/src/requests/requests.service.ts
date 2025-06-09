@@ -231,7 +231,10 @@ export class RequestsService {
   async findPendingRefundApproval(req: RequestInterface): Promise<RequestEntity[]> {
     const userId = req.sessionInfo.id;
     const list = await this.requestsRepo.find({
-      where: { status: 'Pending Refund Approval' },
+      where: { 
+        status: 'Pending Refund Approval',
+        id_SOI: userId
+      },
       relations: [
         'requests_destinations',
         'requests_destinations.destination',

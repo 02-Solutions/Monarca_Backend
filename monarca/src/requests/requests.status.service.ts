@@ -201,7 +201,7 @@ export class RequestsStatusService {
 
     if (!request) throw new NotFoundException('Invalid request id');
 
-    if (request.id_admin !== id_user)
+    if (request.id_SOI !== id_user)
       throw new UnauthorizedException('Unable to change status on request.');
 
     if (request.status !== 'Pending Refund Approval')
