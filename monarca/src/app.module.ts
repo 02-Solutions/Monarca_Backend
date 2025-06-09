@@ -30,6 +30,8 @@ import { RolePermission } from './roles/entity/roles_permissions.entity';
 import { GuardsModule } from './guards/guards.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { CostCentersModule } from './cost-centers/cost-centers.module';
+import { CostCenter } from './cost-centers/entity/cost-centers.entity';
 
 @Module({
   imports: [
@@ -42,6 +44,7 @@ import { join } from 'path';
     TravelAgenciesModule,
     Roles,
     DepartmentsModule,
+    CostCentersModule,
     RequestsModule,
     RequestLogsModule,
     ReservationsModule,
@@ -62,6 +65,7 @@ import { join } from 'path';
       entities: [
         User,
         Department,
+        CostCenter,
         Destination,
         Request,
         RequestsDestination,
@@ -81,6 +85,7 @@ import { join } from 'path';
     TypeOrmModule.forFeature([
       User,
       Department,
+      CostCenter,
       Destination,
       Request,
       RequestsDestination,
@@ -94,6 +99,7 @@ import { join } from 'path';
       UserLogs,
       Revision,
     ]),
+
   ],
   controllers: [],
   providers: [SeedService],
