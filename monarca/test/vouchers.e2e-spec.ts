@@ -3,16 +3,49 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from 'src/app.module';
 import * as dotenv from 'dotenv';
-import { CreateVoucherDto } from 'src/vouchers/dto/create-voucher-dto';
 import { UpdateVoucherDto } from 'src/vouchers/dto/update-voucher-dto';
+import { AuthGuard } from 'src/guards/auth.guard';
+import { PermissionsGuard } from 'src/guards/permissions.guard';
+import * as path from 'path';
+import * as fs   from 'fs';
+
+const REQUESTER_ID= "5932b459-a3ea-46a1-8482-d56bfda8c866";
+const REQUEST_ID="581c998a-9f67-4431-b6ab-635ec9794ba7";
+let  admin_id="";
+let actingUserId: string;
+
+const authStub = {
+  canActivate: (ctx) => {
+    const req = ctx.switchToHttp().getRequest();
+    req.sessionInfo = { id: actingUserId };
+    return true;
+  },
+};
+
+const UPLOAD_DIR = path.join(__dirname, '..', 'uploads', 'vouchers');
+
+// helper that returns the first file whose name ends with <ext>
+function pickFile(ext: string): string {
+  const file = fs
+    .readdirSync(UPLOAD_DIR)
+    .find((f) => f.toLowerCase().endsWith(ext.toLowerCase()));
+
+  if (!file) throw new Error(`No *${ext} file found in ${UPLOAD_DIR}`);
+  return path.join(UPLOAD_DIR, file);
+}
+const pdfPath = pickFile('.pdf'); 
+const xmlPath = pickFile('.xml');  
+
 dotenv.config();
 describe('Vouchers e2e', () => {
   let app: INestApplication;
-
+  let voucherId: string;
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    }).overrideGuard(AuthGuard).useValue(authStub)
+    .overrideGuard(PermissionsGuard).useValue({ canActivate: () => true })
+    .compile();
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(
@@ -29,131 +62,86 @@ describe('Vouchers e2e', () => {
     await app.close();
   });
 
-  it('/vouchers (GET) debe retornar todas', async () => {
+  it('/vouchers/581c998a-9f67-4431-b6ab-635ec9794ba7 (GET) debe retornar todas relacionadas a ese request ID', async () => {
+    actingUserId= admin_id;
       const res = await request(app.getHttpServer())
-        .get('/vouchers')
+        .get('/vouchers/581c998a-9f67-4431-b6ab-635ec9794ba7')
         .expect(200);
   
       expect(Array.isArray(res.body)).toBe(true);
     });
 
-    it('/vouchers (POST) debe registar una', async () => {
-        const dto={
-            id_request: "a2b5c8f1-d3e0-4c7b-8a9d-0f1e2d3c4b5a",
-            class: "HOT hotel",
-            amount: 150.0,
-            currency: "YEN",
-            date: "2025-04-25T00:00:00.000Z",
-            file_url: "https://storage.example.com/vouchers/voucher-123.pdf",
-            status: "voucher accepted"
-          }
+    it('/vouchers/upload (POST) debe registar una', async () => {
+      actingUserId= REQUESTER_ID;
+      const res = await request(app.getHttpServer())
+      .post('/vouchers/upload')
+      .field('id_request', REQUEST_ID)
+      .field('class', 'HOTEL')
+      .field('amount', '150')
+      .field('currency', 'JPY')                 // valid enum value
+      .field('date', '2025-04-25T00:00:00.000Z')
+      .field('status', 'voucher approved')
+      .field('id_approver', '')
+      .field('tax_type', 'IVA 16%')
+      // attach real files; they can be tiny fixtures in test/fixtures/
+      .attach('file_url_pdf',pdfPath)
+      .attach('file_url_xml',xmlPath)
+      .expect(201); 
+      voucherId = res.body.id;
+      admin_id= res.body.id_approver;
 
-        const res = await request(app.getHttpServer())
-          .post('/vouchers')
-          .send(dto)
-          .expect(201);
-    
-        expect(res.body).toHaveProperty('id');
-
-      });
-
-      it('/vouchers/:id (GET) debe retornar una por ID', async () => {
-          // 1) Creamos primero para obtener su ID dinámico
-          const dto={
-            id_request: "a2b5c8f1-d3e0-4c7b-8a9d-0f1e2d3c4b5a",
-            class: "HOT hotel",
-            amount: 150.0,
-            currency: "YEN",
-            date: "2025-04-25T00:00:00.000Z",
-            file_url: "https://storage.example.com/vouchers/voucher-123.pdf",
-            status: "voucher accepted"}
-
-          const createRes = await request(app.getHttpServer())
-            .post('/vouchers')
-            .send(dto)
-            .expect(201);
-      
-          const data = createRes.body;
-      
-          // 2) Ahora lo buscamos por ese mismo ID
-          const res = await request(app.getHttpServer())
-            .get(`/vouchers/${data.id}`)
-            .expect(200);
-      
-          const retrieved_data = res.body;
-          expect(retrieved_data.id).toBe(data.id);
-      
-          await request(app.getHttpServer())
-            .delete(`/vouchers/${data.id}`)
-            .expect(200);
-        });
-
-        it('/vouchers/:id (DELTE) debe eliminar una por ID', async () => {
-        // 1) Creamos primero para obtener su ID dinámico
-        const dto={
-          id_request: "a2b5c8f1-d3e0-4c7b-8a9d-0f1e2d3c4b5a",
-          class: "HOT hotel",
-          amount: 150.0,
-          currency: "YEN",
-          date: "2025-04-25T00:00:00.000Z",
-          file_url: "https://storage.example.com/vouchers/voucher-123.pdf",
-          status: "voucher accepted"}
-
-        const createRes = await request(app.getHttpServer())
-          .post('/vouchers')
-          .send(dto)
-          .expect(201);
-    
-        const data = createRes.body;
-    
-        // 2) Ahora lo eliminamos por ese mismo ID
-        const res = await request(app.getHttpServer())
-          .delete(`/vouchers/${data.id}`)
-          .expect(200);
 
       });
-      
+
       it('/vouchers/:id (PATCH) debe actualizar una por ID', async () => {
-        // 1) Creamos primero para obtener su ID dinámico
-        const dto={
-          id_request: "a2b5c8f1-d3e0-4c7b-8a9d-0f1e2d3c4b5a",
-          class: "HOT hotel",
-          amount: 150.0,
-          currency: "YEN",
-          date: "2025-04-25T00:00:00.000Z",
-          file_url: "https://storage.example.com/vouchers/voucher-123.pdf",
-          status: "voucher accepted"
-        }
-        const update_dto={
-            id_request: "a2b5c8f1-d3e0-4c7b-8a9d-0f1e2d3c4b5a",
-            class: "HOT hotel",
-            amount: 200.0,//we update the amount
-            currency: "BOL" //we update the curency
-          }
 
-        const createRes = await request(app.getHttpServer())
-          .post('/vouchers')
-          .send(dto)
-          .expect(201);
-    
-        const data = createRes.body;
-            
-        const createPatch= await request(app.getHttpServer())
-            .patch(`/vouchers/${data.id}`)
-            .send(update_dto)
-            .expect(200)
+        actingUserId = REQUESTER_ID;
+      
+        const updateDto: UpdateVoucherDto = {
 
-
-        await request(app.getHttpServer())
-          .delete(`/vouchers/${data.id}`)
+          amount: 200,
+          currency: 'JPY',          
+          class: 'HOTEL',
+        };
+      
+        const { body } = await request(app.getHttpServer())
+          .patch(`/vouchers/${voucherId}`)
+          .send(updateDto)
           .expect(200);
+      
+        expect(body.amount).toBe(200);
+        expect(body.currency).toBe('JPY');
       });
 
+      it('/vouchers/:id/approve (patch) debe aprovar una por ID', async () => {
+
+        actingUserId = admin_id;
+      
+        const {body}= await request(app.getHttpServer())
+          .patch(`/vouchers/${voucherId}/approve`)
+          .expect(200);
+        expect(body.status).toBe(true)
+      });
+
+      it('/vouchers/:id/deny (patch) debe denegar una por ID', async () => {
+
+        actingUserId = admin_id;
+      
+       const {body}= await request(app.getHttpServer())
+          .patch(`/vouchers/${voucherId}/deny`)
+          .expect(200);
+        expect(body.status).toBe(true)
 
 
+      });
 
-
-
-
+      it('/vouchers/ (GET) Regresa todos los vouchers de la BD', async () => {
+        actingUserId= admin_id;
+          const res = await request(app.getHttpServer())
+            .get('/vouchers/')
+            .expect(200);
+      
+          expect(Array.isArray(res.body)).toBe(true);
+        });
 
 });
