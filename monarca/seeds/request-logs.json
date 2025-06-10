@@ -14,5 +14,21 @@
     "report": "Aprobó",
     "new_status": "approved",
     "change_date": "2025-05-12T22:05:00Z"
+  },
+  {
+    "id": "ba6f085b-5ea9-41d7-bdab-f29c2c505e3f",
+    "id_request": "22bfaf59-aaeb-4736-a76c-1a2e0b4fa780",
+    "id_user": "5932b459-a3ea-46a1-8482-d56bfda8c866",
+    "report": "Aprobó",
+    "new_status": "approved",
+    "change_date": "2025-05-12T22:05:00Z"
+  },
+  {
+    "id": "51d4f470-4300-41f0-828d-6208cd8ccf4d",
+    "id_request": "456f8d6d-cf2f-442f-a5e9-9c9b93a4e75a",
+    "id_user": "5932b459-a3ea-46a1-8482-d56bfda8c866",
+    "report": "Aprobó",
+    "new_status": "approved",
+    "change_date": "2025-05-12T22:05:00Z"
   }
 ]
