@@ -20,6 +20,9 @@ export class Voucher {
   @Column({ name: 'amount', type: 'float' })
   amount: number;
 
+  @Column({ name: 'taxt_type', type: 'varchar' })
+  tax_type: string;
+
   @Column({ name: 'currency', type: 'varchar' })
   currency: string;
 

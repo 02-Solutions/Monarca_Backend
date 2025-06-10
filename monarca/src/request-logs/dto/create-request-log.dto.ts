@@ -17,11 +17,13 @@ export class CreateRequestLogDto {
   id_user: string;
 
   @ApiProperty({
-    description: 'Status before the change',
-    example: 'pending',
+    description: 'Descriptive report of the change (e.g., "Editó")',
+    example: 'Editó',
+    required: false,
   })
+  @IsOptional()
   @IsString()
-  old_status: string;
+  report?: string;
 
   @ApiProperty({
     description: 'Status after the change',

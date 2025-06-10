@@ -17,4 +17,9 @@ export class DestinationsChecks {
 
     return !!dest;
   }
+
+  async getCityNameById(id: string): Promise<string> {
+    const dest = await this.destRepo.findOneBy({ id });
+    return dest?.city || 'Ciudad desconocida';
+  }
 }

@@ -12,11 +12,6 @@ export class RequestLogsService {
     private readonly repo: Repository<RequestLog>,
   ) {}
 
-  async create(data: CreateRequestLogDto): Promise<RequestLog> {
-    const ent = this.repo.create(data);
-    return this.repo.save(ent);
-  }
-
   async findAll(): Promise<RequestLog[]> {
     return this.repo.find();
   }
@@ -25,15 +20,5 @@ export class RequestLogsService {
     const ent = await this.repo.findOneBy({ id });
     if (!ent) throw new NotFoundException(`Log ${id} not found`);
     return ent;
-  }
-
-  async update(id: string, data: UpdateRequestLogDto): Promise<RequestLog> {
-    await this.repo.update(id, data);
-    return this.findOne(id);
-  }
-
-  async remove(id: string): Promise<{ status: boolean; message: string }> {
-    await this.repo.delete(id);
-    return { status: true, message: `Log ${id} removed` };
   }
 }

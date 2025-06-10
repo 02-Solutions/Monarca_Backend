@@ -12,6 +12,7 @@ import { RequestsStatusController } from './requests.status.controller';
 import { RequestsStatusService } from './requests.status.service';
 import { TravelAgenciesChecks } from 'src/travel-agencies/travel-agencies.checks';
 import { TravelAgenciesModule } from 'src/travel-agencies/travel-agencies.module';
+import { RequestLogsModule } from 'src/request-logs/request-logs.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { TravelAgenciesModule } from 'src/travel-agencies/travel-agencies.module
     UsersModule,
     DestinationsModule,
     TravelAgenciesModule,
+    RequestLogsModule,
   ],
   controllers: [RequestsController, RequestsStatusController],
   providers: [RequestsService, RequestsChecks, RequestsStatusService],
