@@ -30,6 +30,7 @@ import { RolePermission } from './roles/entity/roles_permissions.entity';
 import { GuardsModule } from './guards/guards.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { join } from 'path';
       rootPath: join(__dirname, '..', '..', 'uploads'),
       serveRoot: '/files',
     }),
+    NotificationsModule,
     AuthModule,
     UsersModule,
     TravelAgenciesModule,

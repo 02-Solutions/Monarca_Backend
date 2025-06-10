@@ -6,15 +6,13 @@ export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
   @Post('send')
-  async sendEmail(
-    @Body() body: { to: string; subject: string; text: string; html?: string }
+  async sendNotification(
+    @Body() body: {
+      type: 'creada' | 'aprobada' | 'denegada' | 'modificacion';
+      to: string;
+      context: Record<string, string>;
+    },
   ) {
-    await this.notificationsService.sendMail(
-      body.to,
-      body.subject,
-      body.text,
-      body.html
-    );
-    return { message: 'Correo enviado correctamente.' };
+    return this.notificationsService.notify(body.type, body.to, body.context);
   }
 }
