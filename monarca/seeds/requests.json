@@ -58,5 +58,50 @@
         "requirements": "Passport, visa",
         "priority": "High",
         "created_at": "2025-05-14T11:30:00Z"
+    },
+    {
+        "id": "82328445-80cf-4a7d-ba6f-95ec38fd6239",
+        "id_user": "5932b459-a3ea-46a1-8482-d56bfda8c866", 
+        "id_admin": "5781a1d8-f9f7-4561-b2ed-f6117877459f",
+        "id_SOI": "d3b833d4-a445-4c1e-9d3d-06be11d115fd",
+        "id_origin_city": "d7ee631a-c1b8-42f0-8ae6-cd4d6b23470f",
+        "id_travel_agency": "24169971-6d7f-4bf7-982c-dad1aebac579", 
+        "title": "Conference",
+        "motive": "Need to meet this client to finish the sale.",
+        "advance_money": 5000,
+        "status": "Pending Review",
+        "requirements": "Passport, visa",
+        "priority": "High",
+        "created_at": "2025-05-14T11:30:00Z"
+    },
+    {
+        "id": "da4978a5-ce6c-4959-bad2-94b067a709aa",
+        "id_user": "5932b459-a3ea-46a1-8482-d56bfda8c866", 
+        "id_admin": "5781a1d8-f9f7-4561-b2ed-f6117877459f",
+        "id_SOI": "d3b833d4-a445-4c1e-9d3d-06be11d115fd",
+        "id_origin_city": "d7ee631a-c1b8-42f0-8ae6-cd4d6b23470f",
+        "id_travel_agency": "24169971-6d7f-4bf7-982c-dad1aebac579", 
+        "title": "Conference",
+        "motive": "Need to meet this client to finish the sale.",
+        "advance_money": 5000,
+        "status": "Pending Review",
+        "requirements": "Passport, visa",
+        "priority": "High",
+        "created_at": "2025-05-14T11:30:00Z"
+    },
+    {
+        "id": "143d0803-6a9e-40ea-b786-17ef50c39f00",
+        "id_user": "5932b459-a3ea-46a1-8482-d56bfda8c866", 
+        "id_admin": "5781a1d8-f9f7-4561-b2ed-f6117877459f",
+        "id_SOI": "d3b833d4-a445-4c1e-9d3d-06be11d115fd",
+        "id_origin_city": "d7ee631a-c1b8-42f0-8ae6-cd4d6b23470f",
+        "id_travel_agency": "24169971-6d7f-4bf7-982c-dad1aebac579", 
+        "title": "Conference",
+        "motive": "Need to meet this client to finish the sale.",
+        "advance_money": 5000,
+        "status": "Pending Review",
+        "requirements": "Passport, visa",
+        "priority": "High",
+        "created_at": "2025-05-14T11:30:00Z"
     }
 ]

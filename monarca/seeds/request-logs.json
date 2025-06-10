@@ -30,5 +30,29 @@
     "report": "Aprobó",
     "new_status": "approved",
     "change_date": "2025-05-12T22:05:00Z"
+  },
+  {
+    "id": "09fe045f-aff0-4805-9799-cf90d15c7535",
+    "id_request": "82328445-80cf-4a7d-ba6f-95ec38fd6239",
+    "id_user": "5932b459-a3ea-46a1-8482-d56bfda8c866",
+    "report": "Aprobó",
+    "new_status": "approved",
+    "change_date": "2025-05-12T22:05:00Z"
+  },
+  {
+    "id": "a0955737-0864-4760-ba8c-88b00759bbd0",
+    "id_request": "da4978a5-ce6c-4959-bad2-94b067a709aa",
+    "id_user": "5932b459-a3ea-46a1-8482-d56bfda8c866",
+    "report": "Aprobó",
+    "new_status": "approved",
+    "change_date": "2025-05-12T22:05:00Z"
+  },
+  {
+    "id": "df51b210-e604-4db8-9c1a-09d99c9d7326",
+    "id_request": "143d0803-6a9e-40ea-b786-17ef50c39f00",
+    "id_user": "5932b459-a3ea-46a1-8482-d56bfda8c866",
+    "report": "Aprobó",
+    "new_status": "approved",
+    "change_date": "2025-05-12T22:05:00Z"
   }
 ]
