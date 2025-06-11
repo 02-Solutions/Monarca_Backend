@@ -34,7 +34,7 @@ export class LoginService {
     res.cookie('sessionInfo', token, {
       httpOnly: true,
       secure: false,
-      sameSite: 'lax',
+      sameSite: 'none',
       maxAge: 3600 * 1000, // 1 hour
     });
 
