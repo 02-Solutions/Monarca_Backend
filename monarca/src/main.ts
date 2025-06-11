@@ -5,9 +5,22 @@ import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { LoggingMiddleware } from './utils/logging.middleware';
+import * as fs from 'fs';
+import * as https from 'https';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  // Read SSL certificate and key files
+  const httpsOptions = {
+    key: fs.readFileSync('certs/localhost-key.pem'),
+    cert: fs.readFileSync('certs/localhost.pem'),
+  };
+  const app = await NestFactory.create<NestExpressApplication>(
+    AppModule,
+    {
+      httpsOptions,
+    },
+  );
 
   // Habilitar CORS para permitir peticiones desde el origen del frontend
   app.enableCors({

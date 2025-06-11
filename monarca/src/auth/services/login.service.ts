@@ -33,7 +33,7 @@ export class LoginService {
     // Cambios para la conexion con el front
     res.cookie('sessionInfo', token, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: 'none',
       maxAge: 3600 * 1000, // 1 hour
     });
