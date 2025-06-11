@@ -12,8 +12,8 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 async function bootstrap() {
   // Read SSL certificate and key files
   const httpsOptions = {
-    key: fs.readFileSync('certs/localhost-key.pem'),
-    cert: fs.readFileSync('certs/localhost.pem'),
+    key: fs.readFileSync('certs/backend-key.pem'),
+    cert: fs.readFileSync('certs/backend.pem'),
   };
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
