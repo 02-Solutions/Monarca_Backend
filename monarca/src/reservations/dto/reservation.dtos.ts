@@ -38,7 +38,6 @@ export class CreateReservationDto {
     required: true,
   })
   @IsNotEmpty()
-  @IsNumber()
   price: number;
 
   @ApiProperty({
