@@ -46,7 +46,7 @@ export class ReservationsController {
     const fileMap: Record<string, string> = {};
 
     for (const file of uploaded) {
-      const publicUrl = `http://localhost:3000/files/reservations/${file.filename}`;
+      const publicUrl = `${process.env.DOWNLOAD_LINK}/files/reservations/${file.filename}`;
       if (file.fieldname === 'file') {
         fileMap.link = publicUrl;
       } }

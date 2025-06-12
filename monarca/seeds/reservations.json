@@ -4,13 +4,15 @@
       "id_request_destination": "17c8984c-ee37-44cf-8138-9728063b4560",
       "title": "Hotel Eiffel",
       "comments": "Standard room, city view if possible.",
-      "link": "https://hoteleiffel-uuid.example.com/booking/123"
+      "price": 150,
+      "link": "https:/  /hoteleiffel-uuid.example.com/booking/123"
     },
     {
       "id": "c1db8bda-fdfd-4a2c-b2e5-13eeb1cd1542",
       "id_request_destination": "04ea0e14-33f5-4edc-ba72-8cad148cbd8c",
       "title": "Hilton CDMX Airport",
       "comments": "Near airport.",
+      "price": 200,
       "link": "https://hiltoncdmx-uuid.example.com/booking/789"
     }
   ]
