@@ -21,7 +21,8 @@ export class Reservation {
   @Column({ type: 'varchar', nullable: false })
   link: string;
 
-  @Column({ type: 'number', nullable: false })
+  
+  @Column({ type: 'float', nullable: false })
   price: number;
 
   @Column({ name: 'id_request_destination', type: 'uuid' })
