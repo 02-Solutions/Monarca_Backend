@@ -54,5 +54,39 @@
     "report": "Aprobó",
     "new_status": "approved",
     "change_date": "2025-05-12T22:05:00Z"
+  },
+
+  
+  {
+    "id": "a5192a3c-a394-4ac6-bd2f-248335b9f0b3",
+    "id_request": "83cfba13-3840-4356-98df-8d31ddaebe61",
+    "id_user": "5932b459-a3ea-46a1-8482-d56bfda8c866",
+    "report": "Aprobó",
+    "new_status": "approved",
+    "change_date": "2025-05-12T22:05:00Z"
+  },
+  {
+    "id": "eecd4e67-e7ea-49b2-a87c-9d617d5cf16f",
+    "id_request": "71509be0-89de-4a13-95ea-b0f76c218432",
+    "id_user": "5932b459-a3ea-46a1-8482-d56bfda8c866",
+    "report": "Aprobó",
+    "new_status": "approved",
+    "change_date": "2025-05-12T22:05:00Z"
+  },
+  {
+    "id": "ebc05396-9a12-4643-855a-76f93ae7894c",
+    "id_request": "f588e79e-8eed-47a4-a99d-3bb06b10a0c0",
+    "id_user": "5932b459-a3ea-46a1-8482-d56bfda8c866",
+    "report": "Aprobó",
+    "new_status": "approved",
+    "change_date": "2025-05-12T22:05:00Z"
+  },
+  {
+    "id": "95ece4ec-9f76-4cba-8469-053b13110ea4",
+    "id_request": "bcb62889-3b05-4e0f-9ed0-a8a35729da04",
+    "id_user": "5932b459-a3ea-46a1-8482-d56bfda8c866",
+    "report": "Aprobó",
+    "new_status": "approved",
+    "change_date": "2025-05-12T22:05:00Z"
   }
 ]
