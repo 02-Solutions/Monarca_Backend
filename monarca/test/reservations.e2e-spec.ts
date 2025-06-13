@@ -9,7 +9,7 @@ import {
 } from 'src/reservations/dto/reservation.dtos';
 dotenv.config();
 
-describe('TravelAgencies e2e', () => {
+describe('reservations e2e', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
@@ -22,6 +22,7 @@ describe('TravelAgencies e2e', () => {
       new ValidationPipe({
         transform: true,
         whitelist: true,
+        forbidNonWhitelisted: true,
       }),
     );
     await app.init();
@@ -37,7 +38,7 @@ describe('TravelAgencies e2e', () => {
       comments:
         'Taxi reservado para el usuario María García, llegada estimada a las 08:30 AM',
       link: 'https://taxi-service.com/booking/abc123',
-      id_request_destination: '8c9d0e1f-2a3b-4c5d-6e7f-8a9b0c1d2e3f',
+      id_request_destination: '17c8984c-ee37-44cf-8138-9728063b4560',
     };
     const res = await request(app.getHttpServer())
       .post('/reservations')
@@ -47,7 +48,7 @@ describe('TravelAgencies e2e', () => {
 
     expect(res.body).toHaveProperty('id');
 
-    const data = res.body as ReservationDto;
+    const data = res.body;
 
     expect(data.title).toBe(dto.title);
     expect(data.comments).toBe(dto.comments);
@@ -74,18 +75,18 @@ describe('TravelAgencies e2e', () => {
         title: 'Reserva de taxi',
         comments: 'Taxi reservado para el usuario',
         link: 'https://example.com/reservation/12345',
-        id_request_destination: '8c9d0e1f-2a3b-4c5d-6e7f-8a9b0c1d2e3f',
+        id_request_destination: '17c8984c-ee37-44cf-8138-9728063b4560',
       })
       .expect(201);
 
-    const data = createRes.body as ReservationDto;
+    const data = createRes.body;
 
     // 2) Ahora lo buscamos por ese mismo ID
     const res = await request(app.getHttpServer())
       .get(`/reservations/${data.id}`)
       .expect(200);
 
-    const retrieved_data = res.body as ReservationDto;
+    const retrieved_data = res.body;
     expect(retrieved_data.id).toBe(data.id);
 
     await request(app.getHttpServer())
@@ -105,7 +106,7 @@ describe('TravelAgencies e2e', () => {
       })
       .expect(201);
 
-    const data = createRes.body as ReservationDto;
+    const data = createRes.body
     // 2) Ahora lo actualizamos su comentario
     const updatedComment =
       'Taxi reservado para el usuario Juan Pérez, llegada estimada a las 09:00 AM';
@@ -118,7 +119,7 @@ describe('TravelAgencies e2e', () => {
       .get(`/reservations/${data.id}`)
       .expect(200);
 
-    const retrieved_data = updatedReservation.body as ReservationDto;
+    const retrieved_data = updatedReservation.body;
     expect(retrieved_data.comments).toBe(updatedComment);
 
     await request(app.getHttpServer())
@@ -134,11 +135,11 @@ describe('TravelAgencies e2e', () => {
         title: 'Reserva de taxi',
         comments: 'Taxi reservado para el usuario',
         link: 'https://example.com/reservation/12345',
-        id_request_destination: '8c9d0e1f-2a3b-4c5d-6e7f-8a9b0c1d2e3f',
+        id_request_destination: '17c8984c-ee37-44cf-8138-9728063b4560',
       })
       .expect(201);
 
-    const data = createRes.body as ReservationDto;
+    const data = createRes.body;
     // 2) Ahora la borramos
 
     await request(app.getHttpServer())

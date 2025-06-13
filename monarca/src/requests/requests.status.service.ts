@@ -172,6 +172,7 @@ export class RequestsStatusService {
     );
   }
 
+  // Se cambia el estatus final de Completed a Pending Refund Approval
   async finishedApprovingVouchers(req: RequestInterface, id_request: string) {
     const id_user = req.sessionInfo.id;
     const request = await this.requestsRepo.findOne({
@@ -184,6 +185,26 @@ export class RequestsStatusService {
       throw new UnauthorizedException('Unable to change status on request.');
 
     if (request.status !== 'Pending Vouchers Approval')
+      throw new ConflictException(
+        'Unable to change status because of the requests current status.',
+      );
+
+    return await this.requestsService.updateStatus(id_request, 'Pending Refund Approval');
+  }
+
+  //finsihedRegisteringRequest
+  async finsihedRegisteringRequest(req: RequestInterface, id_request: string) {
+    const id_user = req.sessionInfo.id;
+    const request = await this.requestsRepo.findOne({
+      where: { id: id_request },
+    });
+
+    if (!request) throw new NotFoundException('Invalid request id');
+
+    if (request.id_SOI !== id_user)
+      throw new UnauthorizedException('Unable to change status on request.');
+
+    if (request.status !== 'Pending Refund Approval')
       throw new ConflictException(
         'Unable to change status because of the requests current status.',
       );

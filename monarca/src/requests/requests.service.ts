@@ -192,30 +192,32 @@ export class RequestsService {
     return list;
   }
 
-  async findByAdmin(req: RequestInterface): Promise<RequestEntity[]> {
-    const userId = req.sessionInfo.id;
-    return this.requestsRepo
-      .createQueryBuilder('r')
-      .leftJoinAndSelect('r.requests_destinations', 'rd')
-      .leftJoinAndSelect('rd.destination', 'd')
-      .leftJoinAndSelect('r.revisions', 'rev')
-      .leftJoinAndSelect('r.user', 'u')
-      .leftJoinAndSelect('u.department', 'dept')
-      .leftJoinAndSelect('r.admin', 'adm')
-      .leftJoinAndSelect('r.SOI', 'soi')
-      .leftJoinAndSelect('r.destination', 'dest')
-      .where('r.id_admin = :userId', { userId })
-      .andWhere('r.status = :status', { status: 'Pending Review' })
-      .orderBy(
-        `CASE r.priority
-           WHEN 'alta' THEN 1
-           WHEN 'media' THEN 2
-           WHEN 'baja' THEN 3
-         END`
-      )
-      .getMany();
-  }
-  
+async findByAdmin(req: RequestInterface): Promise<RequestEntity[]> {
+  const userId = req.sessionInfo.id;
+
+  return this.requestsRepo
+    .createQueryBuilder('r')
+    .leftJoinAndSelect('r.requests_destinations', 'rd')
+    .leftJoinAndSelect('rd.destination', 'd')
+    .leftJoinAndSelect('r.revisions', 'rev')
+    .leftJoinAndSelect('r.user', 'u')
+    .leftJoinAndSelect('u.department', 'dept')
+    .leftJoinAndSelect('r.admin', 'adm')
+    .leftJoinAndSelect('r.SOI', 'soi')
+    .leftJoinAndSelect('r.destination', 'dest')
+    .where('r.id_admin = :userId', { userId })
+    .andWhere('r.status = :status', { status: 'Pending Review' })
+    .orderBy(
+      `CASE r.priority
+         WHEN 'alta' THEN 1
+         WHEN 'media' THEN 2
+         WHEN 'baja' THEN 3
+       END`,
+      'ASC'
+    )
+    .getMany();
+}
+
 
   async findBySOI(req: RequestInterface): Promise<RequestEntity[]> {
     const userId = req.sessionInfo.id;
@@ -238,7 +240,10 @@ export class RequestsService {
   async findPendingRefundApproval(req: RequestInterface): Promise<RequestEntity[]> {
     const userId = req.sessionInfo.id;
     const list = await this.requestsRepo.find({
-      where: { status: 'Pending Refund Approval' },
+      where: { 
+        status: 'Pending Refund Approval',
+        id_SOI: userId
+      },
       relations: [
         'requests_destinations',
         'requests_destinations.destination',

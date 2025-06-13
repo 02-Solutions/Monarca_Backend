@@ -71,6 +71,41 @@ La gestión de viajes corporativos suele estar limitada por sistemas costosos, i
 
 ---
 
+# 🏛️ **Arquitectura**
+
+Framework: NestJS
+
+Base de datos: PostgreSQL
+
+ORM: TypeORM
+
+Autenticación: JWT
+
+Estructura de carpetas: modular (cada dominio en su propio módulo)
+
+```md
+src/
+├─ auth/               # Login, registro, refresh tokens
+├─ jwt/                # Estrategias y guards de JWT
+├─ guards/             # Guards genéricos (RolesGuard, etc.)
+├─ users/              # CRUD de usuarios
+├─ roles/              # Gestión de roles y permisos
+├─ departments/        # Unidades organizacionales
+├─ cost-centers/       # Centros de costo, asignaciones presupuestales
+├─ travel-agencies/    # Agencias de viaje externas
+├─ destinations/       # Ciudades y destinos disponibles
+├─ requests/           # Solicitudes de viaje
+├─ revisions/          # Flujos de aprobación y revisiones
+├─ reservations/       # Reservaciones (hoteles, vuelos)
+├─ vouchers/           # Vales / comprobantes
+├─ request-logs/       # Historial de acciones sobre solicitudes
+├─ user-logs/          # Historial de actividad de usuarios
+├─ utils/              # Helpers, filtros, pipes
+├─ app.module.ts       # Módulo raíz
+└─ main.ts             # Punto de entrada
+```
+
+---
 # 🚀 **Guía de Inicialización**
 
 ## 🛠️ Instalación del Entorno de Desarrollo

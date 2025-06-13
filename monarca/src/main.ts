@@ -5,13 +5,26 @@ import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { LoggingMiddleware } from './utils/logging.middleware';
+import * as fs from 'fs';
+import * as https from 'https';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  // Read SSL certificate and key files
+  const httpsOptions = {
+    key: fs.readFileSync('certs/backend-key.pem'),
+    cert: fs.readFileSync('certs/backend.pem'),
+  };
+  const app = await NestFactory.create<NestExpressApplication>(
+    AppModule,
+    {
+      httpsOptions,
+    },
+  );
 
   // Habilitar CORS para permitir peticiones desde el origen del frontend
   app.enableCors({
-    origin: 'http://localhost:5173',
+    origin: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
@@ -34,7 +47,7 @@ async function bootstrap() {
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();

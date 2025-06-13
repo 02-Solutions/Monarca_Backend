@@ -32,6 +32,15 @@ export class CreateReservationDto {
   comments: string;
 
   @ApiProperty({
+    example:
+      '250.00',
+    description: 'Price of the reservation',
+    required: true,
+  })
+  @IsNotEmpty()
+  price: number;
+
+  @ApiProperty({
       description: 'pdf file of the reservation',
       example: 'file',
     })
