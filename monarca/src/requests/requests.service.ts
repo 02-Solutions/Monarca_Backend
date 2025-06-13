@@ -194,21 +194,28 @@ export class RequestsService {
 
   async findByAdmin(req: RequestInterface): Promise<RequestEntity[]> {
     const userId = req.sessionInfo.id;
-    const list = await this.requestsRepo.find({
-      where: { id_admin: userId, status: 'Pending Review' },
-      relations: [
-        'requests_destinations',
-        'requests_destinations.destination',
-        'revisions',
-        'user',
-        'user.department',
-        'admin',
-        'SOI',
-        'destination',
-      ],
-    });
-    return list;
+    return this.requestsRepo
+      .createQueryBuilder('r')
+      .leftJoinAndSelect('r.requests_destinations', 'rd')
+      .leftJoinAndSelect('rd.destination', 'd')
+      .leftJoinAndSelect('r.revisions', 'rev')
+      .leftJoinAndSelect('r.user', 'u')
+      .leftJoinAndSelect('u.department', 'dept')
+      .leftJoinAndSelect('r.admin', 'adm')
+      .leftJoinAndSelect('r.SOI', 'soi')
+      .leftJoinAndSelect('r.destination', 'dest')
+      .where('r.id_admin = :userId', { userId })
+      .andWhere('r.status = :status', { status: 'Pending Review' })
+      .orderBy(
+        `CASE r.priority
+           WHEN 'alta' THEN 1
+           WHEN 'media' THEN 2
+           WHEN 'baja' THEN 3
+         END`
+      )
+      .getMany();
   }
+  
 
   async findBySOI(req: RequestInterface): Promise<RequestEntity[]> {
     const userId = req.sessionInfo.id;
