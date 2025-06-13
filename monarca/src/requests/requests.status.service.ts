@@ -12,6 +12,7 @@ import { RequestInterface } from 'src/guards/interfaces/request.interface';
 import { RequestsService } from './requests.service';
 import { ApproveRequestDTO } from './dto/approve-request.dto';
 import { TravelAgenciesChecks } from 'src/travel-agencies/travel-agencies.checks';
+import { NotificationsService } from 'src/notifications/notifications.service';
 
 // STATUSES:
 // ['Pending Review', 'Changes Needed', 'Denied', 'Cancelled', 'Pending Reservations',  'Pending Accounting Approval', 'In Progress',  'Pending Vouchers Approval', 'Completed]
@@ -22,6 +23,7 @@ export class RequestsStatusService {
     @InjectRepository(RequestEntity)
     private readonly requestsRepo: Repository<RequestEntity>,
     private readonly requestsService: RequestsService,
+    private readonly notificationsService: NotificationsService,
     private readonly travelAgenciesChecks: TravelAgenciesChecks,
   ) {}
 
@@ -34,6 +36,7 @@ export class RequestsStatusService {
     const id_travel_agency = data.id_travel_agency;
     const request = await this.requestsRepo.findOne({
       where: { id: id_request },
+      relations: ['user'],
     });
 
     if (!request) throw new NotFoundException('Invalid request id');
@@ -53,6 +56,17 @@ export class RequestsStatusService {
     await this.requestsRepo.update(
       { id: id_request },
       { id_travel_agency: id_travel_agency },
+    );
+    
+    await this.notificationsService.notify(
+      request.user.email,
+      'Solicitud de viaje aprobada',
+      `Tu solicitud de viaje con el título "${request.title}" ha sido aprobada y está pendiente de reservaciones.`,
+      `<p>Hola ${request.user.name},</p>
+<p>Tu solicitud de viaje con el título "<strong>${request.title}</strong>" ha sido aprobada y está pendiente de reservaciones.</p>
+<p>Por favor, espera a que se realicen las reservaciones necesarias.</p>
+<p>Saludos,</p>
+<p>Equipo de Monarca</p>`,
     );
     return await this.requestsService.updateStatus(
       id_request,

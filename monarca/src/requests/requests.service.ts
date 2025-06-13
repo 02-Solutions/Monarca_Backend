@@ -157,6 +157,7 @@ export class RequestsService {
         'SOI',
         'destination',
         'vouchers',
+        'requests_destinations.reservations',
       ],
     });
     if (!request) throw new NotFoundException(`Request ${id} not found`);

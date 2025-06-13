@@ -10,62 +10,78 @@ export class NotificationsService {
 
   constructor() {
     this.transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
       auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS,
-      },
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASSWORD
+      }
     });
   }
 
   async sendMail(to: string, subject: string, text: string, html?: string) {
-    const mailOptions = {
-      from: `"Sistema Monarca" <${process.env.MAIL_USER}>`,
+    const fromAddress = `"Sistema Monarca" <${process.env.EMAIL_USER}>`;
+    const mailOptions: nodemailer.SendMailOptions = {
+      from: fromAddress,
       to,
       subject,
       text,
       html,
     };
-
     return this.transporter.sendMail(mailOptions);
   }
 
-   async sendTemplateMail(to: string, subject: string, templateName: string, context: Record<string, any>) {
-    try {
-      const templatePath = join(__dirname, 'templates', `${templateName}.html`);
-      const source = fs.readFileSync(templatePath, 'utf8');
-      const compiledTemplate = Handlebars.compile(source);
-      const html = compiledTemplate(context);
-      return this.sendMail(to, subject, '', html);
-    } catch (error) {
-      console.error('❌ Error enviando correo:', error);
-      throw new InternalServerErrorException('Error interno al enviar correo');
-    }
+  async sendNotification(
+    to: string,
+    subject: string,
+    text: string,
+    html?: string
+  ) {
+    return this.sendMail(
+      to, 
+      subject, 
+      text, 
+      html
+  );
   }
 
 
   async notify(
-  type: 'creada' | 'aprobada' | 'denegada' | 'modificacion',
   to: string,
-  context: Record<string, any>
+  subject: string,
+  message: string,
+  html?: string
 ) {
-  const subjects = {
-    creada: 'Solicitud de viaje registrada',
-    aprobada: 'Solicitud de viaje aprobada',
-    denegada: 'Solicitud de viaje denegada',
-    modificacion: 'Modificación requerida en tu solicitud de viaje',
-  };
+  
+  // Si deseas escapar texto plano a HTML seguro, implementa un escape sencillo:
+    const escapeHtml = (str: string) =>
+      str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 
-  const templates = {
-    creada: 'request-created',
-    aprobada: 'request-approved',
-    denegada: 'request-denied',
-    modificacion: 'request-updated',
-  };
+    // Supongamos que el caller pasa texto plano: "Hola, este es mi mensaje"
+    // Para permitir HTML opcional, podrías distinguir: si detectas etiquetas HTML, no escapar.
+    // Aquí un enfoque simple: siempre tratamos message como texto plano:
+    const safeText = escapeHtml(message);
 
-  return this.sendTemplateMail(to, subjects[type], templates[type], context);
+    // Generar HTML sencillo, con estilo inline mínimo si quieres:
+    const htmlComplete = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <title>${escapeHtml(subject)}</title>
+      </head>
+      <body>
+        ${html}
+      </body>
+      </html>
+    `;
+
+    return this.sendMail(to, subject, message, htmlComplete);
 }
 
 }

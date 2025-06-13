@@ -13,6 +13,8 @@ import { RequestsStatusService } from './requests.status.service';
 import { TravelAgenciesChecks } from 'src/travel-agencies/travel-agencies.checks';
 import { TravelAgenciesModule } from 'src/travel-agencies/travel-agencies.module';
 import { RequestLogsModule } from 'src/request-logs/request-logs.module';
+import { NotificationsService } from 'src/notifications/notifications.service';
+import { NotificationsModule } from 'src/notifications/notifications.module';
 
 @Module({
   imports: [
@@ -22,9 +24,10 @@ import { RequestLogsModule } from 'src/request-logs/request-logs.module';
     DestinationsModule,
     TravelAgenciesModule,
     RequestLogsModule,
+    NotificationsModule, // Assuming this is a controller that handles notifications related to requests
   ],
   controllers: [RequestsController, RequestsStatusController],
-  providers: [RequestsService, RequestsChecks, RequestsStatusService],
+  providers: [RequestsService, RequestsChecks, RequestsStatusService, NotificationsService],
   exports: [RequestsService, RequestsChecks],
 })
 export class RequestsModule {}
