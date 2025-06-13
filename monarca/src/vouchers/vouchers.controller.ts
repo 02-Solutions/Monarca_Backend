@@ -76,7 +76,7 @@ export class VouchersController {
     return this.vouchersService.findAll();
   }
 
-  // Get a single voucher by its ID
+  // Get all vouchers of a requestID
   @Get(':requestId')
   async findByRequest(
     @Param('requestId') requestId: string
@@ -85,7 +85,7 @@ export class VouchersController {
   }
   
 
-  // Update an existing voucher
+  // Update an existing voucher (NO FILE UPDATING)
   @Patch(':id')
   async update(
     @Param('id') id: string,
