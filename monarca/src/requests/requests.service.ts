@@ -17,6 +17,7 @@ import { DestinationsChecks } from 'src/destinations/destinations.checks';
 import { RequestInterface } from 'src/guards/interfaces/request.interface';
 import { RequestsDestination } from './entities/requests-destination.entity';
 import { RequestLog } from 'src/request-logs/entities/request-log.entity';
+import { NotificationsService } from 'src/notifications/notifications.service';
 
 @Injectable()
 export class RequestsService {
@@ -25,6 +26,7 @@ export class RequestsService {
     private readonly requestsRepo: Repository<RequestEntity>,
     private readonly userChecks: UserChecks,
     private readonly destinationChecks: DestinationsChecks,
+    private readonly notificationsService: NotificationsService,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -123,6 +125,25 @@ export class RequestsService {
         numDestinations: saved.requests_destinations.length,
       },
     );
+
+    const admin = await this.userChecks.getUserById(saved.id_admin);
+
+    if (!admin) {
+      throw new NotFoundException(`Admin with ID ${saved.id_admin} not found.`);
+    }
+
+    // Mandar mail de notificación al admin asignado
+    await this.notificationsService.notify(
+      admin.email,
+      `Nueva solicitud asignada`,
+      `Se te ha asignado una nueva solicitud de viaje con ID: ${saved.id}. Por favor, revisa los detalles en el sistema.`,
+      `<p>Hola ${admin.name},</p>
+<p>Se te ha asignado una nueva solicitud de viaje con ID: <strong>${saved.id}</strong>.</p>
+<p>Por favor, revisa los detalles en el sistema.</p>
+<p>Saludos,</p>
+<p>Equipo de Monarca</p>`
+    );
+
 
     return saved;
   }
@@ -347,8 +368,34 @@ async findByAdmin(req: RequestInterface): Promise<RequestEntity[]> {
         updated.status,
       );
 
+      // Notificar al admin asignado
+      const admin = await this.userChecks.getUserById(updated.id_admin);
+      if (!admin) {
+        throw new NotFoundException(`Admin with ID ${updated.id_admin} not found.`);
+      }
+      await this.notificationsService.notify(
+        admin.email,
+        `Solicitud actualizada`,
+        `La solicitud de viaje con ID: ${updated.id} ha sido actualizada. Por favor, revisa los detalles en el sistema.`,
+        `<p>Hola ${admin.name},</p>
+<p>La solicitud de viaje con ID: <strong>${updated.id}</strong> ha sido actualizada.</p>
+<p>Por favor, revisa los detalles en el sistema.</p>
+<p>Saludos,</p>
+<p>Equipo de Monarca</p>`
+      );
+
       return updated;
     });
+  }
+
+  async getRequestById(id: string): Promise<RequestEntity> {
+    const request = await this.requestsRepo.findOne({
+      where: { id },
+    });
+    if (!request) {
+      throw new NotFoundException(`Request with ID ${id} not found.`);
+    }
+    return request;
   }
 
   async updateStatus(id: string, newStatus: string): Promise<RequestEntity> {

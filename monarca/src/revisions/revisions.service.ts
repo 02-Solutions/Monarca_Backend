@@ -11,6 +11,8 @@ import { Revision } from './entities/revision.entity';
 import { RequestsService } from 'src/requests/requests.service';
 import { RequestInterface } from 'src/guards/interfaces/request.interface';
 import { RequestsChecks } from 'src/requests/requests.checks';
+import { NotificationsService } from 'src/notifications/notifications.service';
+import { UserChecks } from 'src/users/user.checks.service';
 
 @Injectable()
 export class RevisionsService {
@@ -19,6 +21,8 @@ export class RevisionsService {
     private readonly revisionRepository: Repository<Revision>,
     private readonly requestService: RequestsService,
     private readonly requestChecks: RequestsChecks,
+    private readonly notificationsService: NotificationsService,
+    private readonly userChecks: UserChecks,
   ) {}
 
   async create(req: RequestInterface, data: CreateRevisionDto) {
@@ -42,6 +46,30 @@ export class RevisionsService {
       ...data,
       id_user: userId,
     });
+
+    const user = await this.userChecks.getUserById(userId);
+    if (!user) {
+      throw new NotFoundException('User not found.');
+    }
+
+    const request = await this.requestService.getRequestById(data.id_request);
+    if (!request) {
+      throw new NotFoundException('Request not found.');
+    }
+
+    // Notify the user that a revision has been created
+    await this.notificationsService.notify(
+      user.email,
+      'Solicitud con cambios necesarios',
+      `Tu solicitud de viaje con el título "${request.title}" ha sido marcada con cambios necesarios.`,
+      `<p>Hola ${user.name},</p>
+<p>Tu solicitud de viaje con el título "<strong>${request.title}</strong>" ha sido marcada con cambios necesario. Por favor revisa los comentarios y ajusta tu solicitud.</p>
+<p>Comentarios:</p>
+<p>${data.comment}</p>
+<p>Para más detalles, visita tu panel de solicitudes.</p>
+<p>Saludos,</p>
+<p>Equipo de Monarca</p>`,      
+    );
 
     // const revision = this.revisionRepository.create(data);
     this.requestService.updateStatus(data.id_request, 'Changes Needed');
