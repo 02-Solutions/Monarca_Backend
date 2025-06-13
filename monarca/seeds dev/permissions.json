@@ -1,0 +1,66 @@
+[
+  {
+    "id": "c91a6104-4993-4653-8f39-c47dba9c9ce4",
+    "name": "create_request"
+  },
+  {
+    "id": "144d80a2-24b9-4826-a9bd-28d61d52c432",
+    "name": "edit_request"
+  },
+  {
+    "id": "5d110d2b-8df6-413e-9255-9886faa598a5",
+    "name": "delete_request"
+  },
+  {
+    "id": "b4904143-de77-4557-aa04-2d9c7141666f",
+    "name": "upload_vouchers"
+  },
+  {
+    "id": "6ccf23e4-3ed3-40aa-8eac-6473704acf0c",
+    "name": "approve_request"
+  },
+  {
+    "id": "0ba035bf-eafc-4d57-a651-04aaf562f481",
+    "name": "deny_request"
+  },
+  {
+    "id": "21bc13fe-f53a-4c3f-983a-9825f5f36e97",
+    "name": "approve_vouchers"
+  },
+  {
+    "id": "b4ea9a75-96ee-4f6e-b86e-9abf7117b106",
+    "name": "deny_vouchers"
+  },
+  {
+    "id": "43570c73-c7c4-433b-b3d8-1a130f89cf5d",
+    "name": "assign_request_to_travel_agency"
+  },
+  {
+    "id": "088535d7-d639-47ca-8cf0-4cf6d593e327",
+    "name": "check_budgets"
+  },
+  {
+    "id": "0e90a8c8-b7f3-4f02-a68b-bd44eb4d8b2d",
+    "name": "approve_budget"
+  },
+  {
+    "id": "16acc4b6-12df-4f4d-bf01-7ac16c3c7cd0",
+    "name": "deny_budget"
+  },
+  {
+    "id": "d4740d39-5221-4f76-8f51-acedba6a607f",
+    "name": "send_reservation_receipts"
+  },
+  {
+    "id": "07aac50a-e679-4a7e-b6d8-6eaec6270846",
+    "name": "view_assigned_requests_readonly"
+  },
+  {
+    "id": "3e9ad5bb-563b-493f-8b67-808371e34e28",
+    "name": "request_history"
+  },
+  {
+    "id": "7fedb986-8761-4ffd-aa85-71e73a41f85d",
+    "name": "submit_reservations"
+  }
+]

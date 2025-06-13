@@ -1,28 +1,3 @@
 [
-    {
-      "id": "984f024f-10d2-48e7-bd9e-bcf36abfebaf",
-      "id_request": "581c998a-9f67-4431-b6ab-635ec9794ba7", 
-      "class": "Flight",
-      "amount": 750.50,
-      "tax_type":"V0",
-      "currency": "USD",
-      "date": "2025-05-12T22:10:00Z",
-      "file_url_pdf": "/files/vouchers/flight_req_uuid2.pdf",
-      "file_url_xml": "/files/vouchers/flight_req_uuid2.xml",
-      "status": "pending",
-      "id_approver":"5781a1d8-f9f7-4561-b2ed-f6117877459f"
-    },
-    {
-      "id": "aeeacb87-cc9a-4377-91c2-8c4b316da1e7",
-      "id_request": "158c357b-762a-4781-a86f-66485076e5d7", 
-      "class": "Hotel",
-      "amount": 450.00,
-      "currency": "USD",
-      "tax_type":"V7",
-      "date": "2025-05-12T22:15:00Z",
-      "file_url_pdf": "/files/vouchers/hotel_req_uuid2.pdf",
-      "file_url_xml": "/files/vouchers/hotel_req_uuid2.xml",
-      "status": "pending",
-      "id_approver":"5781a1d8-f9f7-4561-b2ed-f6117877459f"
-    }
+    
 ]

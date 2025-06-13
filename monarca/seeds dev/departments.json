@@ -1,0 +1,17 @@
+[
+  {
+    "id": "883d9e05-612c-4d08-9efb-5099952fc850",
+    "name": "Technology",
+    "cost_center_id": "a1f4e0e1-1b89-4ccf-9e57-43f4b3d1a001"
+  },
+  {
+    "id": "28ba8a09-f4ba-450e-8259-6196d50f1bff",
+    "name": "Human Resources",
+    "cost_center_id": "b2d1c6c2-2f9e-43d3-8b1f-87fa7d2e8002"
+  },
+  {
+    "id": "118424c8-a563-4452-921f-795e25c58b3a",
+    "name": "Sales",
+    "cost_center_id": "c3e8f9e3-3aad-4f0c-9d87-12bd7e3fa003"
+  }
+]
