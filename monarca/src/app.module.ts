@@ -32,6 +32,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { CostCentersModule } from './cost-centers/cost-centers.module';
 import { CostCenter } from './cost-centers/entity/cost-centers.entity';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { CostCenter } from './cost-centers/entity/cost-centers.entity';
       rootPath: join(__dirname, '..', '..', 'uploads'),
       serveRoot: '/files',
     }),
+    NotificationsModule,
     AuthModule,
     UsersModule,
     TravelAgenciesModule,
@@ -79,7 +81,7 @@ import { CostCenter } from './cost-centers/entity/cost-centers.entity';
         UserLogs,
         Revision,
       ],
-      synchronize: true,
+      synchronize: false,
     }),
 
     TypeOrmModule.forFeature([
